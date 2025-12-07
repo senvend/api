@@ -1,0 +1,16 @@
+syntax = "proto3";
+
+package local.v1;
+
+import "api/v1/age.proto";
+import "api/v1/pay.proto";
+
+service AgeVerificationService {
+  // Initiates an age verification process on the SENVEND Terminal
+  rpc Age(stream api.v1.AgeRequest) returns (api.v1.AgeResponse);
+}
+
+service PayService {
+  // Initiates a payment process on the SENVEND Terminal
+  rpc Pay(stream api.v1.PayRequest) returns (stream api.v1.PayResponse);
+}

@@ -1,0 +1,53 @@
+syntax = "proto3";
+
+package cloud.v1;
+
+import "api/v1/age.proto";
+import "api/v1/common.proto";
+import "api/v1/pay.proto";
+
+message CloudTargetSelector {
+  // The unique identifier of the machine or terminal
+  oneof selector {
+    // Select by my.senvend.com machine UUID
+    api.v1.Uuid4 machine_id = 1;
+    // Select by SENVEND Terminal serial number
+    string serial_number = 2;
+  }
+}
+
+message CloudAgeRequest {
+  // Selector for the target machine or terminal
+  // Required for the first AgeRequest in the stream, subsequent messages may omit this field
+  CloudTargetSelector target = 1;
+  // The age verification request to be sent to the terminal
+  api.v1.AgeRequest age_request = 2;
+}
+
+message CloudAgeResponse {
+  // The age verification response from the terminal
+  api.v1.AgeResponse age_response = 1;
+}
+
+service CloudAgeVerificationService {
+  // Initiates an age verification process on the SENVEND Terminal
+  rpc CloudAge(stream CloudAgeRequest) returns (CloudAgeResponse);
+}
+
+message CloudPayRequest {
+  // Selector for the target machine or terminal
+  // Required for the first PayRequest in the stream, subsequent messages may omit this field
+  CloudTargetSelector target = 1;
+  // The payment request to be sent to the terminal
+  api.v1.PayRequest pay_request = 2;
+}
+
+message CloudPayResponse {
+  // The payment response from the terminal
+  api.v1.PayResponse pay_response = 1;
+}
+
+service CloudPayService {
+  // Initiates a payment process on the SENVEND Terminal
+  rpc CloudPay(stream CloudPayRequest) returns (stream CloudPayResponse);
+}

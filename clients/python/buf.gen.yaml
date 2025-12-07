@@ -1,0 +1,18 @@
+# https://buf.build/docs/configuration/v2/buf-gen-yaml/
+version: v2
+managed:
+  enabled: true
+plugins:
+  - local: .venv/bin/protoc-gen-python_betterproto2
+    out: packages/senvend-api/src/senvend_api
+    opt:
+      - client_generation=sync
+  - local: .venv/bin/protoc-gen-python_betterproto2
+    out: packages/senvend-api-async/src/senvend_api_async
+    opt:
+      - client_generation=async
+inputs:
+  - directory: ../../proto/
+  # - module: buf.build/senvend/api:main
+  # - git_repo: ssh://git@github.com/senvend/api.git
+  #   branch: main

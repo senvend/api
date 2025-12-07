@@ -1,0 +1,14 @@
+syntax = "proto3";
+
+package api.v1;
+
+/*
+ * Represents a UUID version 4.
+ */
+message Uuid4 {
+  reserved 1;
+  // Most significant bits.
+  uint64 msb = 2;
+  // Least significant bits.
+  uint64 lsb = 3;
+}

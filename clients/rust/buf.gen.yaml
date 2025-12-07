@@ -1,0 +1,40 @@
+# https://buf.build/docs/configuration/v2/buf-gen-yaml/
+# This file is used to configure the `buf generate` command for generating code from Protocol Buffer definitions.
+# We currently use local plugins for code generation, see `README.md` for further details.
+version: v2
+managed:
+  enabled: true
+plugins:
+  # - remote: buf.build/community/neoeinstein-prost:v0.4.0
+  - local: protoc-gen-prost
+    out: senvend_api/src
+    opt:
+      - bytes=.
+      - compile_well_known_types
+      - extern_path=.google.protobuf=::pbjson_types
+      - type_attribute=Uuid4=#[senvend_api_macros::proto_uuid4]
+      - file_descriptor_set
+      - enable_type_names
+  # Note that the remote plugin form is not compatible with the gen_crate option, as the plugin is executed outside the context of the current file system, so template information cannot be used.
+  # - remote: buf.build/community/neoeinstein-prost-crate:v0.4.1
+  - local: protoc-gen-prost-crate
+    out: senvend_api
+    strategy: all
+    opt:
+      - gen_crate=senvend_api/Cargo.toml
+      - include_file=src/protos.rs
+  # - remote: buf.build/community/neoeinstein-prost-serde:v0.3.1
+  - local: protoc-gen-prost-serde
+    out: senvend_api/src
+  # - remote: buf.build/community/neoeinstein-tonic:v0.4.1
+  - local: protoc-gen-tonic
+    out: senvend_api/src
+    opt:
+      - compile_well_known_types
+      - extern_path=.google.protobuf=::pbjson_types
+
+inputs:
+  - directory: ../../proto/
+  # - module: buf.build/senvend/api:main
+  # - git_repo: ssh://git@github.com/senvend/api.git
+  #   branch: main

@@ -1,0 +1,10 @@
+[project]
+name = "example"
+version = "0.0.1"
+description = "Showcase SENVEND API python client"
+readme = "README.md"
+requires-python = ">=3.14"
+dependencies = ["senvend-api[grpcio]"]
+
+[tool.uv.sources]
+senvend-api = { workspace = true }

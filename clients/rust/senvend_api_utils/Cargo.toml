@@ -1,0 +1,13 @@
+[package]
+name = "senvend_api_utils"
+version.workspace = true
+edition.workspace = true
+authors.workspace = true
+license.workspace = true
+readme.workspace = true
+repository.workspace = true
+categories.workspace = true
+keywords.workspace = true
+
+[dependencies]
+uuid.workspace = true
