@@ -5,58 +5,58 @@ package api.v1;
 import "api/v1/common.proto";
 
 /*
- * All messages sent from the integrator/VMC to the SENVEND Terminal to manage age verification.
- * An age verification process must be started with the StartAgeRequest message.
+ * All messages sent from the integrator/VMC to the SENVEND terminal to manage age verification.
+ * An age verification process must be started with the AgeStartRequest message.
  */
 message AgeRequest {
-  // Unique identifier for this age verification request. Can be used for tracing and correlating requests and responses.
+  // Unique identifier for an age verification request. Can be used for tracing and correlating requests and responses.
   // Optional field. If not provided, the system will generate a new UUID.
   Uuid4 id = 1;
-  // Actual command to control a specific age verification process with the given uuid
+  // Actual command to control a specific age verification process with the given uuid.
   oneof request {
-    // Start a new age verification process
+    // Start a new age verification process.
     AgeStartRequest start = 2;
-    // Cancel an ongoing age verification process
+    // Cancel an ongoing age verification process.
     AgeCancelRequest cancel = 3;
   }
 }
 
 /*
- * Starts an age verification process on the SENVEND Terminal
+ * Starts an age verification process on the SENVEND terminal.
  */
 message AgeStartRequest {
   // The minimum age required to pass verification. For example, 18 for at least 18 years old.
-  // This field is mandatory and should be a positive integer (greater than 0).
+  // This field is mandatory and should be a positive integer (greater than 0 but smaller or equal 120).
   uint32 min_age = 1;
 }
 
 /*
- * Cancels an ongoing age verification process on the SENVEND Terminal
+ * Cancels an ongoing age verification process on the SENVEND terminal.
  */
 message AgeCancelRequest {}
 
 /*
- * Response to an AgeRequest
+ * Response to an AgeRequest.
  */
 message AgeResponse {
   // Unique identifier for the age verification request. Mirrors the ID from the AgeRequest.
   // This field is always populated, either with the provided ID from the request or a newly generated one.
   Uuid4 id = 1;
-  // The result of the age verification process
+  // The result of the age verification process.
   oneof result {
     // final state
     AgeSuccess success = 2;
-    //final state
+    // final state
     AgeFailure failure = 3;
-    //transient state
+    // transient state
     AgeApiSuccess api_success = 4;
-    //transient state
+    // transient state
     AgeApiFailure api_failure = 5;
   }
 }
 
 /*
- * Indicates a successful age verification
+ * Indicates a successful age verification.
  */
 message AgeSuccess {}
 
@@ -64,24 +64,24 @@ message AgeSuccess {}
  * The actual reason (other than underage) why an age verification process failed.
  */
 enum AgeFailureReason {
-  // Unspecified reason, should not be used
+  // Unspecified reason. Protocol reserved, do not use.
   AGE_FAILURE_REASON_UNSPECIFIED = 0;
-  // Verification process was cancelled by the user
+  // Verification process was cancelled by the user.
   AGE_FAILURE_REASON_USER_CANCELLED = 1;
-  // Verification process ended due to timeout
+  // Verification process ended due to timeout.
   AGE_FAILURE_REASON_TIMEOUT = 2;
-  // A verification process with another UUID is already ongoing
+  // A verification process with another UUID is already ongoing.
   AGE_FAILURE_REASON_VERIFICATION_ONGOING = 3;
-  // The system is in an invalid state to perform age verification
-  // (f.e. another verification or a payment is in progress)
+  // The system is in an invalid state to perform age verification.
+  // (f.e. a payment is in progress)
   AGE_FAILURE_REASON_INVALID_STATE = 4;
-  // The verification process was cancelled by a previous AgeCancelRequest message
+  // The verification process was cancelled by a previous AgeCancelRequest message.
   AGE_FAILURE_REASON_API_CANCELLED = 5;
 }
 
 /*
- * If age verification failed because of the determined age,
- * containts the age determined.
+ * If age verification failed because of the determined age.
+ * Containts the age determined.
  */
 message AgeFailureUnderage {
   // The age that was determined during the verification process.
@@ -89,11 +89,11 @@ message AgeFailureUnderage {
 }
 
 /*
- * Indicates a failed age verification
+ * Indicates a failed age verification.
  */
 message AgeFailure {
-  // The reason for the age verification failure
-  // either a general failure reason or specific under age details
+  // The reason for the age verification failure.
+  // Either a general failure reason or specific under age details.
   oneof reason {
     AgeFailureReason failure_reason = 1;
     AgeFailureUnderage under_age = 2;
@@ -101,16 +101,16 @@ message AgeFailure {
 }
 
 /*
- * The actual api usage error
+ * The actual API usage error.
  */
 enum AgeApiFailureReason {
-  // Unspecified reason, should not be used
+  // Unspecified reason. Protocol reserved, do not use.
   AGE_API_FAILURE_REASON_UNSPECIFIED = 0;
-  // The provided minAge is invalid (e.g. zero)
+  // The provided minAge is invalid (e.g. zero).
   AGE_API_FAILURE_REASON_INVALID_AGE = 1;
-  // No request for this uuid found (could already be finished or cancelled)
+  // No request for this uuid found (could already be finished or cancelled).
   AGE_API_FAILURE_REASON_UUID_NOT_FOUND = 3;
-  // The command inside AgeRequest is unknown to the api (i.e. mismatching proto versions)
+  // The command inside AgeRequest is unknown to the API (i.e. mismatching proto versions).
   AGE_API_FAILURE_REASON_UNKNOWN_COMMAND = 4;
 }
 
@@ -119,19 +119,19 @@ enum AgeApiFailureReason {
  * Does not end an already running verification process.
  */
 message AgeApiFailure {
-  // The reason for the API failure
+  // The reason for the API failure.
   AgeApiFailureReason reason = 1;
 }
 
 /*
- * The specific reason for an api success message
+ * The specific reason for an API success message.
  */
 enum AgeApiSuccessReason {
-  // Unspecified reason, should not be used
+  // Unspecified reason. Protocol reserved, do not use.
   AGE_API_SUCCESS_REASON_UNSPECIFIED = 0;
-  // A verification process was successfully started with the given amount
+  // A verification process was successfully started with the given amount.
   AGE_API_SUCCESS_REASON_VERIFICATION_STARTED = 1;
-  // A cancel request was successfully executed and cancellation is in progress
+  // A cancel request was successfully executed and cancellation is in progress.
   AGE_API_SUCCESS_REASON_CANCEL_ACCEPTED = 2;
 }
 

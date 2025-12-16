@@ -1,0 +1,18 @@
+# https://buf.build/docs/configuration/v2/buf-gen-yaml/
+version: v2
+managed:
+  enabled: true
+  override:
+    - file_option: java_package_prefix
+      value: com.senbax.senvend.proto
+plugins:
+  - protoc_builtin: java
+    out: app/senvend_api/java
+  - protoc_builtin: kotlin
+    out: app/senvend_api/kotlin
+  - remote: buf.build/grpc/kotlin:v1.5.0
+    out: app/senvend_api/grpc-kotlin
+  - remote: buf.build/grpc/java:v1.76.0
+    out: app/senvend_api/grpc-java
+inputs:
+  - directory: ../../proto

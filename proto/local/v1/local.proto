@@ -4,13 +4,19 @@ package local.v1;
 
 import "api/v1/age.proto";
 import "api/v1/pay.proto";
+import "api/v1/version.proto";
 
 service AgeVerificationService {
-  // Initiates an age verification process on the SENVEND Terminal
+  // Initiates an age verification process on the SENVEND terminal.
   rpc Age(stream api.v1.AgeRequest) returns (api.v1.AgeResponse);
 }
 
 service PayService {
-  // Initiates a payment process on the SENVEND Terminal
+  // Initiates a payment process on the SENVEND terminal.
   rpc Pay(stream api.v1.PayRequest) returns (stream api.v1.PayResponse);
+}
+
+service VersionService {
+  // Returns the version information of the software and api on the SENVEND terminal.
+  rpc Version(api.v1.VersionRequest) returns (api.v1.VersionResponse);
 }

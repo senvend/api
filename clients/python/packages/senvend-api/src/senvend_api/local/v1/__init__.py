@@ -6,6 +6,7 @@
 __all__ = (
     "AgeVerificationServiceStub",
     "PayServiceStub",
+    "VersionServiceStub",
 )
 
 from collections.abc import Iterable, Iterator
@@ -25,7 +26,7 @@ class AgeVerificationServiceStub:
         self, messages: "Iterable[__api__v1__.AgeRequest]"
     ) -> "__api__v1__.AgeResponse":
         """
-        Initiates an age verification process on the SENVEND Terminal
+        Initiates an age verification process on the SENVEND terminal.
         """
 
         return self._channel.stream_unary(
@@ -43,7 +44,7 @@ class PayServiceStub:
         self, messages: "Iterable[__api__v1__.PayRequest]"
     ) -> "Iterator[__api__v1__.PayResponse]":
         """
-        Initiates a payment process on the SENVEND Terminal
+        Initiates a payment process on the SENVEND terminal.
         """
 
         yield from self._channel.stream_stream(
@@ -51,6 +52,27 @@ class PayServiceStub:
             __api__v1__.PayRequest.SerializeToString,
             __api__v1__.PayResponse.FromString,
         )(iter(messages))
+
+
+class VersionServiceStub:
+    def __init__(self, channel: grpc.Channel):
+        self._channel = channel
+
+    def version(
+        self, message: "__api__v1__.VersionRequest | None" = None
+    ) -> "__api__v1__.VersionResponse":
+        """
+        Returns the version information of the software and api on the SENVEND terminal.
+        """
+
+        if message is None:
+            message = __api__v1__.VersionRequest()
+
+        return self._channel.unary_unary(
+            "/local.v1.VersionService/Version",
+            __api__v1__.VersionRequest.SerializeToString,
+            __api__v1__.VersionResponse.FromString,
+        )(message)
 
 
 from ...api import v1 as __api__v1__

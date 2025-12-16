@@ -36,15 +36,15 @@ class CloudAgeRequest(betterproto2.Message):
         1, betterproto2.TYPE_MESSAGE, optional=True
     )
     """
-    Selector for the target machine or terminal
-    Required for the first AgeRequest in the stream, subsequent messages may omit this field
+    Selector for the target machine or terminal.
+    Required for the first AgeRequest in the stream, subsequent messages may omit this field.
     """
 
     age_request: "__api__v1__.AgeRequest | None" = betterproto2.field(
         2, betterproto2.TYPE_MESSAGE, optional=True
     )
     """
-    The age verification request to be sent to the terminal
+    The age verification request to be sent to the terminal.
     """
 
 
@@ -57,7 +57,7 @@ class CloudAgeResponse(betterproto2.Message):
         1, betterproto2.TYPE_MESSAGE, optional=True
     )
     """
-    The age verification response from the terminal
+    The age verification response from the terminal.
     """
 
 
@@ -70,15 +70,15 @@ class CloudPayRequest(betterproto2.Message):
         1, betterproto2.TYPE_MESSAGE, optional=True
     )
     """
-    Selector for the target machine or terminal
-    Required for the first PayRequest in the stream, subsequent messages may omit this field
+    Selector for the target machine or terminal.
+    Required for the first PayRequest in the stream, subsequent messages may omit this field.
     """
 
     pay_request: "__api__v1__.PayRequest | None" = betterproto2.field(
         2, betterproto2.TYPE_MESSAGE, optional=True
     )
     """
-    The payment request to be sent to the terminal
+    The payment request to be sent to the terminal.
     """
 
 
@@ -91,7 +91,7 @@ class CloudPayResponse(betterproto2.Message):
         1, betterproto2.TYPE_MESSAGE, optional=True
     )
     """
-    The payment response from the terminal
+    The payment response from the terminal.
     """
 
 
@@ -104,21 +104,21 @@ class CloudTargetSelector(betterproto2.Message):
 
 
     Oneofs:
-        - selector: The unique identifier of the machine or terminal
+        - selector: The unique identifier of the machine or terminal.
     """
 
     machine_id: "__api__v1__.Uuid4 | None" = betterproto2.field(
         1, betterproto2.TYPE_MESSAGE, optional=True, group="selector"
     )
     """
-    Select by my.senvend.com machine UUID
+    Select by my.senvend.com machine UUID.
     """
 
     serial_number: "str | None" = betterproto2.field(
         2, betterproto2.TYPE_STRING, optional=True, group="selector"
     )
     """
-    Select by SENVEND Terminal serial number
+    Select by SENVEND terminal serial number.
     """
 
 
@@ -137,7 +137,7 @@ class CloudAgeVerificationServiceStub(betterproto2_grpclib.ServiceStub):
         metadata: "MetadataLike | None" = None,
     ) -> "CloudAgeResponse":
         """
-        Initiates an age verification process on the SENVEND Terminal
+        Initiates an age verification process on the SENVEND terminal.
         """
 
         return await self._stream_unary(
@@ -161,7 +161,7 @@ class CloudPayServiceStub(betterproto2_grpclib.ServiceStub):
         metadata: "MetadataLike | None" = None,
     ) -> "AsyncIterator[CloudPayResponse]":
         """
-        Initiates a payment process on the SENVEND Terminal
+        Initiates a payment process on the SENVEND terminal.
         """
 
         async for response in self._stream_stream(

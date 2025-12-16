@@ -1,0 +1,20 @@
+syntax = "proto3";
+
+package api.v1;
+
+import "api/v1/common.proto";
+
+/*
+ * Starts a one-off request for version information of the SENVEND terminal.
+ */
+message VersionRequest {}
+
+/*
+ * Provides the current software and api version of the SENVEND terminal.
+ */
+message VersionResponse {
+  // The version of the software installed on the SENVEND terminal.
+  api.v1.SemanticVersion app_version = 1;
+  // The version of this protocol specification the device is using.
+  api.v1.SemanticVersion api_version = 2;
+}

@@ -6,6 +6,7 @@
 __all__ = (
     "AgeVerificationServiceStub",
     "PayServiceStub",
+    "VersionServiceStub",
 )
 
 from collections.abc import AsyncIterable, AsyncIterator, Iterable
@@ -32,7 +33,7 @@ class AgeVerificationServiceStub(betterproto2_grpclib.ServiceStub):
         metadata: "MetadataLike | None" = None,
     ) -> "__api__v1__.AgeResponse":
         """
-        Initiates an age verification process on the SENVEND Terminal
+        Initiates an age verification process on the SENVEND terminal.
         """
 
         return await self._stream_unary(
@@ -56,7 +57,7 @@ class PayServiceStub(betterproto2_grpclib.ServiceStub):
         metadata: "MetadataLike | None" = None,
     ) -> "AsyncIterator[__api__v1__.PayResponse]":
         """
-        Initiates a payment process on the SENVEND Terminal
+        Initiates a payment process on the SENVEND terminal.
         """
 
         async for response in self._stream_stream(
@@ -69,6 +70,32 @@ class PayServiceStub(betterproto2_grpclib.ServiceStub):
             metadata=metadata,
         ):
             yield response
+
+
+class VersionServiceStub(betterproto2_grpclib.ServiceStub):
+    async def version(
+        self,
+        message: "__api__v1__.VersionRequest | None" = None,
+        *,
+        timeout: "float | None" = None,
+        deadline: "Deadline | None" = None,
+        metadata: "MetadataLike | None" = None,
+    ) -> "__api__v1__.VersionResponse":
+        """
+        Returns the version information of the software and api on the SENVEND terminal.
+        """
+
+        if message is None:
+            message = __api__v1__.VersionRequest()
+
+        return await self._unary_unary(
+            "/local.v1.VersionService/Version",
+            message,
+            __api__v1__.VersionResponse,
+            timeout=timeout,
+            deadline=deadline,
+            metadata=metadata,
+        )
 
 
 from ...api import v1 as __api__v1__

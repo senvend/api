@@ -6,42 +6,42 @@ import "api/v1/age.proto";
 import "api/v1/common.proto";
 
 /*
- * All messages sent from the integrator/VMC to the SENVEND Terminal to manage payments.
+ * All messages sent from the integrator/VMC to the SENVEND terminal to manage payments.
  * A payment process must be started with the PayStart message.
  */
 message PayRequest {
   // Unique identifier for this payment request. Can be used for tracing and correlating requests and responses.
   // Optional field. If not provided, the system will generate a new UUID.
   Uuid4 id = 1;
-  // Actual command to control a specific payment process with the given uuid
+  // Actual command to control a specific payment process with the given uuid.
   oneof request {
-    // Start a new payment process
+    // Start a new payment process.
     PayStart start = 2;
-    // Cancel an ongoing payment process (possibly reimbursing the payment)
+    // Cancel an ongoing payment process (possibly reimbursing the payment).
     PayCancel cancel = 3;
-    // Signify that goods were issued (i.e. payment will NOT be reimburesed)
+    // Signify that goods were issued (i.e. payment will NOT be reimburesed).
     PayGoodsIssued goods_issued = 4;
   }
 }
 
 /*
- * Starts a payment process on the SENVEND Terminal
+ * Starts a payment process on the SENVEND terminal.
  * Can only be executed after a previous process finished with either PayFailure or PaySuccess.
  * Will result in a PAY_FAILURE_REASON_PAYMENT_ONGOING or PAY_FAILURE_REASON_INVALID_STATE otherwise.
  */
 message PayStart {
-  // The amount to be paid, in cents
-  // Has to be greater than 0 or will result in PAY_API_FAILURE_REASON_INVALID_AMOUNT
+  // The amount to be paid, in cents.
+  // Has to be greater than 0 or will result in PAY_API_FAILURE_REASON_INVALID_AMOUNT.
   uint32 amount = 1;
-  // Optional - age verification request to be performed before payment
+  // Optional - age verification request to be performed before payment.
   AgeStartRequest age_verification = 2;
 }
 
 /*
- * Cancels an ongoing payment process on the SENVEND Terminal
- * Can also be used to cancel an approved payment (instead of PayGoodsIssued)
+ * Cancels an ongoing payment process on the SENVEND terminal.
+ * Can also be used to cancel an approved payment (instead of PayGoodsIssued).
  * Can be sent at any time, but will result in PAY_API_FAILURE_REASON_UUID_NOT_FOUND
- * if there is nothing to cancel
+ * if there is nothing to cancel.
  */
 message PayCancel {}
 
@@ -50,21 +50,21 @@ message PayCancel {}
  * A cancel or timeout will reimburse the payment.
  */
 message PayGoodsIssued {
-  // Indicates partial issuing of goods. (Will result in partial reimbursement)
-  // A value of 0 will be replaced with the value from PayStart.amount
-  // Cannot be greater than PayStart.amount
+  // Indicates partial issuing of goods, which will result in partial reimbursement.
+  // A value of 0 will be replaced with the value from PayStart.amount.
+  // Cannot be greater than PayStart.amount.
   uint32 partial_amount = 1;
 }
 
 /*
- * Response to a PayRequest
+ * Response to a PayRequest.
  * PaySuccess and PayFailure are final states, they indicate the end of the payment process.
  */
 message PayResponse {
   // Unique identifier for the payment request. Mirrors the ID from the PayRequest.
   // This field is always populated, either with the provided ID from the request or a newly generated one.
   Uuid4 id = 1;
-  // The result of the payment process
+  // The result of the payment process.
   oneof result {
     // transient state
     PayApproved approved = 2;
@@ -88,61 +88,64 @@ message PayResponse {
 }
 
 /*
- * Indicates user has started the payment process successfully (has enough credit)
+ * Indicates user has started the payment process successfully (has enough credit).
  * Has to be answered with either a PayCancel or a PayGoodsIssued message.
+ * If not answered within 9m30s, the payment will be reimbursed.
  */
 message PayApproved {}
 
 /*
- * Indicates that the payment was successfully debited
- * Ends the payment process
+ * Indicates that the payment was successfully debited.
+ * Ends the payment process.
  */
 message PaySuccess {}
 
 /*
- * The reason a payment process ended in failure
+ * The reason a payment process ended in failure.
  */
 enum PayFailureReason {
-  // Unspecified reason, should not be used
+  // Unspecified reason. Protocol reserved, do not use.
   PAY_FAILURE_REASON_UNSPECIFIED = 0;
-  // Payment process was cancelled by the user
+  // Payment process was cancelled by the user.
   PAY_FAILURE_REASON_USER_CANCELLED = 1;
-  // Payment proccess ended due to timeout
+  // Payment proccess ended due to timeout.
   PAY_FAILURE_REASON_TIMEOUT = 2;
-  // A payment with another UUID is already ongoing
+  // A payment with another UUID is already ongoing.
   PAY_FAILURE_REASON_PAYMENT_ONGOING = 3;
-  // The system is in an invalid state to perform payment
+  // The system is in an invalid state to perform payment.
   // (i.e. app is still in startup or another process is ongoing)
   PAY_FAILURE_REASON_INVALID_STATE = 4;
   // The payment failed (e.g. invalid or broken card, not enough credit etc.)
   PAY_FAILURE_REASON_PAYMENT_FAILED = 5;
-  // The payment process was cancelled by a previous PayCancel message
+  // The payment process was cancelled by a previous PayCancel message.
   PAY_FAILURE_REASON_API_CANCELLED = 6;
+  // No GoodsIssued message was received after PaymentApproved. Payment was reimbursed.
+  PAY_FAILURE_REASON_APPROVE_TIMEOUT = 7;
 }
 
 /*
- * Indicates a payment ending in failure
+ * Indicates a payment ending in failure.
  */
 message PayFailure {
-  // The reason for the payment failure
+  // The reason for the payment failure.
   oneof reason {
     PayFailureReason failure_reason = 1;
   }
 }
 
 /*
- * The actual api usage error
+ * The actual api usage error.
  */
 enum PayApiFailureReason {
-  // Unspecified reason, should not be used
+  // Unspecified reason. Protocol reserved, do not use.
   PAY_API_FAILURE_REASON_UNSPECIFIED = 0;
-  // The provided payment amount is invalid (e.g. zero)
+  // The provided payment amount is invalid (e.g. zero).
   PAY_API_FAILURE_REASON_INVALID_AMOUNT = 1;
-  // No request for this uuid found (could already be finished or cancelled)
+  // No request for this uuid found (could already be finished or cancelled).
   PAY_API_FAILURE_REASON_UUID_NOT_FOUND = 3;
-  // The command inside PayRequest is unknown to the api (i.e. mismatching proto versions)
+  // The command inside PayRequest is unknown to the api (i.e. mismatching proto versions).
   PAY_API_FAILURE_REASON_UNKNOWN_COMMAND = 4;
-  // A PayGoodsIssued request was sent before a payment was started or approved
+  // A PayGoodsIssued request was sent before a payment was started or approved.
   PAY_API_FAILURE_REASON_NO_APPROVED_PAYMENT = 5;
 }
 
@@ -151,26 +154,26 @@ enum PayApiFailureReason {
  * Does not end an already running payment process.
  */
 message PayApiFailure {
-  // The reason for the API failure
+  // The reason for the API failure.
   PayApiFailureReason reason = 1;
 }
 
 /*
- * The specific reason for an api success message
+ * The specific reason for an api success message.
  */
 enum PayApiSuccessReason {
-  // Unspecified reason, should not be used
+  // Unspecified reason. Protocol reserved, do not use.
   PAY_API_SUCCESS_REASON_UNSPECIFIED = 0;
-  // A payment process was successfully started with the given amount
+  // A payment process was successfully started with the given amount.
   PAY_API_SUCCESS_REASON_PAYMENT_STARTED = 1;
-  // A cancel request was successfully executed and cancellation is in progress
+  // A cancel request was successfully executed and cancellation is in progress.
   PAY_API_SUCCESS_REASON_CANCEL_ACCEPTED = 2;
-  // A goods issued request was successfully accepted and the payment process is finishing up
+  // A goods issued request was successfully accepted and the payment process is finishing up.
   PAY_API_SUCCESS_REASON_GOODS_ISSUED_ACCEPTED = 3;
 }
 
 /*
- * Indicates a successfully executed request
+ * Indicates a successfully executed request.
  */
 message PayApiSuccess {
   PayApiSuccessReason reason = 1;

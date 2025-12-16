@@ -12,3 +12,16 @@ message Uuid4 {
   // Least significant bits.
   uint64 lsb = 3;
 }
+
+/*
+ * Represents a semantic version.
+ * https://semver.org/
+ */
+message SemanticVersion {
+  // Major version.
+  uint32 major = 1;
+  // Minor version.
+  uint32 minor = 2;
+  // Patch version.
+  uint32 patch = 3;
+}

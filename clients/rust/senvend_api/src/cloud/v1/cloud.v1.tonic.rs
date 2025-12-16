@@ -401,7 +401,7 @@ pub mod cloud_pay_service_client {
             self.inner = self.inner.max_encoding_message_size(limit);
             self
         }
-        /** Initiates a payment process on the SENVEND Terminal
+        /** Initiates a payment process on the SENVEND terminal.
 */
         pub async fn cloud_pay(
             &mut self,
@@ -448,7 +448,7 @@ pub mod cloud_pay_service_server {
             >
             + std::marker::Send
             + 'static;
-        /** Initiates a payment process on the SENVEND Terminal
+        /** Initiates a payment process on the SENVEND terminal.
 */
         async fn cloud_pay(
             &self,

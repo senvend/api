@@ -1738,6 +1738,7 @@ impl serde::Serialize for PayFailureReason {
             Self::InvalidState => "PAY_FAILURE_REASON_INVALID_STATE",
             Self::PaymentFailed => "PAY_FAILURE_REASON_PAYMENT_FAILED",
             Self::ApiCancelled => "PAY_FAILURE_REASON_API_CANCELLED",
+            Self::ApproveTimeout => "PAY_FAILURE_REASON_APPROVE_TIMEOUT",
         };
         serializer.serialize_str(variant)
     }
@@ -1756,6 +1757,7 @@ impl<'de> serde::Deserialize<'de> for PayFailureReason {
             "PAY_FAILURE_REASON_INVALID_STATE",
             "PAY_FAILURE_REASON_PAYMENT_FAILED",
             "PAY_FAILURE_REASON_API_CANCELLED",
+            "PAY_FAILURE_REASON_APPROVE_TIMEOUT",
         ];
 
         struct GeneratedVisitor;
@@ -1803,6 +1805,7 @@ impl<'de> serde::Deserialize<'de> for PayFailureReason {
                     "PAY_FAILURE_REASON_INVALID_STATE" => Ok(PayFailureReason::InvalidState),
                     "PAY_FAILURE_REASON_PAYMENT_FAILED" => Ok(PayFailureReason::PaymentFailed),
                     "PAY_FAILURE_REASON_API_CANCELLED" => Ok(PayFailureReason::ApiCancelled),
+                    "PAY_FAILURE_REASON_APPROVE_TIMEOUT" => Ok(PayFailureReason::ApproveTimeout),
                     _ => Err(serde::de::Error::unknown_variant(value, FIELDS)),
                 }
             }
@@ -2449,6 +2452,137 @@ impl<'de> serde::Deserialize<'de> for PaySuccess {
         deserializer.deserialize_struct("api.v1.PaySuccess", FIELDS, GeneratedVisitor)
     }
 }
+impl serde::Serialize for SemanticVersion {
+    #[allow(deprecated)]
+    fn serialize<S>(&self, serializer: S) -> std::result::Result<S::Ok, S::Error>
+    where
+        S: serde::Serializer,
+    {
+        use serde::ser::SerializeStruct;
+        let mut len = 0;
+        if self.major != 0 {
+            len += 1;
+        }
+        if self.minor != 0 {
+            len += 1;
+        }
+        if self.patch != 0 {
+            len += 1;
+        }
+        let mut struct_ser = serializer.serialize_struct("api.v1.SemanticVersion", len)?;
+        if self.major != 0 {
+            struct_ser.serialize_field("major", &self.major)?;
+        }
+        if self.minor != 0 {
+            struct_ser.serialize_field("minor", &self.minor)?;
+        }
+        if self.patch != 0 {
+            struct_ser.serialize_field("patch", &self.patch)?;
+        }
+        struct_ser.end()
+    }
+}
+impl<'de> serde::Deserialize<'de> for SemanticVersion {
+    #[allow(deprecated)]
+    fn deserialize<D>(deserializer: D) -> std::result::Result<Self, D::Error>
+    where
+        D: serde::Deserializer<'de>,
+    {
+        const FIELDS: &[&str] = &[
+            "major",
+            "minor",
+            "patch",
+        ];
+
+        #[allow(clippy::enum_variant_names)]
+        enum GeneratedField {
+            Major,
+            Minor,
+            Patch,
+        }
+        impl<'de> serde::Deserialize<'de> for GeneratedField {
+            fn deserialize<D>(deserializer: D) -> std::result::Result<GeneratedField, D::Error>
+            where
+                D: serde::Deserializer<'de>,
+            {
+                struct GeneratedVisitor;
+
+                impl<'de> serde::de::Visitor<'de> for GeneratedVisitor {
+                    type Value = GeneratedField;
+
+                    fn expecting(&self, formatter: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+                        write!(formatter, "expected one of: {:?}", &FIELDS)
+                    }
+
+                    #[allow(unused_variables)]
+                    fn visit_str<E>(self, value: &str) -> std::result::Result<GeneratedField, E>
+                    where
+                        E: serde::de::Error,
+                    {
+                        match value {
+                            "major" => Ok(GeneratedField::Major),
+                            "minor" => Ok(GeneratedField::Minor),
+                            "patch" => Ok(GeneratedField::Patch),
+                            _ => Err(serde::de::Error::unknown_field(value, FIELDS)),
+                        }
+                    }
+                }
+                deserializer.deserialize_identifier(GeneratedVisitor)
+            }
+        }
+        struct GeneratedVisitor;
+        impl<'de> serde::de::Visitor<'de> for GeneratedVisitor {
+            type Value = SemanticVersion;
+
+            fn expecting(&self, formatter: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+                formatter.write_str("struct api.v1.SemanticVersion")
+            }
+
+            fn visit_map<V>(self, mut map_: V) -> std::result::Result<SemanticVersion, V::Error>
+                where
+                    V: serde::de::MapAccess<'de>,
+            {
+                let mut major__ = None;
+                let mut minor__ = None;
+                let mut patch__ = None;
+                while let Some(k) = map_.next_key()? {
+                    match k {
+                        GeneratedField::Major => {
+                            if major__.is_some() {
+                                return Err(serde::de::Error::duplicate_field("major"));
+                            }
+                            major__ = 
+                                Some(map_.next_value::<::pbjson::private::NumberDeserialize<_>>()?.0)
+                            ;
+                        }
+                        GeneratedField::Minor => {
+                            if minor__.is_some() {
+                                return Err(serde::de::Error::duplicate_field("minor"));
+                            }
+                            minor__ = 
+                                Some(map_.next_value::<::pbjson::private::NumberDeserialize<_>>()?.0)
+                            ;
+                        }
+                        GeneratedField::Patch => {
+                            if patch__.is_some() {
+                                return Err(serde::de::Error::duplicate_field("patch"));
+                            }
+                            patch__ = 
+                                Some(map_.next_value::<::pbjson::private::NumberDeserialize<_>>()?.0)
+                            ;
+                        }
+                    }
+                }
+                Ok(SemanticVersion {
+                    major: major__.unwrap_or_default(),
+                    minor: minor__.unwrap_or_default(),
+                    patch: patch__.unwrap_or_default(),
+                })
+            }
+        }
+        deserializer.deserialize_struct("api.v1.SemanticVersion", FIELDS, GeneratedVisitor)
+    }
+}
 impl serde::Serialize for Uuid4 {
     #[allow(deprecated)]
     fn serialize<S>(&self, serializer: S) -> std::result::Result<S::Ok, S::Error>
@@ -2563,5 +2697,186 @@ impl<'de> serde::Deserialize<'de> for Uuid4 {
             }
         }
         deserializer.deserialize_struct("api.v1.Uuid4", FIELDS, GeneratedVisitor)
+    }
+}
+impl serde::Serialize for VersionRequest {
+    #[allow(deprecated)]
+    fn serialize<S>(&self, serializer: S) -> std::result::Result<S::Ok, S::Error>
+    where
+        S: serde::Serializer,
+    {
+        use serde::ser::SerializeStruct;
+        let len = 0;
+        let struct_ser = serializer.serialize_struct("api.v1.VersionRequest", len)?;
+        struct_ser.end()
+    }
+}
+impl<'de> serde::Deserialize<'de> for VersionRequest {
+    #[allow(deprecated)]
+    fn deserialize<D>(deserializer: D) -> std::result::Result<Self, D::Error>
+    where
+        D: serde::Deserializer<'de>,
+    {
+        const FIELDS: &[&str] = &[
+        ];
+
+        #[allow(clippy::enum_variant_names)]
+        enum GeneratedField {
+        }
+        impl<'de> serde::Deserialize<'de> for GeneratedField {
+            fn deserialize<D>(deserializer: D) -> std::result::Result<GeneratedField, D::Error>
+            where
+                D: serde::Deserializer<'de>,
+            {
+                struct GeneratedVisitor;
+
+                impl<'de> serde::de::Visitor<'de> for GeneratedVisitor {
+                    type Value = GeneratedField;
+
+                    fn expecting(&self, formatter: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+                        write!(formatter, "expected one of: {:?}", &FIELDS)
+                    }
+
+                    #[allow(unused_variables)]
+                    fn visit_str<E>(self, value: &str) -> std::result::Result<GeneratedField, E>
+                    where
+                        E: serde::de::Error,
+                    {
+                            Err(serde::de::Error::unknown_field(value, FIELDS))
+                    }
+                }
+                deserializer.deserialize_identifier(GeneratedVisitor)
+            }
+        }
+        struct GeneratedVisitor;
+        impl<'de> serde::de::Visitor<'de> for GeneratedVisitor {
+            type Value = VersionRequest;
+
+            fn expecting(&self, formatter: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+                formatter.write_str("struct api.v1.VersionRequest")
+            }
+
+            fn visit_map<V>(self, mut map_: V) -> std::result::Result<VersionRequest, V::Error>
+                where
+                    V: serde::de::MapAccess<'de>,
+            {
+                while map_.next_key::<GeneratedField>()?.is_some() {
+                    let _ = map_.next_value::<serde::de::IgnoredAny>()?;
+                }
+                Ok(VersionRequest {
+                })
+            }
+        }
+        deserializer.deserialize_struct("api.v1.VersionRequest", FIELDS, GeneratedVisitor)
+    }
+}
+impl serde::Serialize for VersionResponse {
+    #[allow(deprecated)]
+    fn serialize<S>(&self, serializer: S) -> std::result::Result<S::Ok, S::Error>
+    where
+        S: serde::Serializer,
+    {
+        use serde::ser::SerializeStruct;
+        let mut len = 0;
+        if self.app_version.is_some() {
+            len += 1;
+        }
+        if self.api_version.is_some() {
+            len += 1;
+        }
+        let mut struct_ser = serializer.serialize_struct("api.v1.VersionResponse", len)?;
+        if let Some(v) = self.app_version.as_ref() {
+            struct_ser.serialize_field("appVersion", v)?;
+        }
+        if let Some(v) = self.api_version.as_ref() {
+            struct_ser.serialize_field("apiVersion", v)?;
+        }
+        struct_ser.end()
+    }
+}
+impl<'de> serde::Deserialize<'de> for VersionResponse {
+    #[allow(deprecated)]
+    fn deserialize<D>(deserializer: D) -> std::result::Result<Self, D::Error>
+    where
+        D: serde::Deserializer<'de>,
+    {
+        const FIELDS: &[&str] = &[
+            "app_version",
+            "appVersion",
+            "api_version",
+            "apiVersion",
+        ];
+
+        #[allow(clippy::enum_variant_names)]
+        enum GeneratedField {
+            AppVersion,
+            ApiVersion,
+        }
+        impl<'de> serde::Deserialize<'de> for GeneratedField {
+            fn deserialize<D>(deserializer: D) -> std::result::Result<GeneratedField, D::Error>
+            where
+                D: serde::Deserializer<'de>,
+            {
+                struct GeneratedVisitor;
+
+                impl<'de> serde::de::Visitor<'de> for GeneratedVisitor {
+                    type Value = GeneratedField;
+
+                    fn expecting(&self, formatter: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+                        write!(formatter, "expected one of: {:?}", &FIELDS)
+                    }
+
+                    #[allow(unused_variables)]
+                    fn visit_str<E>(self, value: &str) -> std::result::Result<GeneratedField, E>
+                    where
+                        E: serde::de::Error,
+                    {
+                        match value {
+                            "appVersion" | "app_version" => Ok(GeneratedField::AppVersion),
+                            "apiVersion" | "api_version" => Ok(GeneratedField::ApiVersion),
+                            _ => Err(serde::de::Error::unknown_field(value, FIELDS)),
+                        }
+                    }
+                }
+                deserializer.deserialize_identifier(GeneratedVisitor)
+            }
+        }
+        struct GeneratedVisitor;
+        impl<'de> serde::de::Visitor<'de> for GeneratedVisitor {
+            type Value = VersionResponse;
+
+            fn expecting(&self, formatter: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+                formatter.write_str("struct api.v1.VersionResponse")
+            }
+
+            fn visit_map<V>(self, mut map_: V) -> std::result::Result<VersionResponse, V::Error>
+                where
+                    V: serde::de::MapAccess<'de>,
+            {
+                let mut app_version__ = None;
+                let mut api_version__ = None;
+                while let Some(k) = map_.next_key()? {
+                    match k {
+                        GeneratedField::AppVersion => {
+                            if app_version__.is_some() {
+                                return Err(serde::de::Error::duplicate_field("appVersion"));
+                            }
+                            app_version__ = map_.next_value()?;
+                        }
+                        GeneratedField::ApiVersion => {
+                            if api_version__.is_some() {
+                                return Err(serde::de::Error::duplicate_field("apiVersion"));
+                            }
+                            api_version__ = map_.next_value()?;
+                        }
+                    }
+                }
+                Ok(VersionResponse {
+                    app_version: app_version__,
+                    api_version: api_version__,
+                })
+            }
+        }
+        deserializer.deserialize_struct("api.v1.VersionResponse", FIELDS, GeneratedVisitor)
     }
 }

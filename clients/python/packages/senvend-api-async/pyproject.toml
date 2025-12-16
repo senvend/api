@@ -4,10 +4,7 @@ version = "0.0.1"
 description = "Public APIs to interact with the SENVEND ecosystem"
 readme = "README.md"
 requires-python = ">=3.13"
-dependencies = ["betterproto2>=0.9.1"]
-
-[project.optional-dependencies]
-grpclib = ["grpclib>=0.4.8"]
+dependencies = ["betterproto2>=0.9.1", "grpclib>=0.4.8"]
 
 [tool.ruff.lint.per-file-ignores]
 # betterproto2 Module level import not at top of file
