@@ -6,27 +6,28 @@ members = ["senvend_api", "example", "senvend_api_macros", "senvend_api_utils"]
 version = "0.0.1"
 edition = "2024"
 authors = ["Benedikt Bartscher <bb@senbax.de>"]
-license = "Private"
-readme = "README.md"
+license = "MIT OR Apache-2.0"
 repository = "https://github.com/senvend/api"
-categories = ["senbax", "senvend", "api", "payment"]
+categories = ["api-bindings", "finance", "network-programming"]
 keywords = ["ecr", "payment", "payment-terminal", "age-verification"]
 
 [workspace.dependencies]
-bytes = "1.10.1"
+bytes = "1.11.1"
 prost = "0.14.1"
-pbjson = "0.8.0"
-pbjson-types = "0.8.0"
+pbjson = "0.9.0"
+pbjson-types = "0.9.0"
 serde = "1.0.228"
 tonic = { version = "0.14.2", features = ["gzip"] }
 tonic-prost = "0.14.2"
 
-# example
-senvend_api = { path = "./senvend_api" }
-senvend_api_macros = { path = "./senvend_api_macros" }
-senvend_api_utils = { path = "./senvend_api_utils" }
+uuid = { version = "1.23.1", default-features = false }
+
+# workspace-internal crates: the version is required for crates.io publishing
+# and is kept in sync with the workspace package version
+senvend_api = { path = "./senvend_api", version = "0.0.1" }
+senvend_api_macros = { path = "./senvend_api_macros", version = "0.0.1" }
+senvend_api_utils = { path = "./senvend_api_utils", version = "0.0.1" }
 tokio = { version = "1.48.0", features = ["full"] }
 tokio-stream = "0.1.17"
-quote = "=1.0.42"
-syn = { version = "=2.0.111", features = ["parsing"] }
-uuid = { version = "=1.17.0", default-features = false }
+quote = "1.0.46"
+syn = { version = "3.0.0", features = ["parsing"] }

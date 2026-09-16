@@ -4,6 +4,7 @@
 import os
 import queue
 from collections.abc import Generator
+from uuid import uuid4
 
 import grpc
 from senvend_api.api.v1 import (
@@ -15,6 +16,7 @@ from senvend_api.api.v1 import (
     PaySuccess,
 )
 from senvend_api.local.v1 import PayServiceStub
+from senvend_api.uuid4 import from_uuid
 
 TERMINAL_IP = "TERMINAL_IP"
 TERMINAL_PORT = "TERMINAL_PORT"
@@ -54,10 +56,9 @@ def main():
 
     q: Q = queue.Queue()
 
-    # TODO: port uuid helpers
-    # pay_uuid =
+    pay_uuid = uuid4()
     pay_request = PayRequest(
-        # id=pay_uuid,
+        id=from_uuid(pay_uuid),
         start=PayStart(amount=100),
     )
     q.put(pay_request)

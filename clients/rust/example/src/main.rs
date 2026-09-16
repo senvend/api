@@ -37,7 +37,11 @@ async fn example_pay(endpoint: Endpoint) -> Result<(), Box<dyn std::error::Error
         id: Some(pay_uuid_proto),
         request: Some(Request::Start(PayStart {
             amount: 100,
-            age_verification: Some(AgeStartRequest { min_age: 18 }),
+            age_verification: Some(AgeStartRequest {
+                min_age: 18,
+                ..Default::default()
+            }),
+            ..Default::default()
         })),
     };
     println!("Sending PayStart request: {:?}", pay_start);
@@ -100,8 +104,8 @@ async fn example_pay(endpoint: Endpoint) -> Result<(), Box<dyn std::error::Error
         .expect("Expected a response after PayStart");
     println!("Received payment response: {:?}", pay_response);
     match pay_response.result {
-        Some(PayResult::Approved(PayApproved {})) => {
-            println!("Payment approved!");
+        Some(PayResult::Approved(PayApproved { amount })) => {
+            println!("Payment approved for amount {amount}!");
         }
         other => {
             println!("Unexpected payment response: {:?}", other);
@@ -111,7 +115,10 @@ async fn example_pay(endpoint: Endpoint) -> Result<(), Box<dyn std::error::Error
 
     let pay_goods_issued = PayRequest {
         id: None,
-        request: Some(Request::GoodsIssued(PayGoodsIssued { partial_amount: 0 })),
+        request: Some(Request::GoodsIssued(PayGoodsIssued {
+            partial_amount: 0,
+            ..Default::default()
+        })),
     };
     tx.send(pay_goods_issued).await?;
     println!("Sent GoodsIssued notification");

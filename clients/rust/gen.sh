@@ -3,5 +3,5 @@
 set -euo pipefail
 
 ./install-protoc-plugins.sh
-buf generate
+../../scripts/bufw generate
 cargo fmt

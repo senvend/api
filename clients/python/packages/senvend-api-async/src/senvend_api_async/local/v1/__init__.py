@@ -6,6 +6,8 @@
 __all__ = (
     "AgeVerificationServiceStub",
     "PayServiceStub",
+    "VendServiceStub",
+    "VersionServiceStub",
 )
 
 from collections.abc import AsyncIterable, AsyncIterator, Iterable
@@ -18,11 +20,18 @@ if TYPE_CHECKING:
     from betterproto2.grpclib.grpclib_client import MetadataLike
     from grpclib.metadata import Deadline
 
-_COMPILER_VERSION = "0.9.0"
+_COMPILER_VERSION = "0.10.1"
 betterproto2.check_compiler_version(_COMPILER_VERSION)
 
 
 class AgeVerificationServiceStub(betterproto2_grpclib.ServiceStub):
+    """
+    
+    This service provides the necessary functionality to handle age verification via the SENVEND Terminal.\\
+    Only necessary if age verification is the sole purpose.\\
+    The PayService contains its own way of starting age verification before the actual payment.
+    """
+
     async def age(
         self,
         messages: "AsyncIterable[__api__v1__.AgeRequest] | Iterable[__api__v1__.AgeRequest]",
@@ -30,12 +39,52 @@ class AgeVerificationServiceStub(betterproto2_grpclib.ServiceStub):
         timeout: "float | None" = None,
         deadline: "Deadline | None" = None,
         metadata: "MetadataLike | None" = None,
-    ) -> "__api__v1__.AgeResponse":
+    ) -> "AsyncIterator[__api__v1__.AgeResponse]":
         """
-        Initiates an age verification process on the SENVEND Terminal
+        
+        Initiates an age verification process on the SENVEND terminal.\\
+        Accepts a stream of AgeRequest for starting and controlling age verification.\\
+        Returns a stream of AgeResponse containing status and error return messages.
+
+        <details open>
+        <summary>API Constraints</summary>
+
+        - Request ids are optional.\\
+        If none is given and a process is running, the request is applied to that running process.\\
+        Otherwise a new UUID is generated per request.
+
+        - If request ids are pre-generated and part of the request, subsequent requests meant for that process have to use the same id.\\
+        An empty id will work as well if the original request started the currently running process.
+
+        - All given ids must be valid version 4 UUIDs.
+
+        - If disconnected during a verification process, after a reconnect the currently running process can still be controlled.\\
+        AgeResponses that occurred during the disconnect are lost though.
+
+        - If auto_cancel is left out or set to true, a new AgeRequest with a different UUID or without one will automatically cancel any currently running process on the terminal.\\
+        If given but false, sending a new AgeRequest while another process is still running will result in an AGE_FAILURE_REASON_VERIFICATION_ONGOING error message.
+        </details>
+
+        <details open>
+        <summary>Process Constraints</summary>
+        - The minimum age to verify has to be greater than zero and at most 120.\\
+        Depending on the method chosen, only certain ages can be verified.
+
+        - Girocard: 16 or 18. Will be set to the next one above if below (e.g. to 18 if 17 is requested).\\
+        Will not be available for selection if above 18 is requested. Will fail in older app versions (<1.7.0) instead.
+
+        - FaceScan: All ages supported. Might fail if actual age is very close to the requested one.
+
+        - Document scan: All ages supported.
+
+        - PayPal: 18 only. Will be set to 18 if below.\\
+        Will not be available for selection if above 18 is requested. Will fail in older app versions (<1.7.0) instead.
+
+        - ID Austria: All ages supported.
+        </details>
         """
 
-        return await self._stream_unary(
+        async for response in self._stream_stream(
             "/local.v1.AgeVerificationService/Age",
             messages,
             __api__v1__.AgeRequest,
@@ -43,10 +92,18 @@ class AgeVerificationServiceStub(betterproto2_grpclib.ServiceStub):
             timeout=timeout,
             deadline=deadline,
             metadata=metadata,
-        )
+        ):
+            yield response
 
 
 class PayServiceStub(betterproto2_grpclib.ServiceStub):
+    """
+    
+    This service provides the necessary functionality to handle payments via the SENVEND Terminal.\\
+    Optionally, age verification can be enforced before the payment via the `PayStart` message.\\
+    Optionally, vending is possible after APPROVE is received, either via this or via the `Vend` service.
+    """
+
     async def pay(
         self,
         messages: "AsyncIterable[__api__v1__.PayRequest] | Iterable[__api__v1__.PayRequest]",
@@ -56,7 +113,259 @@ class PayServiceStub(betterproto2_grpclib.ServiceStub):
         metadata: "MetadataLike | None" = None,
     ) -> "AsyncIterator[__api__v1__.PayResponse]":
         """
-        Initiates a payment process on the SENVEND Terminal
+        
+        Initiates a payment process on the SENVEND terminal.\\
+        Accepts a stream of PayRequest for starting and controlling payments.\\
+        Returns a stream of PayResponse containing status and error return messages.
+
+        <details open>
+        <summary>API Constraints</summary>
+
+        - Request ids are optional.\\
+        If none is given and a process is running, the request is applied to that running process.\\
+        Otherwise a new UUID is generated per request.
+
+        - If request ids are pre-generated and part of the request, subsequent requests meant for that process have to use the same id.\\
+        An empty id will work as well if the original request started the currently running process.
+
+        - All given ids must be valid version 4 UUIDs.
+
+        - If disconnected during a payment process, after a reconnect the currently running process can still be controlled.\\
+        PayResponses that occurred during the disconnect are lost though.
+
+        - If auto_cancel is left out or set to true, a new PayRequest with a different UUID or without one will automatically cancel any currently running process on the terminal.\\
+        If given but false, sending a new PayRequest while another process is still running will result in a PAY_FAILURE_REASON_PAYMENT_ONGOING error message.
+        </details>
+
+        <details open>
+        <summary>Process Constraints</summary>
+
+        - The amount to charge is given in cents and can even be zero.\\
+        The last option is useful to combine vending or age verification with a `GoodsIssued` message,\\
+        mostly for telemetry purposes.
+
+        - The minimum age to verify has to be greater than zero and at most 120.\\
+        Depending on the method chosen, only certain ages can be verified.\\
+        See the `Age` service for more details.
+
+        - An additional external age verification step can be implemented by sending an `AgeApproveRequest` message.\\
+        This will mark the age verification as approved and continue with payment.
+
+        - If a payment was approved, a `GoodsIssued` message must be sent in order to finalize it.\\
+        *The client has 9m30s to answer to the approval, or the goods will be issued to the customer as an emergency measure.**
+
+        - Vending can also be done via this endpoint by sending a VendStart message.\\
+        These are accepted either when no payment is running, or after the payment was APPROVED and before sending GOODS_ISSUED.\\
+        See `Vend` service for details.
+        </details>
+
+        <details>
+        <summary>Telemetry / Invoice Line Items / Mixed Payments</summary>
+
+        It is possible to send a list of products, their prices and the quantity per product sold alongside the `pay_start` and `goods_issued` requests. See the documentation of the api.v1.LineItems message.
+
+        Mixed payments can be supported by sending an additional cash_amount via the `pay_start` or `goods_issued` message.
+        The amount in PayStart.amount or PayGoodsIssued.partial_amount only covers cashless transactions,
+        therefore cash_amount is independent of that and only for reporting purposes via telemetry.
+
+        The device will do a verification of the payment amount (including cash_amount if present) versus the sum of the provided LineItem list, and report an API_ERROR if these amounts mismatch.
+
+        These messages are processed by the SENVEND web portal and taken into consideration when generating sales reports.
+
+        If LineItems or cash_amount are sent alongside the `goods_issued` message, they take precedence over any values from the `pay_start` message, effectively overriding them.
+        </details>
+
+        <details>
+        <summary>State and state changes</summary>
+
+        | State | Request | Result |
+        |--------------------------|----------------------------|------------------------------|
+        | No payment running | PayStart | Payment start |
+        | | PayStart (with AgeRequest) | AgeVerification start |
+        | | PayCancel | ApiError |
+        | | PayGoodsIssued | ApiError |
+        | Age verification ongoing | PayStart | ApiError |
+        | | PayCancel | AgeVerification cancel |
+        | | PayGoodsIssued | ApiError |
+        | | AgeApproveRequest | Terminal Proceeds to payment |
+        | Payment process ongoing | PayStart | ApiError |
+        | | PayCancel | Payment cancel |
+        | | PayGoodsIssued | ApiError |
+        | | AgeApproveRequest | ApiError |
+        | Payment accepted | PayStart | ApiError |
+        | | PayCancel | Reimburse and cancel payment |
+        | | PayGoodsIssued | Finalize payment |
+        </details>
+
+        <details>
+        <summary>State and errors</summary>
+
+        | State | Event | Error |
+        |--------------------------|---------------------------|-----------------------------------|
+        | Age verification ongoing | Took too long (timeout) | AGE_FAILURE_REASON_USER_CANCELLED |
+        | | User actively canceled | AGE_FAILURE_REASON_USER_CANCELLED |
+        | | Cancel via API | AGE_FAILURE_REASON_API_CANCELLED |
+        | | Verification fails | AgeFailureUnderage |
+        | Payment process ongoing | Took too long (timeout) | PAY_FAILURE_REASON_USER_CANCELLED |
+        | | User actively canceled | PAY_FAILURE_REASON_USER_CANCELLED |
+        | | Canceled via API | PAY_FAILURE_REASON_API_CANCELLED |
+        | | Payment failed (no debit) | PAY_FAILURE_REASON_PAYMENT_FAILED |
+        | Payment accepted | No response from API | PaySuccess |
+        </details>
+
+        <details>
+        <summary>Examples</summary>
+
+        ###### Full payment process with age verification (no errors)
+
+        > **->** {"start": {"amount": 100, "age_verification": {"min_age": 18}}}
+
+        > **\\<-** {"id": {"msb": "10249154777407571789", "lsb": "11282912518529581516"}, "ageApiSuccess": { "reason": "AGE_API_SUCCESS_REASON_VERIFICATION_STARTED" }}
+
+        - *Age Verification on device* (success)
+
+        > **\\<-** {"id": {"msb": "10249154777407571789", "lsb": "11282912518529581516"}, "ageSuccess": {}}
+
+        > **\\<-** {"id": {"msb": "10249154777407571789", "lsb": "11282912518529581516"}, "apiSuccess": {"reason": "PAY_API_SUCCESS_REASON_PAYMENT_STARTED"}}
+
+        - *Payment on device* (success)
+
+        > **\\<-** {"id": {"msb": "10249154777407571789", "lsb": "11282912518529581516"}, "approved": {"amount": 100}}
+
+        > **->** {"goods_issued":{}}
+
+        > **\\<-** {"id": {"msb": "10249154777407571789", "lsb": "11282912518529581516"}, "apiSuccess": { "reason": "PAY_API_SUCCESS_REASON_GOODS_ISSUED_ACCEPTED"}}
+
+        > **\\<-** {"id": {"msb": "10249154777407571789", "lsb": "11282912518529581516"}, "success": {}}
+
+        ###### Full payment process with external age verification (AgeApproveRequest)
+
+        > **->** {"start": {"amount": 100, "age_verification": {"min_age": 18}}}
+
+        > **\\<-** {"id": {"msb": "10249154777407571789", "lsb": "11282912518529581516"}, "ageApiSuccess": { "reason": "AGE_API_SUCCESS_REASON_VERIFICATION_STARTED" }}
+
+        > **->** {"ageApprove": {}}
+
+        > **\\<-** {"id": {"msb": "10249154777407571789", "lsb": "11282912518529581516"}, "ageSuccess": {}}
+
+        > **\\<-** {"id": {"msb": "10249154777407571789", "lsb": "11282912518529581516"}, "apiSuccess": {"reason": "PAY_API_SUCCESS_REASON_PAYMENT_STARTED"}}
+
+        - *Payment on device* (success)
+
+        > **\\<-** {"id": {"msb": "10249154777407571789", "lsb": "11282912518529581516"}, "approved": {"amount": 100}}
+
+        > **->** {"goods_issued":{}}
+
+        > **\\<-** {"id": {"msb": "10249154777407571789", "lsb": "11282912518529581516"}, "apiSuccess": { "reason": "PAY_API_SUCCESS_REASON_GOODS_ISSUED_ACCEPTED"}}
+
+        > **\\<-** {"id": {"msb": "10249154777407571789", "lsb": "11282912518529581516"}, "success": {}}
+
+        ###### Payment process without age verification (no errors, using pre-generated UUIDs)
+
+        > **->** {"id":{"msb":5, "lsb":0}, "start": {"amount": 100}}
+
+        > **\\<-** {"id": {"msb": "5"}, "apiSuccess": {"reason": "PAY_API_SUCCESS_REASON_PAYMENT_STARTED"}}
+
+        - *Payment on device* (success)
+
+        > **\\<-** {"id": {"msb": "5"}, "approved": {"amount": 100}}
+
+        > **->** {"id": {"msb":5, "lsb":0}, "goods_issued": {}}
+
+        > **\\<-** {"id": {"msb": "5"}, "apiSuccess": { "reason": "PAY_API_SUCCESS_REASON_GOODS_ISSUED_ACCEPTED" }}
+
+        > **\\<-** {"id": {"msb": "5"}, "success": {}}
+
+        ###### Payment process without age verification (payment failed)
+
+        > **->** {"start": {"amount": 220}}
+
+        > **\\<-** {"id": {"msb": "3750298859991747092", "lsb": "10323224318664740260"}, "apiSuccess": {"reason": "PAY_API_SUCCESS_REASON_PAYMENT_STARTED"}}
+
+        - *Payment on device* (failed)
+
+        > **\\<-** {"id": {"msb": "3750298859991747092", "lsb": "10323224318664740260"}, "failure": {"failureReason": "PAY_FAILURE_REASON_PAYMENT_FAILED"}}
+
+        ###### Full payment process with age verification (age verification failed)
+
+        > **->** {"start": {"amount": 100, "age_verification": {"min_age": 18}}}
+
+        > **\\<-** {"id": {"msb": "2610397151102190428", "lsb": "11915408413712218260"}, "ageApiSuccess": {"reason": "AGE_API_SUCCESS_REASON_VERIFICATION_STARTED"}}
+
+        - *Age Verification on device* (failed)
+
+        > **\\<-** {"id": {"msb": "2610397151102190428", "lsb": "11915408413712218260"}, "ageFailure": {"underAge": {}}}
+
+        ###### Payment process with detailed invoice tracking (i.e. basket)
+
+        > **->** {"start": {"amount": 100}}
+
+        > **\\<-** {"id": {"msb": "18075966312244266714", "lsb": "9624948136777214489"}, "apiSuccess": { "reason": "PAY_API_SUCCESS_REASON_PAYMENT_STARTED" }}
+
+        - *payment on device* (success)
+
+        > **\\<-** {"id": {"msb": "18075966312244266714", "lsb": "9624948136777214489"}, "approved": {"amount": 100}}
+
+        > **->** {"goods_issued": {"partial_amount": 0, "line_items": [{"price": 40, "quantity":1, "selection": {"slot":1}}, {"price": 60, "quantity":1, "selection": {"slot":2}}] }}
+
+        > **\\<-** {"id": {"msb": "18075966312244266714", "lsb": "9624948136777214489"}, "apiSuccess": {"reason": "PAY_API_SUCCESS_REASON_GOODS_ISSUED_ACCEPTED"}}
+
+        > **\\<-** {"id": {"msb": "18075966312244266714", "lsb": "9624948136777214489"}, "success": {}}
+
+        ###### Payment process with invoice tracking change
+
+        > **->** {"start": {"amount": 100, "line_items": [{"price": 40, "quantity":1, "selection": {"slot":1}}, {"price": 60, "quantity":1, "selection": {"slot":2}}] }}
+
+        > **\\<-** {"id": {"msb": "12005064334431440106", "lsb": "9545526647834091413"}, "apiSuccess": {"reason": "PAY_API_SUCCESS_REASON_PAYMENT_STARTED"}}
+
+        > **\\<-** {"id": {"msb": "12005064334431440106", "lsb": "9545526647834091413"}, "approved": {"amount": 100}}
+
+        > **->** {"goods_issued": {"partial_amount": 60, "line_items": [{"price": 60, "quantity":1, "selection": {"slot":2}}] }}
+
+        > **\\<-** {"id": { "msb": "12005064334431440106", "lsb": "9545526647834091413"}, "apiSuccess": {"reason": "PAY_API_SUCCESS_REASON_GOODS_ISSUED_ACCEPTED"}}
+
+        > **->**  {"id": {"msb": "12005064334431440106", "lsb": "9545526647834091413"}, "success": {}}
+
+        ###### Mixed payment (cash paid before PaymentStart)
+        > **->** {"start": {"amount": 100, "cash_amount": 50}}
+
+        > **\\<-** {"id": {"msb": "12005064334431440106", "lsb": "9545526647834091413"}, "apiSuccess": {"reason": "PAY_API_SUCCESS_REASON_PAYMENT_STARTED"}}
+
+        > **\\<-** {"id": {"msb": "12005064334431440106", "lsb": "9545526647834091413"}, "approved": {"amount": 100}}
+
+        > **->** {"goods_issued": {}}
+
+        > **\\<-** {"id": { "msb": "12005064334431440106", "lsb": "9545526647834091413"}, "apiSuccess": {"reason": "PAY_API_SUCCESS_REASON_GOODS_ISSUED_ACCEPTED"}}
+
+        > **->**  {"id": {"msb": "12005064334431440106", "lsb": "9545526647834091413"}, "success": {}}
+
+        ###### Mixed payment (cash amount changed before GoodsIssued)
+        > **->** {"start": {"amount": 100, "cash_amount": 50}}
+
+        > **\\<-** {"id": {"msb": "12005064334431440106", "lsb": "9545526647834091413"}, "apiSuccess": {"reason": "PAY_API_SUCCESS_REASON_PAYMENT_STARTED"}}
+
+        > **\\<-** {"id": {"msb": "12005064334431440106", "lsb": "9545526647834091413"}, "approved": {"amount": 100}}
+
+        > **->** {"goods_issued": {"partial_amount": 50, "cash_amount": 100}}
+
+        > **\\<-** {"id": { "msb": "12005064334431440106", "lsb": "9545526647834091413"}, "apiSuccess": {"reason": "PAY_API_SUCCESS_REASON_GOODS_ISSUED_ACCEPTED"}}
+
+        > **->**  {"id": {"msb": "12005064334431440106", "lsb": "9545526647834091413"}, "success": {}}
+
+        ###### Mixed payment (cash amount only known on GoodsIssued)
+        > **->** {"start": {"amount": 150}}
+
+        > **\\<-** {"id": {"msb": "12005064334431440106", "lsb": "9545526647834091413"}, "apiSuccess": {"reason": "PAY_API_SUCCESS_REASON_PAYMENT_STARTED"}}
+
+        > **\\<-** {"id": {"msb": "12005064334431440106", "lsb": "9545526647834091413"}, "approved": {"amount": 150}}
+
+        > **->** {"goods_issued": {"partial_amount": 50, "cash_amount": 100}}
+
+        > **\\<-** {"id": { "msb": "12005064334431440106", "lsb": "9545526647834091413"}, "apiSuccess": {"reason": "PAY_API_SUCCESS_REASON_GOODS_ISSUED_ACCEPTED"}}
+
+        > **->**  {"id": {"msb": "12005064334431440106", "lsb": "9545526647834091413"}, "success": {}}
+
+        </details>
         """
 
         async for response in self._stream_stream(
@@ -69,6 +378,132 @@ class PayServiceStub(betterproto2_grpclib.ServiceStub):
             metadata=metadata,
         ):
             yield response
+
+
+class VendServiceStub(betterproto2_grpclib.ServiceStub):
+    """
+
+    This service provides the necessary functionality to vend products via a vending machine connected to the SENVEND Terminal.
+    """
+
+    async def vend(
+        self,
+        messages: "AsyncIterable[__api__v1__.VendRequest] | Iterable[__api__v1__.VendRequest]",
+        *,
+        timeout: "float | None" = None,
+        deadline: "Deadline | None" = None,
+        metadata: "MetadataLike | None" = None,
+    ) -> "AsyncIterator[__api__v1__.VendResponse]":
+        """
+        
+        Initiates a vending process on a machine connected to the SENVEND terminal.\\
+        Accepts a stream of VendRequest for starting and controlling vending.\\
+        Returns a stream of VendResponse containing status and error return messages.
+
+        <details open>
+        <summary>API Constraints</summary>
+
+        - Request ids are optional.\\
+        If none is given and a process is running, the request is applied to that running process.\\
+        Otherwise a new UUID is generated per request.
+
+        - If request ids are pre-generated and part of the request, subsequent requests meant for that process have to use the same id.\\
+        An empty id will work as well if the original request started the currently running process.
+
+        - All given ids must be valid version 4 UUIDs.
+
+        - If disconnected during a vending process, after a reconnect the currently running process can still be controlled.\\
+        VendResponses that occurred during the disconnect are lost though.
+
+        - The minimum quantity to vend has to be 1, otherwise the request will be rejected.
+
+        - Items are vended via LineItem messages. The `price` field is optional and not necessary for vending.
+        </details>
+
+        <details open>
+        <summary>Process Constraints</summary>
+
+        - There can only be one vending process at a time. Multiple items can either be vended one-by-one,\\
+        or by combining them all into one VendStart message.
+
+        - For each individual vending attempt, a VendEvent is sent back, indicating success or failure.
+
+        - For LineItems with a quantity greater than 1, items will be vended one-by-one until all are successful, or the FIRST vending failure.\\
+        The resulting VendEvent failure message will also contain the number of successfully vended items.
+
+        - If multiple LineItems are given, the list is vended according to the order of the LineItems in the message,
+        regardless of success or failure.
+
+        - Vending via this endpoint is also available when there is an ongoing payment,
+        specifically after a payment was APPROVED but before GOODS_ISSUED.\\
+        If you don't need the UUIDs of this endpoint, consider using the VendStart messages of the `Pay` endpoint.
+
+        - Unlike the VendStart messages embedded within PayRequest, this API provides UUIDs per VendRequest.\\
+        If you require precise control over the vending process, use this API to vend single items,
+        and match requests and answers via their UUIDs.
+
+        - The cancel request is provided to enable stopping midway during vending of a list of LineItems.\\
+        If vending a single item, a cancel usually arrives too late to stop the process.
+        </details>
+        """
+
+        async for response in self._stream_stream(
+            "/local.v1.VendService/Vend",
+            messages,
+            __api__v1__.VendRequest,
+            __api__v1__.VendResponse,
+            timeout=timeout,
+            deadline=deadline,
+            metadata=metadata,
+        ):
+            yield response
+
+
+class VersionServiceStub(betterproto2_grpclib.ServiceStub):
+    """
+
+    This service provides version information for the software on the SENVEND terminal.
+    """
+
+    async def version(
+        self,
+        message: "__api__v1__.VersionRequest",
+        *,
+        timeout: "float | None" = None,
+        deadline: "Deadline | None" = None,
+        metadata: "MetadataLike | None" = None,
+    ) -> "__api__v1__.VersionResponse":
+        """
+        
+        Returns the version information of the software and API on the SENVEND terminal.
+
+        <details open>
+        <summary>API Constraints</summary>
+
+        - Request ids are optional.\\
+        If none is given a new UUID is generated per request.\\
+        These are mostly provided for the cloud API functionality.
+        </details>
+
+        <details>
+        <summary>Examples</summary>
+
+        ###### Standard version request
+
+        > **->** {}
+
+        > **\\<-** {"id": {"msb": "10249154777407571789", "lsb": "11282912518529581516"}, "appVersion": {"major": 1, "minor": 3, "patch": 11}, "apiVersion": {"major": 1}}
+        </details>
+        """
+
+        return await self._unary_unary(
+            "/local.v1.VersionService/Version",
+            message,
+            __api__v1__.VersionResponse,
+            timeout=timeout,
+            deadline=deadline,
+            metadata=metadata,
+        )
 
 
 from ...api import v1 as __api__v1__

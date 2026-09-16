@@ -1,0 +1,3 @@
+#!/bin/sh
+
+buf curl --schema . --protocol grpc --http2-prior-knowledge "$@"

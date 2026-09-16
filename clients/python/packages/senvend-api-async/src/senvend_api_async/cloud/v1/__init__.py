@@ -11,6 +11,9 @@ __all__ = (
     "CloudPayResponse",
     "CloudPayServiceStub",
     "CloudTargetSelector",
+    "CloudVersionRequest",
+    "CloudVersionResponse",
+    "CloudVersionServiceStub",
 )
 
 from collections.abc import AsyncIterable, AsyncIterator, Iterable
@@ -26,25 +29,29 @@ if TYPE_CHECKING:
     from betterproto2.grpclib.grpclib_client import MetadataLike
     from grpclib.metadata import Deadline
 
-_COMPILER_VERSION = "0.9.0"
+_COMPILER_VERSION = "0.10.1"
 betterproto2.check_compiler_version(_COMPILER_VERSION)
 
 
 @dataclass(eq=False, repr=False)
 class CloudAgeRequest(betterproto2.Message):
+    """
+    Starts an age verification process on the SENVEND terminal.
+    """
+
     target: "CloudTargetSelector | None" = betterproto2.field(
         1, betterproto2.TYPE_MESSAGE, optional=True
     )
     """
-    Selector for the target machine or terminal
-    Required for the first AgeRequest in the stream, subsequent messages may omit this field
+    Selector for the target machine or terminal.
+    Required for the first AgeRequest in the stream, subsequent messages may omit this field.
     """
 
     age_request: "__api__v1__.AgeRequest | None" = betterproto2.field(
         2, betterproto2.TYPE_MESSAGE, optional=True
     )
     """
-    The age verification request to be sent to the terminal
+    The age verification request to be sent to the terminal.
     """
 
 
@@ -53,11 +60,15 @@ default_message_pool.register_message("cloud.v1", "CloudAgeRequest", CloudAgeReq
 
 @dataclass(eq=False, repr=False)
 class CloudAgeResponse(betterproto2.Message):
+    """
+    Response to a CloudAgeRequest.
+    """
+
     age_response: "__api__v1__.AgeResponse | None" = betterproto2.field(
         1, betterproto2.TYPE_MESSAGE, optional=True
     )
     """
-    The age verification response from the terminal
+    The age verification response from the terminal.
     """
 
 
@@ -66,19 +77,23 @@ default_message_pool.register_message("cloud.v1", "CloudAgeResponse", CloudAgeRe
 
 @dataclass(eq=False, repr=False)
 class CloudPayRequest(betterproto2.Message):
+    """
+    All messages sent from the integrator/VMC to the SENVEND terminal to manage payments.
+    """
+
     target: "CloudTargetSelector | None" = betterproto2.field(
         1, betterproto2.TYPE_MESSAGE, optional=True
     )
     """
-    Selector for the target machine or terminal
-    Required for the first PayRequest in the stream, subsequent messages may omit this field
+    Selector for the target machine or terminal.
+    Required for the first PayRequest in the stream, subsequent messages may omit this field.
     """
 
     pay_request: "__api__v1__.PayRequest | None" = betterproto2.field(
         2, betterproto2.TYPE_MESSAGE, optional=True
     )
     """
-    The payment request to be sent to the terminal
+    The payment request to be sent to the terminal.
     """
 
 
@@ -87,11 +102,15 @@ default_message_pool.register_message("cloud.v1", "CloudPayRequest", CloudPayReq
 
 @dataclass(eq=False, repr=False)
 class CloudPayResponse(betterproto2.Message):
+    """
+    Response to a CloudPayRequest.
+    """
+
     pay_response: "__api__v1__.PayResponse | None" = betterproto2.field(
         1, betterproto2.TYPE_MESSAGE, optional=True
     )
     """
-    The payment response from the terminal
+    The payment response from the terminal.
     """
 
 
@@ -101,24 +120,24 @@ default_message_pool.register_message("cloud.v1", "CloudPayResponse", CloudPayRe
 @dataclass(eq=False, repr=False)
 class CloudTargetSelector(betterproto2.Message):
     """
-
+    Identifies the terminal to send messages to.
 
     Oneofs:
-        - selector: The unique identifier of the machine or terminal
+        - selector: The unique identifier of the machine or terminal.
     """
 
     machine_id: "__api__v1__.Uuid4 | None" = betterproto2.field(
         1, betterproto2.TYPE_MESSAGE, optional=True, group="selector"
     )
     """
-    Select by my.senvend.com machine UUID
+    Select by my.senvend.com machine UUID.
     """
 
     serial_number: "str | None" = betterproto2.field(
         2, betterproto2.TYPE_STRING, optional=True, group="selector"
     )
     """
-    Select by SENVEND Terminal serial number
+    Select by SENVEND terminal serial number.
     """
 
 
@@ -127,7 +146,56 @@ default_message_pool.register_message(
 )
 
 
+@dataclass(eq=False, repr=False)
+class CloudVersionRequest(betterproto2.Message):
+    """
+    Starts a one-off request for version information of the SENVEND terminal.
+    """
+
+    target: "CloudTargetSelector | None" = betterproto2.field(
+        1, betterproto2.TYPE_MESSAGE, optional=True
+    )
+    """
+    Selector for the target machine or terminal.
+    """
+
+    version_request: "__api__v1__.VersionRequest | None" = betterproto2.field(
+        2, betterproto2.TYPE_MESSAGE, optional=True
+    )
+    """
+    Starts a one-off request for version information of the SENVEND terminal.
+    """
+
+
+default_message_pool.register_message(
+    "cloud.v1", "CloudVersionRequest", CloudVersionRequest
+)
+
+
+@dataclass(eq=False, repr=False)
+class CloudVersionResponse(betterproto2.Message):
+    """
+    Provides the current software and API version of the SENVEND terminal.
+    """
+
+    version_response: "__api__v1__.VersionResponse | None" = betterproto2.field(
+        1, betterproto2.TYPE_MESSAGE, optional=True
+    )
+    """
+    Provides the current software and API version of the SENVEND terminal.
+    """
+
+
+default_message_pool.register_message(
+    "cloud.v1", "CloudVersionResponse", CloudVersionResponse
+)
+
+
 class CloudAgeVerificationServiceStub(betterproto2_grpclib.ServiceStub):
+    """
+    This service provides the necessary functionality to handle age verification via the SENVEND Terminal.
+    """
+
     async def cloud_age(
         self,
         messages: "AsyncIterable[CloudAgeRequest] | Iterable[CloudAgeRequest]",
@@ -135,12 +203,12 @@ class CloudAgeVerificationServiceStub(betterproto2_grpclib.ServiceStub):
         timeout: "float | None" = None,
         deadline: "Deadline | None" = None,
         metadata: "MetadataLike | None" = None,
-    ) -> "CloudAgeResponse":
+    ) -> "AsyncIterator[CloudAgeResponse]":
         """
-        Initiates an age verification process on the SENVEND Terminal
+        Initiates an age verification process on the SENVEND terminal.
         """
 
-        return await self._stream_unary(
+        async for response in self._stream_stream(
             "/cloud.v1.CloudAgeVerificationService/CloudAge",
             messages,
             CloudAgeRequest,
@@ -148,10 +216,15 @@ class CloudAgeVerificationServiceStub(betterproto2_grpclib.ServiceStub):
             timeout=timeout,
             deadline=deadline,
             metadata=metadata,
-        )
+        ):
+            yield response
 
 
 class CloudPayServiceStub(betterproto2_grpclib.ServiceStub):
+    """
+    This service provides the necessary functionality to handle payments via the SENVEND Terminal.
+    """
+
     async def cloud_pay(
         self,
         messages: "AsyncIterable[CloudPayRequest] | Iterable[CloudPayRequest]",
@@ -161,7 +234,7 @@ class CloudPayServiceStub(betterproto2_grpclib.ServiceStub):
         metadata: "MetadataLike | None" = None,
     ) -> "AsyncIterator[CloudPayResponse]":
         """
-        Initiates a payment process on the SENVEND Terminal
+        Initiates a payment process on the SENVEND terminal.
         """
 
         async for response in self._stream_stream(
@@ -174,6 +247,33 @@ class CloudPayServiceStub(betterproto2_grpclib.ServiceStub):
             metadata=metadata,
         ):
             yield response
+
+
+class CloudVersionServiceStub(betterproto2_grpclib.ServiceStub):
+    """
+    This service provides version information for the software on the SENVEND terminal.
+    """
+
+    async def cloud_version(
+        self,
+        message: "CloudVersionRequest",
+        *,
+        timeout: "float | None" = None,
+        deadline: "Deadline | None" = None,
+        metadata: "MetadataLike | None" = None,
+    ) -> "CloudVersionResponse":
+        """
+        Returns the version information of the software and API on the SENVEND terminal.
+        """
+
+        return await self._unary_unary(
+            "/cloud.v1.CloudVersionService/CloudVersion",
+            message,
+            CloudVersionResponse,
+            timeout=timeout,
+            deadline=deadline,
+            metadata=metadata,
+        )
 
 
 from ...api import v1 as __api__v1__

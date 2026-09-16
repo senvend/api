@@ -1,13 +1,19 @@
 [package]
 name = "senvend_api"
-version.workspace = true
+version = "0.0.1"
+description = "Public APIs to interact with the SENVEND ecosystem"
 edition.workspace = true
 authors.workspace = true
 license.workspace = true
-readme.workspace = true
 repository.workspace = true
 categories.workspace = true
 keywords.workspace = true
+
+[lints.cargo]
+# cargo writes `readme` into the packaged manifest itself, then warns that
+# it could be inferred. not inherited from the workspace: these crates are
+# also members of the root workspace, which defines no [workspace.lints].
+manual_readme = "allow"
 
 [lib]
 name = "senvend_api"

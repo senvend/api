@@ -1,4 +1,4 @@
-#[allow(clippy::empty_docs)]
+#[allow(clippy::all)]
 pub mod protos;
 
 #[cfg(test)]

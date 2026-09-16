@@ -12,3 +12,84 @@ message Uuid4 {
   // Least significant bits.
   uint64 lsb = 3;
 }
+
+/*
+ * Represents a semantic version.
+ * https://semver.org/
+ */
+message SemanticVersion {
+  // Major version.
+  uint32 major = 1;
+  // Minor version.
+  uint32 minor = 2;
+  // Patch version.
+  uint32 patch = 3;
+  // Only set in non-release versions, in release versions it is left empty.
+  optional string branch = 4;
+}
+
+/*
+ * Represents the slot of an item.
+ */
+message Selection {
+  // slot number as reported by the machine
+  uint32 slot = 1;
+}
+
+/*
+ * Represents a single line item of a complete invoice.
+ */
+message LineItem {
+  // Price of a single instance of this product, in cents.
+  optional uint32 price = 1;
+  // The quantity of items to sell.
+  uint32 quantity = 2;
+  // The identifier for the sold product
+  oneof product {
+    // The slot this product was sold from.
+    api.v1.Selection selection = 3;
+  }
+}
+
+/*
+ * Reasons why a selection request might be denied
+ * page 170 (MDB spec 4.3)
+ **/
+enum MdbSelectionDeniedReason {
+  MDB_SELECTION_DENIED_REASON_UNSPECIFIED = 0;
+  MDB_SELECTION_DENIED_REASON_UNKNOWN_ERROR_OUT_OF_ORDER = 1;
+  MDB_SELECTION_DENIED_REASON_SELECTION_DOES_NOT_EXIST_NOT_CONFIGURED = 2;
+  MDB_SELECTION_DENIED_REASON_SELECTION_EMPTY_NOT_DISPENSED = 3;
+  MDB_SELECTION_DENIED_REASON_SELECTION_DEFECTIVE = 4;
+  MDB_SELECTION_DENIED_REASON_INGREDIENT_IS_OVER = 5;
+  MDB_SELECTION_DENIED_REASON_SELECTION_BLOCKED = 6;
+  MDB_SELECTION_DENIED_REASON_SELECTION_INHIBITED = 7;
+  MDB_SELECTION_DENIED_REASON_PRODUCT_EXPIRED = 8;
+  MDB_SELECTION_DENIED_REASON_TEMPERATURE_CONDITIONS_OUT_OF_RANGE = 9;
+  MDB_SELECTION_DENIED_REASON_MACHINE_BUSY_OR_WRONG_MODE = 10;
+  MDB_SELECTION_DENIED_REASON_INSUFFICIENT_CREDIT = 11;
+  MDB_SELECTION_DENIED_REASON_MACHINE_TEMPORARY_BUSY = 12;
+  MDB_SELECTION_DENIED_REASON_MAX_RETRY_EXCEEDED = 13;
+  // The VMC reported an error code, that is not defined in the MDB spec
+  MDB_SELECTION_DENIED_REASON_UNKNOWN_ERROR = 14;
+}
+
+/*
+ * Reasons why a vend failed(only available if basket/partial refund is enabled)
+ * page 170 (MDB spec 4.3 section 7.4.8)
+ **/
+enum MdbVendFailureReason {
+  MDB_VEND_FAILURE_REASON_UNSPECIFIED = 0;
+  MDB_VEND_FAILURE_REASON_UNKNOWN_OUT_OF_ORDER = 1;
+  MDB_VEND_FAILURE_REASON_SELECTION_DOES_NOT_EXIST_NOT_CONFIGURED = 2;
+  MDB_VEND_FAILURE_REASON_SELECTION_EMPTY_PRODUCT_NOT_DISPENSED = 3;
+  MDB_VEND_FAILURE_REASON_SELECTION_DEFECTIVE = 4;
+  MDB_VEND_FAILURE_REASON_INGREDIENT_IS_OVER = 5;
+  MDB_VEND_FAILURE_REASON_SELECTION_BLOCKED = 6;
+  MDB_VEND_FAILURE_REASON_SELECTION_INHIBITED = 7;
+  MDB_VEND_FAILURE_REASON_PRODUCT_EXPIRED = 8;
+  MDB_VEND_FAILURE_REASON_TEMPERATURE_CONDITIONS_OUT_OF_RANGE = 9;
+  MDB_VEND_FAILURE_REASON_MACHINE_BUSY_WRONG_MODE = 10;
+  MDB_VEND_FAILURE_REASON_INSUFFICIENT_CREDIT = 11;
+  MDB_VEND_FAILURE_REASON_UNKNOWN = 12;
+}
