@@ -10,9 +10,6 @@ categories.workspace = true
 keywords.workspace = true
 
 [lints.cargo]
-# cargo writes `readme` into the packaged manifest itself, then warns that
-# it could be inferred. not inherited from the workspace: these crates are
-# also members of the root workspace, which defines no [workspace.lints].
 manual_readme = "allow"
 
 [dependencies]

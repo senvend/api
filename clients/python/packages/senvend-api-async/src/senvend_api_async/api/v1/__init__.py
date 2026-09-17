@@ -424,7 +424,7 @@ class PayApiFailureReason(betterproto2.Enum):
 
     AMOUNT_MISMATCH = 6
     """
-    If a list of LineItems is given but the sum of their prices does not match the given total or partial amount.
+    If a list of LineItem entries is given but the sum of their prices does not match the given total or partial amount.
     """
 
     INVALID_UUID = 7
@@ -576,7 +576,7 @@ class PayFailureReason(betterproto2.Enum):
 
     APPROVE_TIMEOUT = 7
     """
-    No GoodsIssued message was received after PaymentApproved. Payment was reimbursed.
+    No PayGoodsIssued message was received after PayApproved. Payment was reimbursed.
     """
 
     @classmethod
@@ -1442,7 +1442,7 @@ class PayUpdate(betterproto2.Message):
 
     Updates the payment amount on the SENVEND terminal mid-transaction.
     Main use case is handling cash payments after `PayStart`,
-    and/or changing individual `LineItems` (e.g. if one item in a Basket was cancelled individually).
+    and/or changing individual `LineItem` entries (e.g. if one item in a basket was cancelled individually).
     If age verification was requested as well, this message is only accepted after the age verification was successful.
     Will result in a PAY_API_FAILURE_REASON_INVALID_STATE otherwise.
     Can only be accepted if the payment was not approved yet, or will result in a PAY_API_FAILURE_REASON_ALREADY_APPROVED otherwise.

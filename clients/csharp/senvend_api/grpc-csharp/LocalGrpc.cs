@@ -290,7 +290,7 @@ namespace com.senbax.senvend.proto.Local.V1 {
   ///
   ///This service provides the necessary functionality to handle payments via the SENVEND Terminal.\
   ///Optionally, age verification can be enforced before the payment via the `PayStart` message.\
-  ///Optionally, vending is possible after APPROVE is received, either via this or via the `Vend` service.
+  ///Optionally, vending is possible after PayApproved is received, either via this or via the `Vend` service.
   /// </summary>
   public static partial class PayService
   {
@@ -381,7 +381,7 @@ namespace com.senbax.senvend.proto.Local.V1 {
       ///&lt;summary>Process Constraints&lt;/summary>
       ///
       ///- The amount to charge is given in cents and can even be zero.\
-      ///The last option is useful to combine vending or age verification with a `GoodsIssued` message,\
+      ///The last option is useful to combine vending or age verification with a `PayGoodsIssued` message,\
       ///mostly for telemetry purposes.
       ///
       ///- The minimum age to verify has to be greater than zero and at most 120.\
@@ -391,7 +391,7 @@ namespace com.senbax.senvend.proto.Local.V1 {
       ///- An additional external age verification step can be implemented by sending an `AgeApproveRequest` message.\
       ///This will mark the age verification as approved and continue with payment.
       ///
-      ///- If a payment was approved, a `GoodsIssued` message must be sent in order to finalize it.\
+      ///- If a payment was approved, a `PayGoodsIssued` message must be sent in order to finalize it.\
       ///*The client has 9m30s to answer to the approval, or the goods will be issued to the customer as an emergency measure.**
       ///
       ///- Vending can also be done via this endpoint by sending a VendStart message.\
@@ -402,17 +402,17 @@ namespace com.senbax.senvend.proto.Local.V1 {
       ///&lt;details>
       ///&lt;summary>Telemetry / Invoice Line Items / Mixed Payments&lt;/summary>
       ///
-      ///It is possible to send a list of products, their prices and the quantity per product sold alongside the `pay_start` and `goods_issued` requests. See the documentation of the api.v1.LineItems message.
+      ///It is possible to send a list of products, their prices and the quantity per product sold alongside the `pay_start` and `goods_issued` requests. See the documentation of the api.v1.LineItem message.
       ///
       ///Mixed payments can be supported by sending an additional cash_amount via the `pay_start` or `goods_issued` message.
       ///The amount in PayStart.amount or PayGoodsIssued.partial_amount only covers cashless transactions,
       ///therefore cash_amount is independent of that and only for reporting purposes via telemetry.
       ///
-      ///The device will do a verification of the payment amount (including cash_amount if present) versus the sum of the provided LineItem list, and report an API_ERROR if these amounts mismatch.
+      ///The device will do a verification of the payment amount (including cash_amount if present) versus the sum of the provided LineItem list, and report a PAY_API_FAILURE_REASON_AMOUNT_MISMATCH if these amounts mismatch.
       ///
       ///These messages are processed by the SENVEND web portal and taken into consideration when generating sales reports.
       ///
-      ///If LineItems or cash_amount are sent alongside the `goods_issued` message, they take precedence over any values from the `pay_start` message, effectively overriding them.
+      ///If line_items or cash_amount are sent alongside the `goods_issued` message, they take precedence over any values from the `pay_start` message, effectively overriding them.
       ///&lt;/details>
       ///
       ///&lt;details>
@@ -422,17 +422,17 @@ namespace com.senbax.senvend.proto.Local.V1 {
       ///|--------------------------|----------------------------|------------------------------|
       ///| No payment running | PayStart | Payment start |
       ///| | PayStart (with AgeRequest) | AgeVerification start |
-      ///| | PayCancel | ApiError |
-      ///| | PayGoodsIssued | ApiError |
-      ///| Age verification ongoing | PayStart | ApiError |
+      ///| | PayCancel | PayApiFailure |
+      ///| | PayGoodsIssued | PayApiFailure |
+      ///| Age verification ongoing | PayStart | PayApiFailure |
       ///| | PayCancel | AgeVerification cancel |
-      ///| | PayGoodsIssued | ApiError |
+      ///| | PayGoodsIssued | PayApiFailure |
       ///| | AgeApproveRequest | Terminal Proceeds to payment |
-      ///| Payment process ongoing | PayStart | ApiError |
+      ///| Payment process ongoing | PayStart | PayApiFailure |
       ///| | PayCancel | Payment cancel |
-      ///| | PayGoodsIssued | ApiError |
-      ///| | AgeApproveRequest | ApiError |
-      ///| Payment accepted | PayStart | ApiError |
+      ///| | PayGoodsIssued | PayApiFailure |
+      ///| | AgeApproveRequest | PayApiFailure |
+      ///| Payment accepted | PayStart | PayApiFailure |
       ///| | PayCancel | Reimburse and cancel payment |
       ///| | PayGoodsIssued | Finalize payment |
       ///&lt;/details>
@@ -564,9 +564,9 @@ namespace com.senbax.senvend.proto.Local.V1 {
       ///
       ///> **\&lt;-** {"id": { "msb": "12005064334431440106", "lsb": "9545526647834091413"}, "apiSuccess": {"reason": "PAY_API_SUCCESS_REASON_GOODS_ISSUED_ACCEPTED"}}
       ///
-      ///> **->**  {"id": {"msb": "12005064334431440106", "lsb": "9545526647834091413"}, "success": {}}
+      ///> **\&lt;-** {"id": {"msb": "12005064334431440106", "lsb": "9545526647834091413"}, "success": {}}
       ///
-      ///###### Mixed payment (cash paid before PaymentStart)
+      ///###### Mixed payment (cash paid before PayStart)
       ///> **->** {"start": {"amount": 100, "cash_amount": 50}}
       ///
       ///> **\&lt;-** {"id": {"msb": "12005064334431440106", "lsb": "9545526647834091413"}, "apiSuccess": {"reason": "PAY_API_SUCCESS_REASON_PAYMENT_STARTED"}}
@@ -577,9 +577,9 @@ namespace com.senbax.senvend.proto.Local.V1 {
       ///
       ///> **\&lt;-** {"id": { "msb": "12005064334431440106", "lsb": "9545526647834091413"}, "apiSuccess": {"reason": "PAY_API_SUCCESS_REASON_GOODS_ISSUED_ACCEPTED"}}
       ///
-      ///> **->**  {"id": {"msb": "12005064334431440106", "lsb": "9545526647834091413"}, "success": {}}
+      ///> **\&lt;-** {"id": {"msb": "12005064334431440106", "lsb": "9545526647834091413"}, "success": {}}
       ///
-      ///###### Mixed payment (cash amount changed before GoodsIssued)
+      ///###### Mixed payment (cash amount changed before PayGoodsIssued)
       ///> **->** {"start": {"amount": 100, "cash_amount": 50}}
       ///
       ///> **\&lt;-** {"id": {"msb": "12005064334431440106", "lsb": "9545526647834091413"}, "apiSuccess": {"reason": "PAY_API_SUCCESS_REASON_PAYMENT_STARTED"}}
@@ -590,9 +590,9 @@ namespace com.senbax.senvend.proto.Local.V1 {
       ///
       ///> **\&lt;-** {"id": { "msb": "12005064334431440106", "lsb": "9545526647834091413"}, "apiSuccess": {"reason": "PAY_API_SUCCESS_REASON_GOODS_ISSUED_ACCEPTED"}}
       ///
-      ///> **->**  {"id": {"msb": "12005064334431440106", "lsb": "9545526647834091413"}, "success": {}}
+      ///> **\&lt;-** {"id": {"msb": "12005064334431440106", "lsb": "9545526647834091413"}, "success": {}}
       ///
-      ///###### Mixed payment (cash amount only known on GoodsIssued)
+      ///###### Mixed payment (cash amount only known on PayGoodsIssued)
       ///> **->** {"start": {"amount": 150}}
       ///
       ///> **\&lt;-** {"id": {"msb": "12005064334431440106", "lsb": "9545526647834091413"}, "apiSuccess": {"reason": "PAY_API_SUCCESS_REASON_PAYMENT_STARTED"}}
@@ -603,7 +603,7 @@ namespace com.senbax.senvend.proto.Local.V1 {
       ///
       ///> **\&lt;-** {"id": { "msb": "12005064334431440106", "lsb": "9545526647834091413"}, "apiSuccess": {"reason": "PAY_API_SUCCESS_REASON_GOODS_ISSUED_ACCEPTED"}}
       ///
-      ///> **->**  {"id": {"msb": "12005064334431440106", "lsb": "9545526647834091413"}, "success": {}}
+      ///> **\&lt;-** {"id": {"msb": "12005064334431440106", "lsb": "9545526647834091413"}, "success": {}}
       ///
       ///&lt;/details>
       /// </summary>
@@ -675,7 +675,7 @@ namespace com.senbax.senvend.proto.Local.V1 {
       ///&lt;summary>Process Constraints&lt;/summary>
       ///
       ///- The amount to charge is given in cents and can even be zero.\
-      ///The last option is useful to combine vending or age verification with a `GoodsIssued` message,\
+      ///The last option is useful to combine vending or age verification with a `PayGoodsIssued` message,\
       ///mostly for telemetry purposes.
       ///
       ///- The minimum age to verify has to be greater than zero and at most 120.\
@@ -685,7 +685,7 @@ namespace com.senbax.senvend.proto.Local.V1 {
       ///- An additional external age verification step can be implemented by sending an `AgeApproveRequest` message.\
       ///This will mark the age verification as approved and continue with payment.
       ///
-      ///- If a payment was approved, a `GoodsIssued` message must be sent in order to finalize it.\
+      ///- If a payment was approved, a `PayGoodsIssued` message must be sent in order to finalize it.\
       ///*The client has 9m30s to answer to the approval, or the goods will be issued to the customer as an emergency measure.**
       ///
       ///- Vending can also be done via this endpoint by sending a VendStart message.\
@@ -696,17 +696,17 @@ namespace com.senbax.senvend.proto.Local.V1 {
       ///&lt;details>
       ///&lt;summary>Telemetry / Invoice Line Items / Mixed Payments&lt;/summary>
       ///
-      ///It is possible to send a list of products, their prices and the quantity per product sold alongside the `pay_start` and `goods_issued` requests. See the documentation of the api.v1.LineItems message.
+      ///It is possible to send a list of products, their prices and the quantity per product sold alongside the `pay_start` and `goods_issued` requests. See the documentation of the api.v1.LineItem message.
       ///
       ///Mixed payments can be supported by sending an additional cash_amount via the `pay_start` or `goods_issued` message.
       ///The amount in PayStart.amount or PayGoodsIssued.partial_amount only covers cashless transactions,
       ///therefore cash_amount is independent of that and only for reporting purposes via telemetry.
       ///
-      ///The device will do a verification of the payment amount (including cash_amount if present) versus the sum of the provided LineItem list, and report an API_ERROR if these amounts mismatch.
+      ///The device will do a verification of the payment amount (including cash_amount if present) versus the sum of the provided LineItem list, and report a PAY_API_FAILURE_REASON_AMOUNT_MISMATCH if these amounts mismatch.
       ///
       ///These messages are processed by the SENVEND web portal and taken into consideration when generating sales reports.
       ///
-      ///If LineItems or cash_amount are sent alongside the `goods_issued` message, they take precedence over any values from the `pay_start` message, effectively overriding them.
+      ///If line_items or cash_amount are sent alongside the `goods_issued` message, they take precedence over any values from the `pay_start` message, effectively overriding them.
       ///&lt;/details>
       ///
       ///&lt;details>
@@ -716,17 +716,17 @@ namespace com.senbax.senvend.proto.Local.V1 {
       ///|--------------------------|----------------------------|------------------------------|
       ///| No payment running | PayStart | Payment start |
       ///| | PayStart (with AgeRequest) | AgeVerification start |
-      ///| | PayCancel | ApiError |
-      ///| | PayGoodsIssued | ApiError |
-      ///| Age verification ongoing | PayStart | ApiError |
+      ///| | PayCancel | PayApiFailure |
+      ///| | PayGoodsIssued | PayApiFailure |
+      ///| Age verification ongoing | PayStart | PayApiFailure |
       ///| | PayCancel | AgeVerification cancel |
-      ///| | PayGoodsIssued | ApiError |
+      ///| | PayGoodsIssued | PayApiFailure |
       ///| | AgeApproveRequest | Terminal Proceeds to payment |
-      ///| Payment process ongoing | PayStart | ApiError |
+      ///| Payment process ongoing | PayStart | PayApiFailure |
       ///| | PayCancel | Payment cancel |
-      ///| | PayGoodsIssued | ApiError |
-      ///| | AgeApproveRequest | ApiError |
-      ///| Payment accepted | PayStart | ApiError |
+      ///| | PayGoodsIssued | PayApiFailure |
+      ///| | AgeApproveRequest | PayApiFailure |
+      ///| Payment accepted | PayStart | PayApiFailure |
       ///| | PayCancel | Reimburse and cancel payment |
       ///| | PayGoodsIssued | Finalize payment |
       ///&lt;/details>
@@ -858,9 +858,9 @@ namespace com.senbax.senvend.proto.Local.V1 {
       ///
       ///> **\&lt;-** {"id": { "msb": "12005064334431440106", "lsb": "9545526647834091413"}, "apiSuccess": {"reason": "PAY_API_SUCCESS_REASON_GOODS_ISSUED_ACCEPTED"}}
       ///
-      ///> **->**  {"id": {"msb": "12005064334431440106", "lsb": "9545526647834091413"}, "success": {}}
+      ///> **\&lt;-** {"id": {"msb": "12005064334431440106", "lsb": "9545526647834091413"}, "success": {}}
       ///
-      ///###### Mixed payment (cash paid before PaymentStart)
+      ///###### Mixed payment (cash paid before PayStart)
       ///> **->** {"start": {"amount": 100, "cash_amount": 50}}
       ///
       ///> **\&lt;-** {"id": {"msb": "12005064334431440106", "lsb": "9545526647834091413"}, "apiSuccess": {"reason": "PAY_API_SUCCESS_REASON_PAYMENT_STARTED"}}
@@ -871,9 +871,9 @@ namespace com.senbax.senvend.proto.Local.V1 {
       ///
       ///> **\&lt;-** {"id": { "msb": "12005064334431440106", "lsb": "9545526647834091413"}, "apiSuccess": {"reason": "PAY_API_SUCCESS_REASON_GOODS_ISSUED_ACCEPTED"}}
       ///
-      ///> **->**  {"id": {"msb": "12005064334431440106", "lsb": "9545526647834091413"}, "success": {}}
+      ///> **\&lt;-** {"id": {"msb": "12005064334431440106", "lsb": "9545526647834091413"}, "success": {}}
       ///
-      ///###### Mixed payment (cash amount changed before GoodsIssued)
+      ///###### Mixed payment (cash amount changed before PayGoodsIssued)
       ///> **->** {"start": {"amount": 100, "cash_amount": 50}}
       ///
       ///> **\&lt;-** {"id": {"msb": "12005064334431440106", "lsb": "9545526647834091413"}, "apiSuccess": {"reason": "PAY_API_SUCCESS_REASON_PAYMENT_STARTED"}}
@@ -884,9 +884,9 @@ namespace com.senbax.senvend.proto.Local.V1 {
       ///
       ///> **\&lt;-** {"id": { "msb": "12005064334431440106", "lsb": "9545526647834091413"}, "apiSuccess": {"reason": "PAY_API_SUCCESS_REASON_GOODS_ISSUED_ACCEPTED"}}
       ///
-      ///> **->**  {"id": {"msb": "12005064334431440106", "lsb": "9545526647834091413"}, "success": {}}
+      ///> **\&lt;-** {"id": {"msb": "12005064334431440106", "lsb": "9545526647834091413"}, "success": {}}
       ///
-      ///###### Mixed payment (cash amount only known on GoodsIssued)
+      ///###### Mixed payment (cash amount only known on PayGoodsIssued)
       ///> **->** {"start": {"amount": 150}}
       ///
       ///> **\&lt;-** {"id": {"msb": "12005064334431440106", "lsb": "9545526647834091413"}, "apiSuccess": {"reason": "PAY_API_SUCCESS_REASON_PAYMENT_STARTED"}}
@@ -897,7 +897,7 @@ namespace com.senbax.senvend.proto.Local.V1 {
       ///
       ///> **\&lt;-** {"id": { "msb": "12005064334431440106", "lsb": "9545526647834091413"}, "apiSuccess": {"reason": "PAY_API_SUCCESS_REASON_GOODS_ISSUED_ACCEPTED"}}
       ///
-      ///> **->**  {"id": {"msb": "12005064334431440106", "lsb": "9545526647834091413"}, "success": {}}
+      ///> **\&lt;-** {"id": {"msb": "12005064334431440106", "lsb": "9545526647834091413"}, "success": {}}
       ///
       ///&lt;/details>
       /// </summary>
@@ -939,7 +939,7 @@ namespace com.senbax.senvend.proto.Local.V1 {
       ///&lt;summary>Process Constraints&lt;/summary>
       ///
       ///- The amount to charge is given in cents and can even be zero.\
-      ///The last option is useful to combine vending or age verification with a `GoodsIssued` message,\
+      ///The last option is useful to combine vending or age verification with a `PayGoodsIssued` message,\
       ///mostly for telemetry purposes.
       ///
       ///- The minimum age to verify has to be greater than zero and at most 120.\
@@ -949,7 +949,7 @@ namespace com.senbax.senvend.proto.Local.V1 {
       ///- An additional external age verification step can be implemented by sending an `AgeApproveRequest` message.\
       ///This will mark the age verification as approved and continue with payment.
       ///
-      ///- If a payment was approved, a `GoodsIssued` message must be sent in order to finalize it.\
+      ///- If a payment was approved, a `PayGoodsIssued` message must be sent in order to finalize it.\
       ///*The client has 9m30s to answer to the approval, or the goods will be issued to the customer as an emergency measure.**
       ///
       ///- Vending can also be done via this endpoint by sending a VendStart message.\
@@ -960,17 +960,17 @@ namespace com.senbax.senvend.proto.Local.V1 {
       ///&lt;details>
       ///&lt;summary>Telemetry / Invoice Line Items / Mixed Payments&lt;/summary>
       ///
-      ///It is possible to send a list of products, their prices and the quantity per product sold alongside the `pay_start` and `goods_issued` requests. See the documentation of the api.v1.LineItems message.
+      ///It is possible to send a list of products, their prices and the quantity per product sold alongside the `pay_start` and `goods_issued` requests. See the documentation of the api.v1.LineItem message.
       ///
       ///Mixed payments can be supported by sending an additional cash_amount via the `pay_start` or `goods_issued` message.
       ///The amount in PayStart.amount or PayGoodsIssued.partial_amount only covers cashless transactions,
       ///therefore cash_amount is independent of that and only for reporting purposes via telemetry.
       ///
-      ///The device will do a verification of the payment amount (including cash_amount if present) versus the sum of the provided LineItem list, and report an API_ERROR if these amounts mismatch.
+      ///The device will do a verification of the payment amount (including cash_amount if present) versus the sum of the provided LineItem list, and report a PAY_API_FAILURE_REASON_AMOUNT_MISMATCH if these amounts mismatch.
       ///
       ///These messages are processed by the SENVEND web portal and taken into consideration when generating sales reports.
       ///
-      ///If LineItems or cash_amount are sent alongside the `goods_issued` message, they take precedence over any values from the `pay_start` message, effectively overriding them.
+      ///If line_items or cash_amount are sent alongside the `goods_issued` message, they take precedence over any values from the `pay_start` message, effectively overriding them.
       ///&lt;/details>
       ///
       ///&lt;details>
@@ -980,17 +980,17 @@ namespace com.senbax.senvend.proto.Local.V1 {
       ///|--------------------------|----------------------------|------------------------------|
       ///| No payment running | PayStart | Payment start |
       ///| | PayStart (with AgeRequest) | AgeVerification start |
-      ///| | PayCancel | ApiError |
-      ///| | PayGoodsIssued | ApiError |
-      ///| Age verification ongoing | PayStart | ApiError |
+      ///| | PayCancel | PayApiFailure |
+      ///| | PayGoodsIssued | PayApiFailure |
+      ///| Age verification ongoing | PayStart | PayApiFailure |
       ///| | PayCancel | AgeVerification cancel |
-      ///| | PayGoodsIssued | ApiError |
+      ///| | PayGoodsIssued | PayApiFailure |
       ///| | AgeApproveRequest | Terminal Proceeds to payment |
-      ///| Payment process ongoing | PayStart | ApiError |
+      ///| Payment process ongoing | PayStart | PayApiFailure |
       ///| | PayCancel | Payment cancel |
-      ///| | PayGoodsIssued | ApiError |
-      ///| | AgeApproveRequest | ApiError |
-      ///| Payment accepted | PayStart | ApiError |
+      ///| | PayGoodsIssued | PayApiFailure |
+      ///| | AgeApproveRequest | PayApiFailure |
+      ///| Payment accepted | PayStart | PayApiFailure |
       ///| | PayCancel | Reimburse and cancel payment |
       ///| | PayGoodsIssued | Finalize payment |
       ///&lt;/details>
@@ -1122,9 +1122,9 @@ namespace com.senbax.senvend.proto.Local.V1 {
       ///
       ///> **\&lt;-** {"id": { "msb": "12005064334431440106", "lsb": "9545526647834091413"}, "apiSuccess": {"reason": "PAY_API_SUCCESS_REASON_GOODS_ISSUED_ACCEPTED"}}
       ///
-      ///> **->**  {"id": {"msb": "12005064334431440106", "lsb": "9545526647834091413"}, "success": {}}
+      ///> **\&lt;-** {"id": {"msb": "12005064334431440106", "lsb": "9545526647834091413"}, "success": {}}
       ///
-      ///###### Mixed payment (cash paid before PaymentStart)
+      ///###### Mixed payment (cash paid before PayStart)
       ///> **->** {"start": {"amount": 100, "cash_amount": 50}}
       ///
       ///> **\&lt;-** {"id": {"msb": "12005064334431440106", "lsb": "9545526647834091413"}, "apiSuccess": {"reason": "PAY_API_SUCCESS_REASON_PAYMENT_STARTED"}}
@@ -1135,9 +1135,9 @@ namespace com.senbax.senvend.proto.Local.V1 {
       ///
       ///> **\&lt;-** {"id": { "msb": "12005064334431440106", "lsb": "9545526647834091413"}, "apiSuccess": {"reason": "PAY_API_SUCCESS_REASON_GOODS_ISSUED_ACCEPTED"}}
       ///
-      ///> **->**  {"id": {"msb": "12005064334431440106", "lsb": "9545526647834091413"}, "success": {}}
+      ///> **\&lt;-** {"id": {"msb": "12005064334431440106", "lsb": "9545526647834091413"}, "success": {}}
       ///
-      ///###### Mixed payment (cash amount changed before GoodsIssued)
+      ///###### Mixed payment (cash amount changed before PayGoodsIssued)
       ///> **->** {"start": {"amount": 100, "cash_amount": 50}}
       ///
       ///> **\&lt;-** {"id": {"msb": "12005064334431440106", "lsb": "9545526647834091413"}, "apiSuccess": {"reason": "PAY_API_SUCCESS_REASON_PAYMENT_STARTED"}}
@@ -1148,9 +1148,9 @@ namespace com.senbax.senvend.proto.Local.V1 {
       ///
       ///> **\&lt;-** {"id": { "msb": "12005064334431440106", "lsb": "9545526647834091413"}, "apiSuccess": {"reason": "PAY_API_SUCCESS_REASON_GOODS_ISSUED_ACCEPTED"}}
       ///
-      ///> **->**  {"id": {"msb": "12005064334431440106", "lsb": "9545526647834091413"}, "success": {}}
+      ///> **\&lt;-** {"id": {"msb": "12005064334431440106", "lsb": "9545526647834091413"}, "success": {}}
       ///
-      ///###### Mixed payment (cash amount only known on GoodsIssued)
+      ///###### Mixed payment (cash amount only known on PayGoodsIssued)
       ///> **->** {"start": {"amount": 150}}
       ///
       ///> **\&lt;-** {"id": {"msb": "12005064334431440106", "lsb": "9545526647834091413"}, "apiSuccess": {"reason": "PAY_API_SUCCESS_REASON_PAYMENT_STARTED"}}
@@ -1161,7 +1161,7 @@ namespace com.senbax.senvend.proto.Local.V1 {
       ///
       ///> **\&lt;-** {"id": { "msb": "12005064334431440106", "lsb": "9545526647834091413"}, "apiSuccess": {"reason": "PAY_API_SUCCESS_REASON_GOODS_ISSUED_ACCEPTED"}}
       ///
-      ///> **->**  {"id": {"msb": "12005064334431440106", "lsb": "9545526647834091413"}, "success": {}}
+      ///> **\&lt;-** {"id": {"msb": "12005064334431440106", "lsb": "9545526647834091413"}, "success": {}}
       ///
       ///&lt;/details>
       /// </summary>
@@ -1298,10 +1298,10 @@ namespace com.senbax.senvend.proto.Local.V1 {
       ///
       ///- For each individual vending attempt, a VendEvent is sent back, indicating success or failure.
       ///
-      ///- For LineItems with a quantity greater than 1, items will be vended one-by-one until all are successful, or the FIRST vending failure.\
+      ///- For LineItem entries with a quantity greater than 1, items will be vended one-by-one until all are successful, or the FIRST vending failure.\
       ///The resulting VendEvent failure message will also contain the number of successfully vended items.
       ///
-      ///- If multiple LineItems are given, the list is vended according to the order of the LineItems in the message,
+      ///- If multiple LineItem entries are given, the list is vended according to the order of the entries in the message,
       ///regardless of success or failure.
       ///
       ///- Vending via this endpoint is also available when there is an ongoing payment,
@@ -1312,7 +1312,7 @@ namespace com.senbax.senvend.proto.Local.V1 {
       ///If you require precise control over the vending process, use this API to vend single items,
       ///and match requests and answers via their UUIDs.
       ///
-      ///- The cancel request is provided to enable stopping midway during vending of a list of LineItems.\
+      ///- The cancel request is provided to enable stopping midway during vending of a list of LineItem entries.\
       ///If vending a single item, a cancel usually arrives too late to stop the process.
       ///&lt;/details>
       /// </summary>
@@ -1389,10 +1389,10 @@ namespace com.senbax.senvend.proto.Local.V1 {
       ///
       ///- For each individual vending attempt, a VendEvent is sent back, indicating success or failure.
       ///
-      ///- For LineItems with a quantity greater than 1, items will be vended one-by-one until all are successful, or the FIRST vending failure.\
+      ///- For LineItem entries with a quantity greater than 1, items will be vended one-by-one until all are successful, or the FIRST vending failure.\
       ///The resulting VendEvent failure message will also contain the number of successfully vended items.
       ///
-      ///- If multiple LineItems are given, the list is vended according to the order of the LineItems in the message,
+      ///- If multiple LineItem entries are given, the list is vended according to the order of the entries in the message,
       ///regardless of success or failure.
       ///
       ///- Vending via this endpoint is also available when there is an ongoing payment,
@@ -1403,7 +1403,7 @@ namespace com.senbax.senvend.proto.Local.V1 {
       ///If you require precise control over the vending process, use this API to vend single items,
       ///and match requests and answers via their UUIDs.
       ///
-      ///- The cancel request is provided to enable stopping midway during vending of a list of LineItems.\
+      ///- The cancel request is provided to enable stopping midway during vending of a list of LineItem entries.\
       ///If vending a single item, a cancel usually arrives too late to stop the process.
       ///&lt;/details>
       /// </summary>
@@ -1450,10 +1450,10 @@ namespace com.senbax.senvend.proto.Local.V1 {
       ///
       ///- For each individual vending attempt, a VendEvent is sent back, indicating success or failure.
       ///
-      ///- For LineItems with a quantity greater than 1, items will be vended one-by-one until all are successful, or the FIRST vending failure.\
+      ///- For LineItem entries with a quantity greater than 1, items will be vended one-by-one until all are successful, or the FIRST vending failure.\
       ///The resulting VendEvent failure message will also contain the number of successfully vended items.
       ///
-      ///- If multiple LineItems are given, the list is vended according to the order of the LineItems in the message,
+      ///- If multiple LineItem entries are given, the list is vended according to the order of the entries in the message,
       ///regardless of success or failure.
       ///
       ///- Vending via this endpoint is also available when there is an ongoing payment,
@@ -1464,7 +1464,7 @@ namespace com.senbax.senvend.proto.Local.V1 {
       ///If you require precise control over the vending process, use this API to vend single items,
       ///and match requests and answers via their UUIDs.
       ///
-      ///- The cancel request is provided to enable stopping midway during vending of a list of LineItems.\
+      ///- The cancel request is provided to enable stopping midway during vending of a list of LineItem entries.\
       ///If vending a single item, a cancel usually arrives too late to stop the process.
       ///&lt;/details>
       /// </summary>

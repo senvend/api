@@ -6,7 +6,7 @@ import static io.grpc.MethodDescriptor.generateFullMethodName;
  * <pre>
  *This service provides the necessary functionality to handle payments via the SENVEND Terminal.&#92;
  *Optionally, age verification can be enforced before the payment via the `PayStart` message.&#92;
- *Optionally, vending is possible after APPROVE is received, either via this or via the `Vend` service.
+ *Optionally, vending is possible after PayApproved is received, either via this or via the `Vend` service.
  * </pre>
  */
 @io.grpc.stub.annotations.GrpcGenerated
@@ -111,7 +111,7 @@ public final class PayServiceGrpc {
    * <pre>
    *This service provides the necessary functionality to handle payments via the SENVEND Terminal.&#92;
    *Optionally, age verification can be enforced before the payment via the `PayStart` message.&#92;
-   *Optionally, vending is possible after APPROVE is received, either via this or via the `Vend` service.
+   *Optionally, vending is possible after PayApproved is received, either via this or via the `Vend` service.
    * </pre>
    */
   public interface AsyncService {
@@ -137,14 +137,14 @@ public final class PayServiceGrpc {
      *&lt;details open&gt;
      *&lt;summary&gt;Process Constraints&lt;/summary&gt;
      *- The amount to charge is given in cents and can even be zero.&#92;
-     *The last option is useful to combine vending or age verification with a `GoodsIssued` message,&#92;
+     *The last option is useful to combine vending or age verification with a `PayGoodsIssued` message,&#92;
      *mostly for telemetry purposes.
      *- The minimum age to verify has to be greater than zero and at most 120.&#92;
      *Depending on the method chosen, only certain ages can be verified.&#92;
      *See the `Age` service for more details.
      *- An additional external age verification step can be implemented by sending an `AgeApproveRequest` message.&#92;
      *This will mark the age verification as approved and continue with payment.
-     *- If a payment was approved, a `GoodsIssued` message must be sent in order to finalize it.&#92;
+     *- If a payment was approved, a `PayGoodsIssued` message must be sent in order to finalize it.&#92;
      **The client has 9m30s to answer to the approval, or the goods will be issued to the customer as an emergency measure.**
      *- Vending can also be done via this endpoint by sending a VendStart message.&#92;
      *These are accepted either when no payment is running, or after the payment was APPROVED and before sending GOODS_ISSUED.&#92;
@@ -152,13 +152,13 @@ public final class PayServiceGrpc {
      *&lt;/details&gt;
      *&lt;details&gt;
      *&lt;summary&gt;Telemetry / Invoice Line Items / Mixed Payments&lt;/summary&gt;
-     *It is possible to send a list of products, their prices and the quantity per product sold alongside the `pay_start` and `goods_issued` requests. See the documentation of the api.v1.LineItems message.
+     *It is possible to send a list of products, their prices and the quantity per product sold alongside the `pay_start` and `goods_issued` requests. See the documentation of the api.v1.LineItem message.
      *Mixed payments can be supported by sending an additional cash_amount via the `pay_start` or `goods_issued` message.
      *The amount in PayStart.amount or PayGoodsIssued.partial_amount only covers cashless transactions,
      *therefore cash_amount is independent of that and only for reporting purposes via telemetry.
-     *The device will do a verification of the payment amount (including cash_amount if present) versus the sum of the provided LineItem list, and report an API_ERROR if these amounts mismatch.
+     *The device will do a verification of the payment amount (including cash_amount if present) versus the sum of the provided LineItem list, and report a PAY_API_FAILURE_REASON_AMOUNT_MISMATCH if these amounts mismatch.
      *These messages are processed by the SENVEND web portal and taken into consideration when generating sales reports.
-     *If LineItems or cash_amount are sent alongside the `goods_issued` message, they take precedence over any values from the `pay_start` message, effectively overriding them.
+     *If line_items or cash_amount are sent alongside the `goods_issued` message, they take precedence over any values from the `pay_start` message, effectively overriding them.
      *&lt;/details&gt;
      *&lt;details&gt;
      *&lt;summary&gt;State and state changes&lt;/summary&gt;
@@ -166,17 +166,17 @@ public final class PayServiceGrpc {
      *|--------------------------|----------------------------|------------------------------|
      *| No payment running | PayStart | Payment start |
      *| | PayStart (with AgeRequest) | AgeVerification start |
-     *| | PayCancel | ApiError |
-     *| | PayGoodsIssued | ApiError |
-     *| Age verification ongoing | PayStart | ApiError |
+     *| | PayCancel | PayApiFailure |
+     *| | PayGoodsIssued | PayApiFailure |
+     *| Age verification ongoing | PayStart | PayApiFailure |
      *| | PayCancel | AgeVerification cancel |
-     *| | PayGoodsIssued | ApiError |
+     *| | PayGoodsIssued | PayApiFailure |
      *| | AgeApproveRequest | Terminal Proceeds to payment |
-     *| Payment process ongoing | PayStart | ApiError |
+     *| Payment process ongoing | PayStart | PayApiFailure |
      *| | PayCancel | Payment cancel |
-     *| | PayGoodsIssued | ApiError |
-     *| | AgeApproveRequest | ApiError |
-     *| Payment accepted | PayStart | ApiError |
+     *| | PayGoodsIssued | PayApiFailure |
+     *| | AgeApproveRequest | PayApiFailure |
+     *| Payment accepted | PayStart | PayApiFailure |
      *| | PayCancel | Reimburse and cancel payment |
      *| | PayGoodsIssued | Finalize payment |
      *&lt;/details&gt;
@@ -250,28 +250,28 @@ public final class PayServiceGrpc {
      *&gt; **&#92;&lt;-** {"id": {"msb": "12005064334431440106", "lsb": "9545526647834091413"}, "approved": {"amount": 100}}
      *&gt; **-&gt;** {"goods_issued": {"partial_amount": 60, "line_items": [{"price": 60, "quantity":1, "selection": {"slot":2}}] }}
      *&gt; **&#92;&lt;-** {"id": { "msb": "12005064334431440106", "lsb": "9545526647834091413"}, "apiSuccess": {"reason": "PAY_API_SUCCESS_REASON_GOODS_ISSUED_ACCEPTED"}}
-     *&gt; **-&gt;**  {"id": {"msb": "12005064334431440106", "lsb": "9545526647834091413"}, "success": {}}
-     *###### Mixed payment (cash paid before PaymentStart)
+     *&gt; **&#92;&lt;-** {"id": {"msb": "12005064334431440106", "lsb": "9545526647834091413"}, "success": {}}
+     *###### Mixed payment (cash paid before PayStart)
      *&gt; **-&gt;** {"start": {"amount": 100, "cash_amount": 50}}
      *&gt; **&#92;&lt;-** {"id": {"msb": "12005064334431440106", "lsb": "9545526647834091413"}, "apiSuccess": {"reason": "PAY_API_SUCCESS_REASON_PAYMENT_STARTED"}}
      *&gt; **&#92;&lt;-** {"id": {"msb": "12005064334431440106", "lsb": "9545526647834091413"}, "approved": {"amount": 100}}
      *&gt; **-&gt;** {"goods_issued": {}}
      *&gt; **&#92;&lt;-** {"id": { "msb": "12005064334431440106", "lsb": "9545526647834091413"}, "apiSuccess": {"reason": "PAY_API_SUCCESS_REASON_GOODS_ISSUED_ACCEPTED"}}
-     *&gt; **-&gt;**  {"id": {"msb": "12005064334431440106", "lsb": "9545526647834091413"}, "success": {}}
-     *###### Mixed payment (cash amount changed before GoodsIssued)
+     *&gt; **&#92;&lt;-** {"id": {"msb": "12005064334431440106", "lsb": "9545526647834091413"}, "success": {}}
+     *###### Mixed payment (cash amount changed before PayGoodsIssued)
      *&gt; **-&gt;** {"start": {"amount": 100, "cash_amount": 50}}
      *&gt; **&#92;&lt;-** {"id": {"msb": "12005064334431440106", "lsb": "9545526647834091413"}, "apiSuccess": {"reason": "PAY_API_SUCCESS_REASON_PAYMENT_STARTED"}}
      *&gt; **&#92;&lt;-** {"id": {"msb": "12005064334431440106", "lsb": "9545526647834091413"}, "approved": {"amount": 100}}
      *&gt; **-&gt;** {"goods_issued": {"partial_amount": 50, "cash_amount": 100}}
      *&gt; **&#92;&lt;-** {"id": { "msb": "12005064334431440106", "lsb": "9545526647834091413"}, "apiSuccess": {"reason": "PAY_API_SUCCESS_REASON_GOODS_ISSUED_ACCEPTED"}}
-     *&gt; **-&gt;**  {"id": {"msb": "12005064334431440106", "lsb": "9545526647834091413"}, "success": {}}
-     *###### Mixed payment (cash amount only known on GoodsIssued)
+     *&gt; **&#92;&lt;-** {"id": {"msb": "12005064334431440106", "lsb": "9545526647834091413"}, "success": {}}
+     *###### Mixed payment (cash amount only known on PayGoodsIssued)
      *&gt; **-&gt;** {"start": {"amount": 150}}
      *&gt; **&#92;&lt;-** {"id": {"msb": "12005064334431440106", "lsb": "9545526647834091413"}, "apiSuccess": {"reason": "PAY_API_SUCCESS_REASON_PAYMENT_STARTED"}}
      *&gt; **&#92;&lt;-** {"id": {"msb": "12005064334431440106", "lsb": "9545526647834091413"}, "approved": {"amount": 150}}
      *&gt; **-&gt;** {"goods_issued": {"partial_amount": 50, "cash_amount": 100}}
      *&gt; **&#92;&lt;-** {"id": { "msb": "12005064334431440106", "lsb": "9545526647834091413"}, "apiSuccess": {"reason": "PAY_API_SUCCESS_REASON_GOODS_ISSUED_ACCEPTED"}}
-     *&gt; **-&gt;**  {"id": {"msb": "12005064334431440106", "lsb": "9545526647834091413"}, "success": {}}
+     *&gt; **&#92;&lt;-** {"id": {"msb": "12005064334431440106", "lsb": "9545526647834091413"}, "success": {}}
      *&lt;/details&gt;
      * </pre>
      */
@@ -286,7 +286,7 @@ public final class PayServiceGrpc {
    * <pre>
    *This service provides the necessary functionality to handle payments via the SENVEND Terminal.&#92;
    *Optionally, age verification can be enforced before the payment via the `PayStart` message.&#92;
-   *Optionally, vending is possible after APPROVE is received, either via this or via the `Vend` service.
+   *Optionally, vending is possible after PayApproved is received, either via this or via the `Vend` service.
    * </pre>
    */
   public static abstract class PayServiceImplBase
@@ -302,7 +302,7 @@ public final class PayServiceGrpc {
    * <pre>
    *This service provides the necessary functionality to handle payments via the SENVEND Terminal.&#92;
    *Optionally, age verification can be enforced before the payment via the `PayStart` message.&#92;
-   *Optionally, vending is possible after APPROVE is received, either via this or via the `Vend` service.
+   *Optionally, vending is possible after PayApproved is received, either via this or via the `Vend` service.
    * </pre>
    */
   public static final class PayServiceStub
@@ -339,14 +339,14 @@ public final class PayServiceGrpc {
      *&lt;details open&gt;
      *&lt;summary&gt;Process Constraints&lt;/summary&gt;
      *- The amount to charge is given in cents and can even be zero.&#92;
-     *The last option is useful to combine vending or age verification with a `GoodsIssued` message,&#92;
+     *The last option is useful to combine vending or age verification with a `PayGoodsIssued` message,&#92;
      *mostly for telemetry purposes.
      *- The minimum age to verify has to be greater than zero and at most 120.&#92;
      *Depending on the method chosen, only certain ages can be verified.&#92;
      *See the `Age` service for more details.
      *- An additional external age verification step can be implemented by sending an `AgeApproveRequest` message.&#92;
      *This will mark the age verification as approved and continue with payment.
-     *- If a payment was approved, a `GoodsIssued` message must be sent in order to finalize it.&#92;
+     *- If a payment was approved, a `PayGoodsIssued` message must be sent in order to finalize it.&#92;
      **The client has 9m30s to answer to the approval, or the goods will be issued to the customer as an emergency measure.**
      *- Vending can also be done via this endpoint by sending a VendStart message.&#92;
      *These are accepted either when no payment is running, or after the payment was APPROVED and before sending GOODS_ISSUED.&#92;
@@ -354,13 +354,13 @@ public final class PayServiceGrpc {
      *&lt;/details&gt;
      *&lt;details&gt;
      *&lt;summary&gt;Telemetry / Invoice Line Items / Mixed Payments&lt;/summary&gt;
-     *It is possible to send a list of products, their prices and the quantity per product sold alongside the `pay_start` and `goods_issued` requests. See the documentation of the api.v1.LineItems message.
+     *It is possible to send a list of products, their prices and the quantity per product sold alongside the `pay_start` and `goods_issued` requests. See the documentation of the api.v1.LineItem message.
      *Mixed payments can be supported by sending an additional cash_amount via the `pay_start` or `goods_issued` message.
      *The amount in PayStart.amount or PayGoodsIssued.partial_amount only covers cashless transactions,
      *therefore cash_amount is independent of that and only for reporting purposes via telemetry.
-     *The device will do a verification of the payment amount (including cash_amount if present) versus the sum of the provided LineItem list, and report an API_ERROR if these amounts mismatch.
+     *The device will do a verification of the payment amount (including cash_amount if present) versus the sum of the provided LineItem list, and report a PAY_API_FAILURE_REASON_AMOUNT_MISMATCH if these amounts mismatch.
      *These messages are processed by the SENVEND web portal and taken into consideration when generating sales reports.
-     *If LineItems or cash_amount are sent alongside the `goods_issued` message, they take precedence over any values from the `pay_start` message, effectively overriding them.
+     *If line_items or cash_amount are sent alongside the `goods_issued` message, they take precedence over any values from the `pay_start` message, effectively overriding them.
      *&lt;/details&gt;
      *&lt;details&gt;
      *&lt;summary&gt;State and state changes&lt;/summary&gt;
@@ -368,17 +368,17 @@ public final class PayServiceGrpc {
      *|--------------------------|----------------------------|------------------------------|
      *| No payment running | PayStart | Payment start |
      *| | PayStart (with AgeRequest) | AgeVerification start |
-     *| | PayCancel | ApiError |
-     *| | PayGoodsIssued | ApiError |
-     *| Age verification ongoing | PayStart | ApiError |
+     *| | PayCancel | PayApiFailure |
+     *| | PayGoodsIssued | PayApiFailure |
+     *| Age verification ongoing | PayStart | PayApiFailure |
      *| | PayCancel | AgeVerification cancel |
-     *| | PayGoodsIssued | ApiError |
+     *| | PayGoodsIssued | PayApiFailure |
      *| | AgeApproveRequest | Terminal Proceeds to payment |
-     *| Payment process ongoing | PayStart | ApiError |
+     *| Payment process ongoing | PayStart | PayApiFailure |
      *| | PayCancel | Payment cancel |
-     *| | PayGoodsIssued | ApiError |
-     *| | AgeApproveRequest | ApiError |
-     *| Payment accepted | PayStart | ApiError |
+     *| | PayGoodsIssued | PayApiFailure |
+     *| | AgeApproveRequest | PayApiFailure |
+     *| Payment accepted | PayStart | PayApiFailure |
      *| | PayCancel | Reimburse and cancel payment |
      *| | PayGoodsIssued | Finalize payment |
      *&lt;/details&gt;
@@ -452,28 +452,28 @@ public final class PayServiceGrpc {
      *&gt; **&#92;&lt;-** {"id": {"msb": "12005064334431440106", "lsb": "9545526647834091413"}, "approved": {"amount": 100}}
      *&gt; **-&gt;** {"goods_issued": {"partial_amount": 60, "line_items": [{"price": 60, "quantity":1, "selection": {"slot":2}}] }}
      *&gt; **&#92;&lt;-** {"id": { "msb": "12005064334431440106", "lsb": "9545526647834091413"}, "apiSuccess": {"reason": "PAY_API_SUCCESS_REASON_GOODS_ISSUED_ACCEPTED"}}
-     *&gt; **-&gt;**  {"id": {"msb": "12005064334431440106", "lsb": "9545526647834091413"}, "success": {}}
-     *###### Mixed payment (cash paid before PaymentStart)
+     *&gt; **&#92;&lt;-** {"id": {"msb": "12005064334431440106", "lsb": "9545526647834091413"}, "success": {}}
+     *###### Mixed payment (cash paid before PayStart)
      *&gt; **-&gt;** {"start": {"amount": 100, "cash_amount": 50}}
      *&gt; **&#92;&lt;-** {"id": {"msb": "12005064334431440106", "lsb": "9545526647834091413"}, "apiSuccess": {"reason": "PAY_API_SUCCESS_REASON_PAYMENT_STARTED"}}
      *&gt; **&#92;&lt;-** {"id": {"msb": "12005064334431440106", "lsb": "9545526647834091413"}, "approved": {"amount": 100}}
      *&gt; **-&gt;** {"goods_issued": {}}
      *&gt; **&#92;&lt;-** {"id": { "msb": "12005064334431440106", "lsb": "9545526647834091413"}, "apiSuccess": {"reason": "PAY_API_SUCCESS_REASON_GOODS_ISSUED_ACCEPTED"}}
-     *&gt; **-&gt;**  {"id": {"msb": "12005064334431440106", "lsb": "9545526647834091413"}, "success": {}}
-     *###### Mixed payment (cash amount changed before GoodsIssued)
+     *&gt; **&#92;&lt;-** {"id": {"msb": "12005064334431440106", "lsb": "9545526647834091413"}, "success": {}}
+     *###### Mixed payment (cash amount changed before PayGoodsIssued)
      *&gt; **-&gt;** {"start": {"amount": 100, "cash_amount": 50}}
      *&gt; **&#92;&lt;-** {"id": {"msb": "12005064334431440106", "lsb": "9545526647834091413"}, "apiSuccess": {"reason": "PAY_API_SUCCESS_REASON_PAYMENT_STARTED"}}
      *&gt; **&#92;&lt;-** {"id": {"msb": "12005064334431440106", "lsb": "9545526647834091413"}, "approved": {"amount": 100}}
      *&gt; **-&gt;** {"goods_issued": {"partial_amount": 50, "cash_amount": 100}}
      *&gt; **&#92;&lt;-** {"id": { "msb": "12005064334431440106", "lsb": "9545526647834091413"}, "apiSuccess": {"reason": "PAY_API_SUCCESS_REASON_GOODS_ISSUED_ACCEPTED"}}
-     *&gt; **-&gt;**  {"id": {"msb": "12005064334431440106", "lsb": "9545526647834091413"}, "success": {}}
-     *###### Mixed payment (cash amount only known on GoodsIssued)
+     *&gt; **&#92;&lt;-** {"id": {"msb": "12005064334431440106", "lsb": "9545526647834091413"}, "success": {}}
+     *###### Mixed payment (cash amount only known on PayGoodsIssued)
      *&gt; **-&gt;** {"start": {"amount": 150}}
      *&gt; **&#92;&lt;-** {"id": {"msb": "12005064334431440106", "lsb": "9545526647834091413"}, "apiSuccess": {"reason": "PAY_API_SUCCESS_REASON_PAYMENT_STARTED"}}
      *&gt; **&#92;&lt;-** {"id": {"msb": "12005064334431440106", "lsb": "9545526647834091413"}, "approved": {"amount": 150}}
      *&gt; **-&gt;** {"goods_issued": {"partial_amount": 50, "cash_amount": 100}}
      *&gt; **&#92;&lt;-** {"id": { "msb": "12005064334431440106", "lsb": "9545526647834091413"}, "apiSuccess": {"reason": "PAY_API_SUCCESS_REASON_GOODS_ISSUED_ACCEPTED"}}
-     *&gt; **-&gt;**  {"id": {"msb": "12005064334431440106", "lsb": "9545526647834091413"}, "success": {}}
+     *&gt; **&#92;&lt;-** {"id": {"msb": "12005064334431440106", "lsb": "9545526647834091413"}, "success": {}}
      *&lt;/details&gt;
      * </pre>
      */
@@ -489,7 +489,7 @@ public final class PayServiceGrpc {
    * <pre>
    *This service provides the necessary functionality to handle payments via the SENVEND Terminal.&#92;
    *Optionally, age verification can be enforced before the payment via the `PayStart` message.&#92;
-   *Optionally, vending is possible after APPROVE is received, either via this or via the `Vend` service.
+   *Optionally, vending is possible after PayApproved is received, either via this or via the `Vend` service.
    * </pre>
    */
   public static final class PayServiceBlockingV2Stub
@@ -526,14 +526,14 @@ public final class PayServiceGrpc {
      *&lt;details open&gt;
      *&lt;summary&gt;Process Constraints&lt;/summary&gt;
      *- The amount to charge is given in cents and can even be zero.&#92;
-     *The last option is useful to combine vending or age verification with a `GoodsIssued` message,&#92;
+     *The last option is useful to combine vending or age verification with a `PayGoodsIssued` message,&#92;
      *mostly for telemetry purposes.
      *- The minimum age to verify has to be greater than zero and at most 120.&#92;
      *Depending on the method chosen, only certain ages can be verified.&#92;
      *See the `Age` service for more details.
      *- An additional external age verification step can be implemented by sending an `AgeApproveRequest` message.&#92;
      *This will mark the age verification as approved and continue with payment.
-     *- If a payment was approved, a `GoodsIssued` message must be sent in order to finalize it.&#92;
+     *- If a payment was approved, a `PayGoodsIssued` message must be sent in order to finalize it.&#92;
      **The client has 9m30s to answer to the approval, or the goods will be issued to the customer as an emergency measure.**
      *- Vending can also be done via this endpoint by sending a VendStart message.&#92;
      *These are accepted either when no payment is running, or after the payment was APPROVED and before sending GOODS_ISSUED.&#92;
@@ -541,13 +541,13 @@ public final class PayServiceGrpc {
      *&lt;/details&gt;
      *&lt;details&gt;
      *&lt;summary&gt;Telemetry / Invoice Line Items / Mixed Payments&lt;/summary&gt;
-     *It is possible to send a list of products, their prices and the quantity per product sold alongside the `pay_start` and `goods_issued` requests. See the documentation of the api.v1.LineItems message.
+     *It is possible to send a list of products, their prices and the quantity per product sold alongside the `pay_start` and `goods_issued` requests. See the documentation of the api.v1.LineItem message.
      *Mixed payments can be supported by sending an additional cash_amount via the `pay_start` or `goods_issued` message.
      *The amount in PayStart.amount or PayGoodsIssued.partial_amount only covers cashless transactions,
      *therefore cash_amount is independent of that and only for reporting purposes via telemetry.
-     *The device will do a verification of the payment amount (including cash_amount if present) versus the sum of the provided LineItem list, and report an API_ERROR if these amounts mismatch.
+     *The device will do a verification of the payment amount (including cash_amount if present) versus the sum of the provided LineItem list, and report a PAY_API_FAILURE_REASON_AMOUNT_MISMATCH if these amounts mismatch.
      *These messages are processed by the SENVEND web portal and taken into consideration when generating sales reports.
-     *If LineItems or cash_amount are sent alongside the `goods_issued` message, they take precedence over any values from the `pay_start` message, effectively overriding them.
+     *If line_items or cash_amount are sent alongside the `goods_issued` message, they take precedence over any values from the `pay_start` message, effectively overriding them.
      *&lt;/details&gt;
      *&lt;details&gt;
      *&lt;summary&gt;State and state changes&lt;/summary&gt;
@@ -555,17 +555,17 @@ public final class PayServiceGrpc {
      *|--------------------------|----------------------------|------------------------------|
      *| No payment running | PayStart | Payment start |
      *| | PayStart (with AgeRequest) | AgeVerification start |
-     *| | PayCancel | ApiError |
-     *| | PayGoodsIssued | ApiError |
-     *| Age verification ongoing | PayStart | ApiError |
+     *| | PayCancel | PayApiFailure |
+     *| | PayGoodsIssued | PayApiFailure |
+     *| Age verification ongoing | PayStart | PayApiFailure |
      *| | PayCancel | AgeVerification cancel |
-     *| | PayGoodsIssued | ApiError |
+     *| | PayGoodsIssued | PayApiFailure |
      *| | AgeApproveRequest | Terminal Proceeds to payment |
-     *| Payment process ongoing | PayStart | ApiError |
+     *| Payment process ongoing | PayStart | PayApiFailure |
      *| | PayCancel | Payment cancel |
-     *| | PayGoodsIssued | ApiError |
-     *| | AgeApproveRequest | ApiError |
-     *| Payment accepted | PayStart | ApiError |
+     *| | PayGoodsIssued | PayApiFailure |
+     *| | AgeApproveRequest | PayApiFailure |
+     *| Payment accepted | PayStart | PayApiFailure |
      *| | PayCancel | Reimburse and cancel payment |
      *| | PayGoodsIssued | Finalize payment |
      *&lt;/details&gt;
@@ -639,28 +639,28 @@ public final class PayServiceGrpc {
      *&gt; **&#92;&lt;-** {"id": {"msb": "12005064334431440106", "lsb": "9545526647834091413"}, "approved": {"amount": 100}}
      *&gt; **-&gt;** {"goods_issued": {"partial_amount": 60, "line_items": [{"price": 60, "quantity":1, "selection": {"slot":2}}] }}
      *&gt; **&#92;&lt;-** {"id": { "msb": "12005064334431440106", "lsb": "9545526647834091413"}, "apiSuccess": {"reason": "PAY_API_SUCCESS_REASON_GOODS_ISSUED_ACCEPTED"}}
-     *&gt; **-&gt;**  {"id": {"msb": "12005064334431440106", "lsb": "9545526647834091413"}, "success": {}}
-     *###### Mixed payment (cash paid before PaymentStart)
+     *&gt; **&#92;&lt;-** {"id": {"msb": "12005064334431440106", "lsb": "9545526647834091413"}, "success": {}}
+     *###### Mixed payment (cash paid before PayStart)
      *&gt; **-&gt;** {"start": {"amount": 100, "cash_amount": 50}}
      *&gt; **&#92;&lt;-** {"id": {"msb": "12005064334431440106", "lsb": "9545526647834091413"}, "apiSuccess": {"reason": "PAY_API_SUCCESS_REASON_PAYMENT_STARTED"}}
      *&gt; **&#92;&lt;-** {"id": {"msb": "12005064334431440106", "lsb": "9545526647834091413"}, "approved": {"amount": 100}}
      *&gt; **-&gt;** {"goods_issued": {}}
      *&gt; **&#92;&lt;-** {"id": { "msb": "12005064334431440106", "lsb": "9545526647834091413"}, "apiSuccess": {"reason": "PAY_API_SUCCESS_REASON_GOODS_ISSUED_ACCEPTED"}}
-     *&gt; **-&gt;**  {"id": {"msb": "12005064334431440106", "lsb": "9545526647834091413"}, "success": {}}
-     *###### Mixed payment (cash amount changed before GoodsIssued)
+     *&gt; **&#92;&lt;-** {"id": {"msb": "12005064334431440106", "lsb": "9545526647834091413"}, "success": {}}
+     *###### Mixed payment (cash amount changed before PayGoodsIssued)
      *&gt; **-&gt;** {"start": {"amount": 100, "cash_amount": 50}}
      *&gt; **&#92;&lt;-** {"id": {"msb": "12005064334431440106", "lsb": "9545526647834091413"}, "apiSuccess": {"reason": "PAY_API_SUCCESS_REASON_PAYMENT_STARTED"}}
      *&gt; **&#92;&lt;-** {"id": {"msb": "12005064334431440106", "lsb": "9545526647834091413"}, "approved": {"amount": 100}}
      *&gt; **-&gt;** {"goods_issued": {"partial_amount": 50, "cash_amount": 100}}
      *&gt; **&#92;&lt;-** {"id": { "msb": "12005064334431440106", "lsb": "9545526647834091413"}, "apiSuccess": {"reason": "PAY_API_SUCCESS_REASON_GOODS_ISSUED_ACCEPTED"}}
-     *&gt; **-&gt;**  {"id": {"msb": "12005064334431440106", "lsb": "9545526647834091413"}, "success": {}}
-     *###### Mixed payment (cash amount only known on GoodsIssued)
+     *&gt; **&#92;&lt;-** {"id": {"msb": "12005064334431440106", "lsb": "9545526647834091413"}, "success": {}}
+     *###### Mixed payment (cash amount only known on PayGoodsIssued)
      *&gt; **-&gt;** {"start": {"amount": 150}}
      *&gt; **&#92;&lt;-** {"id": {"msb": "12005064334431440106", "lsb": "9545526647834091413"}, "apiSuccess": {"reason": "PAY_API_SUCCESS_REASON_PAYMENT_STARTED"}}
      *&gt; **&#92;&lt;-** {"id": {"msb": "12005064334431440106", "lsb": "9545526647834091413"}, "approved": {"amount": 150}}
      *&gt; **-&gt;** {"goods_issued": {"partial_amount": 50, "cash_amount": 100}}
      *&gt; **&#92;&lt;-** {"id": { "msb": "12005064334431440106", "lsb": "9545526647834091413"}, "apiSuccess": {"reason": "PAY_API_SUCCESS_REASON_GOODS_ISSUED_ACCEPTED"}}
-     *&gt; **-&gt;**  {"id": {"msb": "12005064334431440106", "lsb": "9545526647834091413"}, "success": {}}
+     *&gt; **&#92;&lt;-** {"id": {"msb": "12005064334431440106", "lsb": "9545526647834091413"}, "success": {}}
      *&lt;/details&gt;
      * </pre>
      */
@@ -677,7 +677,7 @@ public final class PayServiceGrpc {
    * <pre>
    *This service provides the necessary functionality to handle payments via the SENVEND Terminal.&#92;
    *Optionally, age verification can be enforced before the payment via the `PayStart` message.&#92;
-   *Optionally, vending is possible after APPROVE is received, either via this or via the `Vend` service.
+   *Optionally, vending is possible after PayApproved is received, either via this or via the `Vend` service.
    * </pre>
    */
   public static final class PayServiceBlockingStub
@@ -699,7 +699,7 @@ public final class PayServiceGrpc {
    * <pre>
    *This service provides the necessary functionality to handle payments via the SENVEND Terminal.&#92;
    *Optionally, age verification can be enforced before the payment via the `PayStart` message.&#92;
-   *Optionally, vending is possible after APPROVE is received, either via this or via the `Vend` service.
+   *Optionally, vending is possible after PayApproved is received, either via this or via the `Vend` service.
    * </pre>
    */
   public static final class PayServiceFutureStub

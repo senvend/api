@@ -28,7 +28,9 @@ You can find the protobuf definitions and documentation for the local API in the
 The terminal needs to be connected to the same network as your client application. You can connect it via Ethernet or Wi-Fi.  
 Before using the local API with your terminal, you need to enable and configure it in the terminal settings on [my.senvend.com](https://my.senvend.com).  
 By default the API listens on port `11111` without authentication and encryption. 
-But it can be configured to use TLS (self-signed via the senvendCA.crt in this repo) and basic password authentication.  
+But it can be configured to use TLS (self-signed via [senvendCA.crt](./senvendCA.crt)) and an authentication token.  
+Verify the root CA before trusting it, its SHA-256 fingerprint is
+`C0:18:70:DC:71:94:35:1A:51:BD:84:75:FF:FE:80:91:31:4A:98:E4:CE:DD:88:43:43:DF:0E:4A:2A:E9:A2:51`.  
 The IP and port where the API can be reached can be displayed on the terminal, in the Service screen, subsection "RPC Info".
 The IPs of the last 5 connected clients are listed there as well, including a notice when authentication from a client IP failed.
 

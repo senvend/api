@@ -135,9 +135,9 @@ public final class VendServiceGrpc {
      *- There can only be one vending process at a time. Multiple items can either be vended one-by-one,&#92;
      *or by combining them all into one VendStart message.
      *- For each individual vending attempt, a VendEvent is sent back, indicating success or failure.
-     *- For LineItems with a quantity greater than 1, items will be vended one-by-one until all are successful, or the FIRST vending failure.&#92;
+     *- For LineItem entries with a quantity greater than 1, items will be vended one-by-one until all are successful, or the FIRST vending failure.&#92;
      *The resulting VendEvent failure message will also contain the number of successfully vended items.
-     *- If multiple LineItems are given, the list is vended according to the order of the LineItems in the message,
+     *- If multiple LineItem entries are given, the list is vended according to the order of the entries in the message,
      *regardless of success or failure.
      *- Vending via this endpoint is also available when there is an ongoing payment,
      *specifically after a payment was APPROVED but before GOODS_ISSUED.&#92;
@@ -145,7 +145,7 @@ public final class VendServiceGrpc {
      *- Unlike the VendStart messages embedded within PayRequest, this API provides UUIDs per VendRequest.&#92;
      *If you require precise control over the vending process, use this API to vend single items,
      *and match requests and answers via their UUIDs.
-     *- The cancel request is provided to enable stopping midway during vending of a list of LineItems.&#92;
+     *- The cancel request is provided to enable stopping midway during vending of a list of LineItem entries.&#92;
      *If vending a single item, a cancel usually arrives too late to stop the process.
      *&lt;/details&gt;
      * </pre>
@@ -212,9 +212,9 @@ public final class VendServiceGrpc {
      *- There can only be one vending process at a time. Multiple items can either be vended one-by-one,&#92;
      *or by combining them all into one VendStart message.
      *- For each individual vending attempt, a VendEvent is sent back, indicating success or failure.
-     *- For LineItems with a quantity greater than 1, items will be vended one-by-one until all are successful, or the FIRST vending failure.&#92;
+     *- For LineItem entries with a quantity greater than 1, items will be vended one-by-one until all are successful, or the FIRST vending failure.&#92;
      *The resulting VendEvent failure message will also contain the number of successfully vended items.
-     *- If multiple LineItems are given, the list is vended according to the order of the LineItems in the message,
+     *- If multiple LineItem entries are given, the list is vended according to the order of the entries in the message,
      *regardless of success or failure.
      *- Vending via this endpoint is also available when there is an ongoing payment,
      *specifically after a payment was APPROVED but before GOODS_ISSUED.&#92;
@@ -222,7 +222,7 @@ public final class VendServiceGrpc {
      *- Unlike the VendStart messages embedded within PayRequest, this API provides UUIDs per VendRequest.&#92;
      *If you require precise control over the vending process, use this API to vend single items,
      *and match requests and answers via their UUIDs.
-     *- The cancel request is provided to enable stopping midway during vending of a list of LineItems.&#92;
+     *- The cancel request is provided to enable stopping midway during vending of a list of LineItem entries.&#92;
      *If vending a single item, a cancel usually arrives too late to stop the process.
      *&lt;/details&gt;
      * </pre>
@@ -276,9 +276,9 @@ public final class VendServiceGrpc {
      *- There can only be one vending process at a time. Multiple items can either be vended one-by-one,&#92;
      *or by combining them all into one VendStart message.
      *- For each individual vending attempt, a VendEvent is sent back, indicating success or failure.
-     *- For LineItems with a quantity greater than 1, items will be vended one-by-one until all are successful, or the FIRST vending failure.&#92;
+     *- For LineItem entries with a quantity greater than 1, items will be vended one-by-one until all are successful, or the FIRST vending failure.&#92;
      *The resulting VendEvent failure message will also contain the number of successfully vended items.
-     *- If multiple LineItems are given, the list is vended according to the order of the LineItems in the message,
+     *- If multiple LineItem entries are given, the list is vended according to the order of the entries in the message,
      *regardless of success or failure.
      *- Vending via this endpoint is also available when there is an ongoing payment,
      *specifically after a payment was APPROVED but before GOODS_ISSUED.&#92;
@@ -286,7 +286,7 @@ public final class VendServiceGrpc {
      *- Unlike the VendStart messages embedded within PayRequest, this API provides UUIDs per VendRequest.&#92;
      *If you require precise control over the vending process, use this API to vend single items,
      *and match requests and answers via their UUIDs.
-     *- The cancel request is provided to enable stopping midway during vending of a list of LineItems.&#92;
+     *- The cancel request is provided to enable stopping midway during vending of a list of LineItem entries.&#92;
      *If vending a single item, a cancel usually arrives too late to stop the process.
      *&lt;/details&gt;
      * </pre>

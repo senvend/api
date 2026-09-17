@@ -155,7 +155,7 @@ namespace com.senbax.senvend.proto.Api.V1 {
     /// </summary>
     [pbr::OriginalName("PAY_FAILURE_REASON_API_CANCELLED")] ApiCancelled = 6,
     /// <summary>
-    /// No GoodsIssued message was received after PaymentApproved. Payment was reimbursed.
+    /// No PayGoodsIssued message was received after PayApproved. Payment was reimbursed.
     /// </summary>
     [pbr::OriginalName("PAY_FAILURE_REASON_APPROVE_TIMEOUT")] ApproveTimeout = 7,
   }
@@ -190,7 +190,7 @@ namespace com.senbax.senvend.proto.Api.V1 {
     /// </summary>
     [pbr::OriginalName("PAY_API_FAILURE_REASON_NO_APPROVED_PAYMENT")] NoApprovedPayment = 5,
     /// <summary>
-    /// If a list of LineItems is given but the sum of their prices does not match the given total or partial amount.
+    /// If a list of LineItem entries is given but the sum of their prices does not match the given total or partial amount.
     /// </summary>
     [pbr::OriginalName("PAY_API_FAILURE_REASON_AMOUNT_MISMATCH")] AmountMismatch = 6,
     /// <summary>
@@ -1283,7 +1283,7 @@ namespace com.senbax.senvend.proto.Api.V1 {
   ///
   /// Updates the payment amount on the SENVEND terminal mid-transaction.
   /// Main use case is handling cash payments after `PayStart`,
-  /// and/or changing individual `LineItems` (e.g. if one item in a Basket was cancelled individually).
+  /// and/or changing individual `LineItem` entries (e.g. if one item in a basket was cancelled individually).
   /// If age verification was requested as well, this message is only accepted after the age verification was successful.
   /// Will result in a PAY_API_FAILURE_REASON_INVALID_STATE otherwise.
   /// Can only be accepted if the payment was not approved yet, or will result in a PAY_API_FAILURE_REASON_ALREADY_APPROVED otherwise.
