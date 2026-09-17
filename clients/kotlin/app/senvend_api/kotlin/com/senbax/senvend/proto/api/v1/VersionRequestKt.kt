@@ -13,7 +13,7 @@ public inline fun versionRequest(block: com.senbax.senvend.proto.api.v1.VersionR
 /**
  * ```
  *
- * Starts a one-off request for version information of the SENVEND terminal.
+ * Starts a one-off request for version information of the SENVEND Terminal.
  * ```
  *
  * Protobuf type `api.v1.VersionRequest`

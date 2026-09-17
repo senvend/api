@@ -190,7 +190,7 @@ namespace com.senbax.senvend.proto.Api.V1 {
   #region Messages
   /// <summary>
   ///
-  /// All messages sent from the integrator/VMC to the SENVEND terminal to manage vending.
+  /// All messages sent from the integrator/VMC to the SENVEND Terminal to manage vending.
   /// A Vending process must be started with the VendStart message.
   /// </summary>
   [global::System.Diagnostics.DebuggerDisplayAttribute("{ToString(),nq}")]
@@ -545,7 +545,7 @@ namespace com.senbax.senvend.proto.Api.V1 {
 
   /// <summary>
   ///
-  /// Starts a vending process on the SENVEND terminal.
+  /// Starts a vending process on the SENVEND Terminal.
   /// It can only be executed after a previous process finished with either VendFailure or VendSuccess.
   /// Will result in a VEND_API_FAILURE_REASON_VENDING_ONGOING otherwise.
   /// </summary>
@@ -743,7 +743,7 @@ namespace com.senbax.senvend.proto.Api.V1 {
 
   /// <summary>
   ///
-  /// Cancels an ongoing vending process on the SENVEND terminal.
+  /// Cancels an ongoing vending process on the SENVEND Terminal.
   /// Can be sent at any time, but will result in VEND_API_FAILURE_REASON_UUID_NOT_FOUND
   /// if there is nothing to cancel.
   /// If sent in a VendRequest without UUID, will cancel any running process without UUID check. (Catch all)

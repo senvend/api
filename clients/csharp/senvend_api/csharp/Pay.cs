@@ -190,7 +190,7 @@ namespace com.senbax.senvend.proto.Api.V1 {
     /// </summary>
     [pbr::OriginalName("PAY_API_FAILURE_REASON_NO_APPROVED_PAYMENT")] NoApprovedPayment = 5,
     /// <summary>
-    /// If a list of LineItem entries is given but the sum of their prices does not match the given total or partial amount.
+    /// If a list of LineItem entries is given, but the sum of their prices does not match the given total or partial amount.
     /// </summary>
     [pbr::OriginalName("PAY_API_FAILURE_REASON_AMOUNT_MISMATCH")] AmountMismatch = 6,
     /// <summary>
@@ -243,7 +243,7 @@ namespace com.senbax.senvend.proto.Api.V1 {
   #region Messages
   /// <summary>
   ///
-  /// All messages sent from the integrator/VMC to the SENVEND terminal to manage payments.
+  /// All messages sent from the integrator/VMC to the SENVEND Terminal to manage payments.
   /// A payment process must be started with the PayStart message.
   /// </summary>
   [global::System.Diagnostics.DebuggerDisplayAttribute("{ToString(),nq}")]
@@ -878,7 +878,7 @@ namespace com.senbax.senvend.proto.Api.V1 {
 
   /// <summary>
   ///
-  /// Starts a payment process on the SENVEND terminal.
+  /// Starts a payment process on the SENVEND Terminal.
   /// If auto_cancel is given and false, it can only be executed after a previous process finished with either PayFailure or PaySuccess.
   /// Will result in a PAY_FAILURE_REASON_PAYMENT_ONGOING or PAY_FAILURE_REASON_INVALID_STATE otherwise.
   /// Without auto_cancel or if it is true, will automatically cancel any running request and then try to start this one.
@@ -1281,7 +1281,7 @@ namespace com.senbax.senvend.proto.Api.V1 {
 
   /// <summary>
   ///
-  /// Updates the payment amount on the SENVEND terminal mid-transaction.
+  /// Updates the payment amount on the SENVEND Terminal mid-transaction.
   /// Main use case is handling cash payments after `PayStart`,
   /// and/or changing individual `LineItem` entries (e.g. if one item in a basket was cancelled individually).
   /// If age verification was requested as well, this message is only accepted after the age verification was successful.
@@ -1579,7 +1579,7 @@ namespace com.senbax.senvend.proto.Api.V1 {
 
   /// <summary>
   ///
-  /// Cancels an ongoing payment process on the SENVEND terminal.
+  /// Cancels an ongoing payment process on the SENVEND Terminal.
   /// Can also be used to cancel an approved payment (instead of PayGoodsIssued).
   /// Can be sent at any time, but will result in PAY_API_FAILURE_REASON_UUID_NOT_FOUND
   /// if there is nothing to cancel.

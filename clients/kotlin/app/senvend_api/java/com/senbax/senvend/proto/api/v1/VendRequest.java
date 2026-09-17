@@ -8,7 +8,7 @@ package com.senbax.senvend.proto.api.v1;
 /**
  * <pre>
  *
- * All messages sent from the integrator/VMC to the SENVEND terminal to manage vending.
+ * All messages sent from the integrator/VMC to the SENVEND Terminal to manage vending.
  * A Vending process must be started with the VendStart message.
  * </pre>
  *
@@ -432,7 +432,7 @@ private static final long serialVersionUID = 0L;
   /**
    * <pre>
    *
-   * All messages sent from the integrator/VMC to the SENVEND terminal to manage vending.
+   * All messages sent from the integrator/VMC to the SENVEND Terminal to manage vending.
    * A Vending process must be started with the VendStart message.
    * </pre>
    *

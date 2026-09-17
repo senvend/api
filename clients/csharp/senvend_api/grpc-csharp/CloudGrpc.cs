@@ -72,7 +72,7 @@ namespace com.senbax.senvend.proto.Cloud.V1 {
     public abstract partial class CloudAgeVerificationServiceBase
     {
       /// <summary>
-      /// Initiates an age verification process on the SENVEND terminal.
+      /// Initiates an age verification process on the SENVEND Terminal.
       /// </summary>
       /// <param name="requestStream">Used for reading requests from the client.</param>
       /// <param name="responseStream">Used for sending responses back to the client.</param>
@@ -114,7 +114,7 @@ namespace com.senbax.senvend.proto.Cloud.V1 {
       }
 
       /// <summary>
-      /// Initiates an age verification process on the SENVEND terminal.
+      /// Initiates an age verification process on the SENVEND Terminal.
       /// </summary>
       /// <param name="headers">The initial metadata to send with the call. This parameter is optional.</param>
       /// <param name="deadline">An optional deadline for the call. The call will be cancelled if deadline is hit.</param>
@@ -126,7 +126,7 @@ namespace com.senbax.senvend.proto.Cloud.V1 {
         return CloudAge(new grpc::CallOptions(headers, deadline, cancellationToken));
       }
       /// <summary>
-      /// Initiates an age verification process on the SENVEND terminal.
+      /// Initiates an age verification process on the SENVEND Terminal.
       /// </summary>
       /// <param name="options">The options for the call.</param>
       /// <returns>The call object.</returns>
@@ -227,7 +227,7 @@ namespace com.senbax.senvend.proto.Cloud.V1 {
     public abstract partial class CloudPayServiceBase
     {
       /// <summary>
-      /// Initiates a payment process on the SENVEND terminal.
+      /// Initiates a payment process on the SENVEND Terminal.
       /// </summary>
       /// <param name="requestStream">Used for reading requests from the client.</param>
       /// <param name="responseStream">Used for sending responses back to the client.</param>
@@ -269,7 +269,7 @@ namespace com.senbax.senvend.proto.Cloud.V1 {
       }
 
       /// <summary>
-      /// Initiates a payment process on the SENVEND terminal.
+      /// Initiates a payment process on the SENVEND Terminal.
       /// </summary>
       /// <param name="headers">The initial metadata to send with the call. This parameter is optional.</param>
       /// <param name="deadline">An optional deadline for the call. The call will be cancelled if deadline is hit.</param>
@@ -281,7 +281,7 @@ namespace com.senbax.senvend.proto.Cloud.V1 {
         return CloudPay(new grpc::CallOptions(headers, deadline, cancellationToken));
       }
       /// <summary>
-      /// Initiates a payment process on the SENVEND terminal.
+      /// Initiates a payment process on the SENVEND Terminal.
       /// </summary>
       /// <param name="options">The options for the call.</param>
       /// <returns>The call object.</returns>
@@ -319,7 +319,7 @@ namespace com.senbax.senvend.proto.Cloud.V1 {
 
   }
   /// <summary>
-  /// This service provides version information for the software on the SENVEND terminal.
+  /// This service provides version information for the software on the SENVEND Terminal.
   /// </summary>
   public static partial class CloudVersionService
   {
@@ -382,7 +382,7 @@ namespace com.senbax.senvend.proto.Cloud.V1 {
     public abstract partial class CloudVersionServiceBase
     {
       /// <summary>
-      /// Returns the version information of the software and API on the SENVEND terminal.
+      /// Returns the version information of the software and API on the SENVEND Terminal.
       /// </summary>
       /// <param name="request">The request received from the client.</param>
       /// <param name="context">The context of the server-side call handler being invoked.</param>
@@ -423,7 +423,7 @@ namespace com.senbax.senvend.proto.Cloud.V1 {
       }
 
       /// <summary>
-      /// Returns the version information of the software and API on the SENVEND terminal.
+      /// Returns the version information of the software and API on the SENVEND Terminal.
       /// </summary>
       /// <param name="request">The request to send to the server.</param>
       /// <param name="headers">The initial metadata to send with the call. This parameter is optional.</param>
@@ -436,7 +436,7 @@ namespace com.senbax.senvend.proto.Cloud.V1 {
         return CloudVersion(request, new grpc::CallOptions(headers, deadline, cancellationToken));
       }
       /// <summary>
-      /// Returns the version information of the software and API on the SENVEND terminal.
+      /// Returns the version information of the software and API on the SENVEND Terminal.
       /// </summary>
       /// <param name="request">The request to send to the server.</param>
       /// <param name="options">The options for the call.</param>
@@ -447,7 +447,7 @@ namespace com.senbax.senvend.proto.Cloud.V1 {
         return CallInvoker.BlockingUnaryCall(__Method_CloudVersion, null, options, request);
       }
       /// <summary>
-      /// Returns the version information of the software and API on the SENVEND terminal.
+      /// Returns the version information of the software and API on the SENVEND Terminal.
       /// </summary>
       /// <param name="request">The request to send to the server.</param>
       /// <param name="headers">The initial metadata to send with the call. This parameter is optional.</param>
@@ -460,7 +460,7 @@ namespace com.senbax.senvend.proto.Cloud.V1 {
         return CloudVersionAsync(request, new grpc::CallOptions(headers, deadline, cancellationToken));
       }
       /// <summary>
-      /// Returns the version information of the software and API on the SENVEND terminal.
+      /// Returns the version information of the software and API on the SENVEND Terminal.
       /// </summary>
       /// <param name="request">The request to send to the server.</param>
       /// <param name="options">The options for the call.</param>

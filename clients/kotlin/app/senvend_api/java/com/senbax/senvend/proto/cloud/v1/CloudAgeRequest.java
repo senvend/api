@@ -7,7 +7,7 @@ package com.senbax.senvend.proto.cloud.v1;
 
 /**
  * <pre>
- * Starts an age verification process on the SENVEND terminal.
+ * Starts an age verification process on the SENVEND Terminal.
  * </pre>
  *
  * Protobuf type {@code cloud.v1.CloudAgeRequest}
@@ -316,7 +316,7 @@ private static final long serialVersionUID = 0L;
   }
   /**
    * <pre>
-   * Starts an age verification process on the SENVEND terminal.
+   * Starts an age verification process on the SENVEND Terminal.
    * </pre>
    *
    * Protobuf type {@code cloud.v1.CloudAgeRequest}

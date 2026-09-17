@@ -13,7 +13,7 @@ public inline fun payUpdate(block: com.senbax.senvend.proto.api.v1.PayUpdateKt.D
 /**
  * ```
  *
- * Updates the payment amount on the SENVEND terminal mid-transaction.
+ * Updates the payment amount on the SENVEND Terminal mid-transaction.
  * Main use case is handling cash payments after `PayStart`,
  * and/or changing individual `LineItem` entries (e.g. if one item in a basket was cancelled individually).
  * If age verification was requested as well, this message is only accepted after the age verification was successful.

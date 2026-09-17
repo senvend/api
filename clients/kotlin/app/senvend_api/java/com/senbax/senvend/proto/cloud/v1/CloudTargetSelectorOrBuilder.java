@@ -39,7 +39,7 @@ public interface CloudTargetSelectorOrBuilder extends
 
   /**
    * <pre>
-   * Select by SENVEND terminal serial number.
+   * Select by SENVEND Terminal serial number.
    * </pre>
    *
    * <code>string serial_number = 2 [json_name = "serialNumber"];</code>
@@ -48,7 +48,7 @@ public interface CloudTargetSelectorOrBuilder extends
   boolean hasSerialNumber();
   /**
    * <pre>
-   * Select by SENVEND terminal serial number.
+   * Select by SENVEND Terminal serial number.
    * </pre>
    *
    * <code>string serial_number = 2 [json_name = "serialNumber"];</code>
@@ -57,7 +57,7 @@ public interface CloudTargetSelectorOrBuilder extends
   java.lang.String getSerialNumber();
   /**
    * <pre>
-   * Select by SENVEND terminal serial number.
+   * Select by SENVEND Terminal serial number.
    * </pre>
    *
    * <code>string serial_number = 2 [json_name = "serialNumber"];</code>

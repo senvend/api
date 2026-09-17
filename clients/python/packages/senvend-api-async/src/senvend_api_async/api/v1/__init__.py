@@ -424,7 +424,7 @@ class PayApiFailureReason(betterproto2.Enum):
 
     AMOUNT_MISMATCH = 6
     """
-    If a list of LineItem entries is given but the sum of their prices does not match the given total or partial amount.
+    If a list of LineItem entries is given, but the sum of their prices does not match the given total or partial amount.
     """
 
     INVALID_UUID = 7
@@ -821,9 +821,9 @@ default_message_pool.register_message("api.v1", "AgeApiSuccess", AgeApiSuccess)
 class AgeApproveRequest(betterproto2.Message):
     """
 
-    Approves an ongoing age verification process on the SENVEND terminal.
+    Approves an ongoing age verification process on the SENVEND Terminal.
     Can be sent instead of a cancel, to end the age request and proceed without an error.
-    Useful if an external age verification is used in addition to the SENVEND terminal.
+    Useful if an external age verification is used in addition to the SENVEND Terminal.
     If sent in an AgeRequest without UUID, will approve any running process without UUID check. (Catch all)
     """
 
@@ -842,7 +842,7 @@ default_message_pool.register_message("api.v1", "AgeApproveRequest", AgeApproveR
 class AgeCancelRequest(betterproto2.Message):
     """
 
-    Cancels an ongoing age verification process on the SENVEND terminal.
+    Cancels an ongoing age verification process on the SENVEND Terminal.
     Can be sent at any time, but will result in AGE_API_FAILURE_REASON_UUID_NOT_FOUND
     if there is nothing to cancel.
     If sent in an AgeRequest without UUID, will cancel any running process without UUID check, including vending. (Catch all)
@@ -904,7 +904,7 @@ default_message_pool.register_message(
 class AgeRequest(betterproto2.Message):
     """
 
-    All messages sent from the integrator/VMC to the SENVEND terminal to manage age verification.
+    All messages sent from the integrator/VMC to the SENVEND Terminal to manage age verification.
     An age verification process must be started with the AgeStartRequest message.
 
     Oneofs:
@@ -994,7 +994,7 @@ default_message_pool.register_message("api.v1", "AgeResponse", AgeResponse)
 class AgeStartRequest(betterproto2.Message):
     """
 
-    Starts an age verification process on the SENVEND terminal.
+    Starts an age verification process on the SENVEND Terminal.
     """
 
     min_age: "int" = betterproto2.field(1, betterproto2.TYPE_UINT32)
@@ -1116,7 +1116,7 @@ default_message_pool.register_message("api.v1", "PayApproved", PayApproved)
 class PayCancel(betterproto2.Message):
     """
 
-    Cancels an ongoing payment process on the SENVEND terminal.
+    Cancels an ongoing payment process on the SENVEND Terminal.
     Can also be used to cancel an approved payment (instead of PayGoodsIssued).
     Can be sent at any time, but will result in PAY_API_FAILURE_REASON_UUID_NOT_FOUND
     if there is nothing to cancel.
@@ -1185,7 +1185,7 @@ default_message_pool.register_message("api.v1", "PayGoodsIssued", PayGoodsIssued
 class PayRequest(betterproto2.Message):
     """
 
-    All messages sent from the integrator/VMC to the SENVEND terminal to manage payments.
+    All messages sent from the integrator/VMC to the SENVEND Terminal to manage payments.
     A payment process must be started with the PayStart message.
 
     Oneofs:
@@ -1374,7 +1374,7 @@ default_message_pool.register_message("api.v1", "PayResponse", PayResponse)
 class PayStart(betterproto2.Message):
     """
 
-    Starts a payment process on the SENVEND terminal.
+    Starts a payment process on the SENVEND Terminal.
     If auto_cancel is given and false, it can only be executed after a previous process finished with either PayFailure or PaySuccess.
     Will result in a PAY_FAILURE_REASON_PAYMENT_ONGOING or PAY_FAILURE_REASON_INVALID_STATE otherwise.
     Without auto_cancel or if it is true, will automatically cancel any running request and then try to start this one.
@@ -1440,7 +1440,7 @@ default_message_pool.register_message("api.v1", "PaySuccess", PaySuccess)
 class PayUpdate(betterproto2.Message):
     """
 
-    Updates the payment amount on the SENVEND terminal mid-transaction.
+    Updates the payment amount on the SENVEND Terminal mid-transaction.
     Main use case is handling cash payments after `PayStart`,
     and/or changing individual `LineItem` entries (e.g. if one item in a basket was cancelled individually).
     If age verification was requested as well, this message is only accepted after the age verification was successful.
@@ -1582,7 +1582,7 @@ default_message_pool.register_message("api.v1", "VendApiSuccess", VendApiSuccess
 class VendCancel(betterproto2.Message):
     """
 
-    Cancels an ongoing vending process on the SENVEND terminal.
+    Cancels an ongoing vending process on the SENVEND Terminal.
     Can be sent at any time, but will result in VEND_API_FAILURE_REASON_UUID_NOT_FOUND
     if there is nothing to cancel.
     If sent in a VendRequest without UUID, will cancel any running process without UUID check. (Catch all)
@@ -1669,7 +1669,7 @@ default_message_pool.register_message("api.v1", "VendFailure", VendFailure)
 class VendRequest(betterproto2.Message):
     """
 
-    All messages sent from the integrator/VMC to the SENVEND terminal to manage vending.
+    All messages sent from the integrator/VMC to the SENVEND Terminal to manage vending.
     A Vending process must be started with the VendStart message.
 
     Oneofs:
@@ -1780,7 +1780,7 @@ default_message_pool.register_message("api.v1", "VendResult", VendResult)
 class VendStart(betterproto2.Message):
     """
 
-    Starts a vending process on the SENVEND terminal.
+    Starts a vending process on the SENVEND Terminal.
     It can only be executed after a previous process finished with either VendFailure or VendSuccess.
     Will result in a VEND_API_FAILURE_REASON_VENDING_ONGOING otherwise.
     """
@@ -1815,7 +1815,7 @@ default_message_pool.register_message("api.v1", "VendSuccess", VendSuccess)
 class VersionRequest(betterproto2.Message):
     """
 
-    Starts a one-off request for version information of the SENVEND terminal.
+    Starts a one-off request for version information of the SENVEND Terminal.
     """
 
     id: "Uuid4 | None" = betterproto2.field(1, betterproto2.TYPE_MESSAGE, optional=True)
@@ -1832,7 +1832,7 @@ default_message_pool.register_message("api.v1", "VersionRequest", VersionRequest
 class VersionResponse(betterproto2.Message):
     """
 
-    Provides the current software and API version of the SENVEND terminal.
+    Provides the current software and API version of the SENVEND Terminal.
     """
 
     id: "Uuid4 | None" = betterproto2.field(1, betterproto2.TYPE_MESSAGE, optional=True)
@@ -1845,7 +1845,7 @@ class VersionResponse(betterproto2.Message):
         2, betterproto2.TYPE_MESSAGE, optional=True
     )
     """
-    The version of the software installed on the SENVEND terminal.
+    The version of the software installed on the SENVEND Terminal.
     """
 
     api_version: "SemanticVersion | None" = betterproto2.field(

@@ -8,7 +8,7 @@ package com.senbax.senvend.proto.api.v1;
 /**
  * <pre>
  *
- * Starts a vending process on the SENVEND terminal.
+ * Starts a vending process on the SENVEND Terminal.
  * It can only be executed after a previous process finished with either VendFailure or VendSuccess.
  * Will result in a VEND_API_FAILURE_REASON_VENDING_ONGOING otherwise.
  * </pre>
@@ -298,7 +298,7 @@ private static final long serialVersionUID = 0L;
   /**
    * <pre>
    *
-   * Starts a vending process on the SENVEND terminal.
+   * Starts a vending process on the SENVEND Terminal.
    * It can only be executed after a previous process finished with either VendFailure or VendSuccess.
    * Will result in a VEND_API_FAILURE_REASON_VENDING_ONGOING otherwise.
    * </pre>

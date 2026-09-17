@@ -4,7 +4,7 @@ import static io.grpc.MethodDescriptor.generateFullMethodName;
 
 /**
  * <pre>
- * This service provides version information for the software on the SENVEND terminal.
+ * This service provides version information for the software on the SENVEND Terminal.
  * </pre>
  */
 @io.grpc.stub.annotations.GrpcGenerated
@@ -107,14 +107,14 @@ public final class CloudVersionServiceGrpc {
 
   /**
    * <pre>
-   * This service provides version information for the software on the SENVEND terminal.
+   * This service provides version information for the software on the SENVEND Terminal.
    * </pre>
    */
   public interface AsyncService {
 
     /**
      * <pre>
-     * Returns the version information of the software and API on the SENVEND terminal.
+     * Returns the version information of the software and API on the SENVEND Terminal.
      * </pre>
      */
     default void cloudVersion(com.senbax.senvend.proto.cloud.v1.CloudVersionRequest request,
@@ -126,7 +126,7 @@ public final class CloudVersionServiceGrpc {
   /**
    * Base class for the server implementation of the service CloudVersionService.
    * <pre>
-   * This service provides version information for the software on the SENVEND terminal.
+   * This service provides version information for the software on the SENVEND Terminal.
    * </pre>
    */
   public static abstract class CloudVersionServiceImplBase
@@ -140,7 +140,7 @@ public final class CloudVersionServiceGrpc {
   /**
    * A stub to allow clients to do asynchronous rpc calls to service CloudVersionService.
    * <pre>
-   * This service provides version information for the software on the SENVEND terminal.
+   * This service provides version information for the software on the SENVEND Terminal.
    * </pre>
    */
   public static final class CloudVersionServiceStub
@@ -158,7 +158,7 @@ public final class CloudVersionServiceGrpc {
 
     /**
      * <pre>
-     * Returns the version information of the software and API on the SENVEND terminal.
+     * Returns the version information of the software and API on the SENVEND Terminal.
      * </pre>
      */
     public void cloudVersion(com.senbax.senvend.proto.cloud.v1.CloudVersionRequest request,
@@ -171,7 +171,7 @@ public final class CloudVersionServiceGrpc {
   /**
    * A stub to allow clients to do synchronous rpc calls to service CloudVersionService.
    * <pre>
-   * This service provides version information for the software on the SENVEND terminal.
+   * This service provides version information for the software on the SENVEND Terminal.
    * </pre>
    */
   public static final class CloudVersionServiceBlockingV2Stub
@@ -189,7 +189,7 @@ public final class CloudVersionServiceGrpc {
 
     /**
      * <pre>
-     * Returns the version information of the software and API on the SENVEND terminal.
+     * Returns the version information of the software and API on the SENVEND Terminal.
      * </pre>
      */
     public com.senbax.senvend.proto.cloud.v1.CloudVersionResponse cloudVersion(com.senbax.senvend.proto.cloud.v1.CloudVersionRequest request) throws io.grpc.StatusException {
@@ -201,7 +201,7 @@ public final class CloudVersionServiceGrpc {
   /**
    * A stub to allow clients to do limited synchronous rpc calls to service CloudVersionService.
    * <pre>
-   * This service provides version information for the software on the SENVEND terminal.
+   * This service provides version information for the software on the SENVEND Terminal.
    * </pre>
    */
   public static final class CloudVersionServiceBlockingStub
@@ -219,7 +219,7 @@ public final class CloudVersionServiceGrpc {
 
     /**
      * <pre>
-     * Returns the version information of the software and API on the SENVEND terminal.
+     * Returns the version information of the software and API on the SENVEND Terminal.
      * </pre>
      */
     public com.senbax.senvend.proto.cloud.v1.CloudVersionResponse cloudVersion(com.senbax.senvend.proto.cloud.v1.CloudVersionRequest request) {
@@ -231,7 +231,7 @@ public final class CloudVersionServiceGrpc {
   /**
    * A stub to allow clients to do ListenableFuture-style rpc calls to service CloudVersionService.
    * <pre>
-   * This service provides version information for the software on the SENVEND terminal.
+   * This service provides version information for the software on the SENVEND Terminal.
    * </pre>
    */
   public static final class CloudVersionServiceFutureStub
@@ -249,7 +249,7 @@ public final class CloudVersionServiceGrpc {
 
     /**
      * <pre>
-     * Returns the version information of the software and API on the SENVEND terminal.
+     * Returns the version information of the software and API on the SENVEND Terminal.
      * </pre>
      */
     public com.google.common.util.concurrent.ListenableFuture<com.senbax.senvend.proto.cloud.v1.CloudVersionResponse> cloudVersion(

@@ -8,7 +8,7 @@ package com.senbax.senvend.proto.api.v1;
 /**
  * <pre>
  *
- * Starts a one-off request for version information of the SENVEND terminal.
+ * Starts a one-off request for version information of the SENVEND Terminal.
  * </pre>
  *
  * Protobuf type {@code api.v1.VersionRequest}
@@ -264,7 +264,7 @@ private static final long serialVersionUID = 0L;
   /**
    * <pre>
    *
-   * Starts a one-off request for version information of the SENVEND terminal.
+   * Starts a one-off request for version information of the SENVEND Terminal.
    * </pre>
    *
    * Protobuf type {@code api.v1.VersionRequest}

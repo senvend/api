@@ -406,7 +406,7 @@ pub mod cloud_pay_service_client {
             self.inner = self.inner.max_encoding_message_size(limit);
             self
         }
-        /** Initiates a payment process on the SENVEND terminal.
+        /** Initiates a payment process on the SENVEND Terminal.
 */
         pub async fn cloud_pay(
             &mut self,
@@ -453,7 +453,7 @@ pub mod cloud_pay_service_server {
             >
             + std::marker::Send
             + 'static;
-        /** Initiates a payment process on the SENVEND terminal.
+        /** Initiates a payment process on the SENVEND Terminal.
 */
         async fn cloud_pay(
             &self,
@@ -637,7 +637,7 @@ pub mod cloud_version_service_client {
     )]
     use tonic::codegen::*;
     use tonic::codegen::http::Uri;
-    /** This service provides version information for the software on the SENVEND terminal.
+    /** This service provides version information for the software on the SENVEND Terminal.
 */
     #[derive(Debug, Clone)]
     pub struct CloudVersionServiceClient<T> {
@@ -719,7 +719,7 @@ pub mod cloud_version_service_client {
             self.inner = self.inner.max_encoding_message_size(limit);
             self
         }
-        /** Returns the version information of the software and API on the SENVEND terminal.
+        /** Returns the version information of the software and API on the SENVEND Terminal.
 */
         pub async fn cloud_version(
             &mut self,
@@ -760,7 +760,7 @@ pub mod cloud_version_service_server {
     /// Generated trait containing gRPC methods that should be implemented for use with CloudVersionServiceServer.
     #[async_trait]
     pub trait CloudVersionService: std::marker::Send + std::marker::Sync + 'static {
-        /** Returns the version information of the software and API on the SENVEND terminal.
+        /** Returns the version information of the software and API on the SENVEND Terminal.
 */
         async fn cloud_version(
             &self,
@@ -770,7 +770,7 @@ pub mod cloud_version_service_server {
             tonic::Status,
         >;
     }
-    /** This service provides version information for the software on the SENVEND terminal.
+    /** This service provides version information for the software on the SENVEND Terminal.
 */
     #[derive(Debug)]
     pub struct CloudVersionServiceServer<T> {

@@ -7,7 +7,7 @@ package com.senbax.senvend.proto.cloud.v1;
 
 /**
  * <pre>
- * Starts a one-off request for version information of the SENVEND terminal.
+ * Starts a one-off request for version information of the SENVEND Terminal.
  * </pre>
  *
  * Protobuf type {@code cloud.v1.CloudVersionRequest}
@@ -95,7 +95,7 @@ private static final long serialVersionUID = 0L;
   private com.senbax.senvend.proto.api.v1.VersionRequest versionRequest_;
   /**
    * <pre>
-   * Starts a one-off request for version information of the SENVEND terminal.
+   * Starts a one-off request for version information of the SENVEND Terminal.
    * </pre>
    *
    * <code>.api.v1.VersionRequest version_request = 2 [json_name = "versionRequest"];</code>
@@ -107,7 +107,7 @@ private static final long serialVersionUID = 0L;
   }
   /**
    * <pre>
-   * Starts a one-off request for version information of the SENVEND terminal.
+   * Starts a one-off request for version information of the SENVEND Terminal.
    * </pre>
    *
    * <code>.api.v1.VersionRequest version_request = 2 [json_name = "versionRequest"];</code>
@@ -119,7 +119,7 @@ private static final long serialVersionUID = 0L;
   }
   /**
    * <pre>
-   * Starts a one-off request for version information of the SENVEND terminal.
+   * Starts a one-off request for version information of the SENVEND Terminal.
    * </pre>
    *
    * <code>.api.v1.VersionRequest version_request = 2 [json_name = "versionRequest"];</code>
@@ -313,7 +313,7 @@ private static final long serialVersionUID = 0L;
   }
   /**
    * <pre>
-   * Starts a one-off request for version information of the SENVEND terminal.
+   * Starts a one-off request for version information of the SENVEND Terminal.
    * </pre>
    *
    * Protobuf type {@code cloud.v1.CloudVersionRequest}
@@ -648,7 +648,7 @@ private static final long serialVersionUID = 0L;
         com.senbax.senvend.proto.api.v1.VersionRequest, com.senbax.senvend.proto.api.v1.VersionRequest.Builder, com.senbax.senvend.proto.api.v1.VersionRequestOrBuilder> versionRequestBuilder_;
     /**
      * <pre>
-     * Starts a one-off request for version information of the SENVEND terminal.
+     * Starts a one-off request for version information of the SENVEND Terminal.
      * </pre>
      *
      * <code>.api.v1.VersionRequest version_request = 2 [json_name = "versionRequest"];</code>
@@ -659,7 +659,7 @@ private static final long serialVersionUID = 0L;
     }
     /**
      * <pre>
-     * Starts a one-off request for version information of the SENVEND terminal.
+     * Starts a one-off request for version information of the SENVEND Terminal.
      * </pre>
      *
      * <code>.api.v1.VersionRequest version_request = 2 [json_name = "versionRequest"];</code>
@@ -674,7 +674,7 @@ private static final long serialVersionUID = 0L;
     }
     /**
      * <pre>
-     * Starts a one-off request for version information of the SENVEND terminal.
+     * Starts a one-off request for version information of the SENVEND Terminal.
      * </pre>
      *
      * <code>.api.v1.VersionRequest version_request = 2 [json_name = "versionRequest"];</code>
@@ -692,7 +692,7 @@ private static final long serialVersionUID = 0L;
     }
     /**
      * <pre>
-     * Starts a one-off request for version information of the SENVEND terminal.
+     * Starts a one-off request for version information of the SENVEND Terminal.
      * </pre>
      *
      * <code>.api.v1.VersionRequest version_request = 2 [json_name = "versionRequest"];</code>
@@ -710,7 +710,7 @@ private static final long serialVersionUID = 0L;
     }
     /**
      * <pre>
-     * Starts a one-off request for version information of the SENVEND terminal.
+     * Starts a one-off request for version information of the SENVEND Terminal.
      * </pre>
      *
      * <code>.api.v1.VersionRequest version_request = 2 [json_name = "versionRequest"];</code>
@@ -735,7 +735,7 @@ private static final long serialVersionUID = 0L;
     }
     /**
      * <pre>
-     * Starts a one-off request for version information of the SENVEND terminal.
+     * Starts a one-off request for version information of the SENVEND Terminal.
      * </pre>
      *
      * <code>.api.v1.VersionRequest version_request = 2 [json_name = "versionRequest"];</code>
@@ -752,7 +752,7 @@ private static final long serialVersionUID = 0L;
     }
     /**
      * <pre>
-     * Starts a one-off request for version information of the SENVEND terminal.
+     * Starts a one-off request for version information of the SENVEND Terminal.
      * </pre>
      *
      * <code>.api.v1.VersionRequest version_request = 2 [json_name = "versionRequest"];</code>
@@ -764,7 +764,7 @@ private static final long serialVersionUID = 0L;
     }
     /**
      * <pre>
-     * Starts a one-off request for version information of the SENVEND terminal.
+     * Starts a one-off request for version information of the SENVEND Terminal.
      * </pre>
      *
      * <code>.api.v1.VersionRequest version_request = 2 [json_name = "versionRequest"];</code>
@@ -779,7 +779,7 @@ private static final long serialVersionUID = 0L;
     }
     /**
      * <pre>
-     * Starts a one-off request for version information of the SENVEND terminal.
+     * Starts a one-off request for version information of the SENVEND Terminal.
      * </pre>
      *
      * <code>.api.v1.VersionRequest version_request = 2 [json_name = "versionRequest"];</code>

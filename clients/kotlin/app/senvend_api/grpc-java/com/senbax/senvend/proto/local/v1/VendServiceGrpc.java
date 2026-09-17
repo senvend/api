@@ -114,7 +114,7 @@ public final class VendServiceGrpc {
 
     /**
      * <pre>
-     *Initiates a vending process on a machine connected to the SENVEND terminal.&#92;
+     *Initiates a vending process on a machine connected to the SENVEND Terminal.&#92;
      *Accepts a stream of VendRequest for starting and controlling vending.&#92;
      *Returns a stream of VendResponse containing status and error return messages.
      *&lt;details open&gt;
@@ -191,7 +191,7 @@ public final class VendServiceGrpc {
 
     /**
      * <pre>
-     *Initiates a vending process on a machine connected to the SENVEND terminal.&#92;
+     *Initiates a vending process on a machine connected to the SENVEND Terminal.&#92;
      *Accepts a stream of VendRequest for starting and controlling vending.&#92;
      *Returns a stream of VendResponse containing status and error return messages.
      *&lt;details open&gt;
@@ -255,7 +255,7 @@ public final class VendServiceGrpc {
 
     /**
      * <pre>
-     *Initiates a vending process on a machine connected to the SENVEND terminal.&#92;
+     *Initiates a vending process on a machine connected to the SENVEND Terminal.&#92;
      *Accepts a stream of VendRequest for starting and controlling vending.&#92;
      *Returns a stream of VendResponse containing status and error return messages.
      *&lt;details open&gt;

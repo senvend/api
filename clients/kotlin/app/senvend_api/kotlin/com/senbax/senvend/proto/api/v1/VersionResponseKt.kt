@@ -13,7 +13,7 @@ public inline fun versionResponse(block: com.senbax.senvend.proto.api.v1.Version
 /**
  * ```
  *
- * Provides the current software and API version of the SENVEND terminal.
+ * Provides the current software and API version of the SENVEND Terminal.
  * ```
  *
  * Protobuf type `api.v1.VersionResponse`
@@ -78,7 +78,7 @@ public object VersionResponseKt {
 
     /**
      * ```
-     * The version of the software installed on the SENVEND terminal.
+     * The version of the software installed on the SENVEND Terminal.
      * ```
      *
      * `.api.v1.SemanticVersion app_version = 2 [json_name = "appVersion"];`
@@ -92,7 +92,7 @@ public object VersionResponseKt {
       }
     /**
      * ```
-     * The version of the software installed on the SENVEND terminal.
+     * The version of the software installed on the SENVEND Terminal.
      * ```
      *
      * `.api.v1.SemanticVersion app_version = 2 [json_name = "appVersion"];`
@@ -102,7 +102,7 @@ public object VersionResponseKt {
     }
     /**
      * ```
-     * The version of the software installed on the SENVEND terminal.
+     * The version of the software installed on the SENVEND Terminal.
      * ```
      *
      * `.api.v1.SemanticVersion app_version = 2 [json_name = "appVersion"];`

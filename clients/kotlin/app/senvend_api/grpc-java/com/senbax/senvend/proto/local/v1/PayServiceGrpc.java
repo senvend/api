@@ -118,7 +118,7 @@ public final class PayServiceGrpc {
 
     /**
      * <pre>
-     *Initiates a payment process on the SENVEND terminal.&#92;
+     *Initiates a payment process on the SENVEND Terminal.&#92;
      *Accepts a stream of PayRequest for starting and controlling payments.&#92;
      *Returns a stream of PayResponse containing status and error return messages.
      *&lt;details open&gt;
@@ -320,7 +320,7 @@ public final class PayServiceGrpc {
 
     /**
      * <pre>
-     *Initiates a payment process on the SENVEND terminal.&#92;
+     *Initiates a payment process on the SENVEND Terminal.&#92;
      *Accepts a stream of PayRequest for starting and controlling payments.&#92;
      *Returns a stream of PayResponse containing status and error return messages.
      *&lt;details open&gt;
@@ -507,7 +507,7 @@ public final class PayServiceGrpc {
 
     /**
      * <pre>
-     *Initiates a payment process on the SENVEND terminal.&#92;
+     *Initiates a payment process on the SENVEND Terminal.&#92;
      *Accepts a stream of PayRequest for starting and controlling payments.&#92;
      *Returns a stream of PayResponse containing status and error return messages.
      *&lt;details open&gt;

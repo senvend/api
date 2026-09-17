@@ -13,7 +13,7 @@ public inline fun ageRequest(block: com.senbax.senvend.proto.api.v1.AgeRequestKt
 /**
  * ```
  *
- * All messages sent from the integrator/VMC to the SENVEND terminal to manage age verification.
+ * All messages sent from the integrator/VMC to the SENVEND Terminal to manage age verification.
  * An age verification process must be started with the AgeStartRequest message.
  * ```
  *

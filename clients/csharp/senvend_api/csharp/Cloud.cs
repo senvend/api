@@ -143,7 +143,7 @@ namespace com.senbax.senvend.proto.Cloud.V1 {
     /// <summary>Field number for the "serial_number" field.</summary>
     public const int SerialNumberFieldNumber = 2;
     /// <summary>
-    /// Select by SENVEND terminal serial number.
+    /// Select by SENVEND Terminal serial number.
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
@@ -374,7 +374,7 @@ namespace com.senbax.senvend.proto.Cloud.V1 {
   }
 
   /// <summary>
-  /// Starts an age verification process on the SENVEND terminal.
+  /// Starts an age verification process on the SENVEND Terminal.
   /// </summary>
   [global::System.Diagnostics.DebuggerDisplayAttribute("{ToString(),nq}")]
   public sealed partial class CloudAgeRequest : pb::IMessage<CloudAgeRequest>
@@ -850,7 +850,7 @@ namespace com.senbax.senvend.proto.Cloud.V1 {
   }
 
   /// <summary>
-  /// All messages sent from the integrator/VMC to the SENVEND terminal to manage payments.
+  /// All messages sent from the integrator/VMC to the SENVEND Terminal to manage payments.
   /// </summary>
   [global::System.Diagnostics.DebuggerDisplayAttribute("{ToString(),nq}")]
   public sealed partial class CloudPayRequest : pb::IMessage<CloudPayRequest>
@@ -1326,7 +1326,7 @@ namespace com.senbax.senvend.proto.Cloud.V1 {
   }
 
   /// <summary>
-  /// Starts a one-off request for version information of the SENVEND terminal.
+  /// Starts a one-off request for version information of the SENVEND Terminal.
   /// </summary>
   [global::System.Diagnostics.DebuggerDisplayAttribute("{ToString(),nq}")]
   public sealed partial class CloudVersionRequest : pb::IMessage<CloudVersionRequest>
@@ -1393,7 +1393,7 @@ namespace com.senbax.senvend.proto.Cloud.V1 {
     public const int VersionRequestFieldNumber = 2;
     private global::com.senbax.senvend.proto.Api.V1.VersionRequest versionRequest_;
     /// <summary>
-    /// Starts a one-off request for version information of the SENVEND terminal.
+    /// Starts a one-off request for version information of the SENVEND Terminal.
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
@@ -1588,7 +1588,7 @@ namespace com.senbax.senvend.proto.Cloud.V1 {
   }
 
   /// <summary>
-  /// Provides the current software and API version of the SENVEND terminal.
+  /// Provides the current software and API version of the SENVEND Terminal.
   /// </summary>
   [global::System.Diagnostics.DebuggerDisplayAttribute("{ToString(),nq}")]
   public sealed partial class CloudVersionResponse : pb::IMessage<CloudVersionResponse>
@@ -1639,7 +1639,7 @@ namespace com.senbax.senvend.proto.Cloud.V1 {
     public const int VersionResponseFieldNumber = 1;
     private global::com.senbax.senvend.proto.Api.V1.VersionResponse versionResponse_;
     /// <summary>
-    /// Provides the current software and API version of the SENVEND terminal.
+    /// Provides the current software and API version of the SENVEND Terminal.
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]

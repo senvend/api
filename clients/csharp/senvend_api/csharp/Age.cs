@@ -182,7 +182,7 @@ namespace com.senbax.senvend.proto.Api.V1 {
   #region Messages
   /// <summary>
   ///
-  /// All messages sent from the integrator/VMC to the SENVEND terminal to manage age verification.
+  /// All messages sent from the integrator/VMC to the SENVEND Terminal to manage age verification.
   /// An age verification process must be started with the AgeStartRequest message.
   /// </summary>
   [global::System.Diagnostics.DebuggerDisplayAttribute("{ToString(),nq}")]
@@ -593,7 +593,7 @@ namespace com.senbax.senvend.proto.Api.V1 {
 
   /// <summary>
   ///
-  /// Starts an age verification process on the SENVEND terminal.
+  /// Starts an age verification process on the SENVEND Terminal.
   /// </summary>
   [global::System.Diagnostics.DebuggerDisplayAttribute("{ToString(),nq}")]
   public sealed partial class AgeStartRequest : pb::IMessage<AgeStartRequest>
@@ -857,7 +857,7 @@ namespace com.senbax.senvend.proto.Api.V1 {
 
   /// <summary>
   ///
-  /// Cancels an ongoing age verification process on the SENVEND terminal.
+  /// Cancels an ongoing age verification process on the SENVEND Terminal.
   /// Can be sent at any time, but will result in AGE_API_FAILURE_REASON_UUID_NOT_FOUND
   /// if there is nothing to cancel.
   /// If sent in an AgeRequest without UUID, will cancel any running process without UUID check, including vending. (Catch all)
@@ -1025,9 +1025,9 @@ namespace com.senbax.senvend.proto.Api.V1 {
 
   /// <summary>
   ///
-  /// Approves an ongoing age verification process on the SENVEND terminal.
+  /// Approves an ongoing age verification process on the SENVEND Terminal.
   /// Can be sent instead of a cancel, to end the age request and proceed without an error.
-  /// Useful if an external age verification is used in addition to the SENVEND terminal.
+  /// Useful if an external age verification is used in addition to the SENVEND Terminal.
   /// If sent in an AgeRequest without UUID, will approve any running process without UUID check. (Catch all)
   /// </summary>
   [global::System.Diagnostics.DebuggerDisplayAttribute("{ToString(),nq}")]

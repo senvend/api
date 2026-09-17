@@ -12,7 +12,7 @@ public inline fun cloudPayRequest(block: com.senbax.senvend.proto.cloud.v1.Cloud
   com.senbax.senvend.proto.cloud.v1.CloudPayRequestKt.Dsl._create(com.senbax.senvend.proto.cloud.v1.CloudPayRequest.newBuilder()).apply { block() }._build()
 /**
  * ```
- * All messages sent from the integrator/VMC to the SENVEND terminal to manage payments.
+ * All messages sent from the integrator/VMC to the SENVEND Terminal to manage payments.
  * ```
  *
  * Protobuf type `cloud.v1.CloudPayRequest`

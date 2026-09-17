@@ -8,9 +8,9 @@ package com.senbax.senvend.proto.api.v1;
 /**
  * <pre>
  *
- * Approves an ongoing age verification process on the SENVEND terminal.
+ * Approves an ongoing age verification process on the SENVEND Terminal.
  * Can be sent instead of a cancel, to end the age request and proceed without an error.
- * Useful if an external age verification is used in addition to the SENVEND terminal.
+ * Useful if an external age verification is used in addition to the SENVEND Terminal.
  * If sent in an AgeRequest without UUID, will approve any running process without UUID check. (Catch all)
  * </pre>
  *
@@ -285,9 +285,9 @@ private static final long serialVersionUID = 0L;
   /**
    * <pre>
    *
-   * Approves an ongoing age verification process on the SENVEND terminal.
+   * Approves an ongoing age verification process on the SENVEND Terminal.
    * Can be sent instead of a cancel, to end the age request and proceed without an error.
-   * Useful if an external age verification is used in addition to the SENVEND terminal.
+   * Useful if an external age verification is used in addition to the SENVEND Terminal.
    * If sent in an AgeRequest without UUID, will approve any running process without UUID check. (Catch all)
    * </pre>
    *

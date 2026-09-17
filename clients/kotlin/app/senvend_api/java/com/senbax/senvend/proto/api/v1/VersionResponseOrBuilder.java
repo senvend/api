@@ -42,7 +42,7 @@ public interface VersionResponseOrBuilder extends
 
   /**
    * <pre>
-   * The version of the software installed on the SENVEND terminal.
+   * The version of the software installed on the SENVEND Terminal.
    * </pre>
    *
    * <code>.api.v1.SemanticVersion app_version = 2 [json_name = "appVersion"];</code>
@@ -51,7 +51,7 @@ public interface VersionResponseOrBuilder extends
   boolean hasAppVersion();
   /**
    * <pre>
-   * The version of the software installed on the SENVEND terminal.
+   * The version of the software installed on the SENVEND Terminal.
    * </pre>
    *
    * <code>.api.v1.SemanticVersion app_version = 2 [json_name = "appVersion"];</code>
@@ -60,7 +60,7 @@ public interface VersionResponseOrBuilder extends
   com.senbax.senvend.proto.api.v1.SemanticVersion getAppVersion();
   /**
    * <pre>
-   * The version of the software installed on the SENVEND terminal.
+   * The version of the software installed on the SENVEND Terminal.
    * </pre>
    *
    * <code>.api.v1.SemanticVersion app_version = 2 [json_name = "appVersion"];</code>

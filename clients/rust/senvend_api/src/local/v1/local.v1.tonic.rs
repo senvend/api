@@ -98,7 +98,7 @@ The PayService contains its own way of starting age verification before the actu
             self
         }
         /**
-Initiates an age verification process on the SENVEND terminal.\
+Initiates an age verification process on the SENVEND Terminal.\
 Accepts a stream of AgeRequest for starting and controlling age verification.\
 Returns a stream of AgeResponse containing status and error return messages.
 
@@ -192,7 +192,7 @@ pub mod age_verification_service_server {
             + std::marker::Send
             + 'static;
         /**
-Initiates an age verification process on the SENVEND terminal.\
+Initiates an age verification process on the SENVEND Terminal.\
 Accepts a stream of AgeRequest for starting and controlling age verification.\
 Returns a stream of AgeResponse containing status and error return messages.
 
@@ -508,7 +508,7 @@ Optionally, vending is possible after PayApproved is received, either via this o
             self
         }
         /**
-Initiates a payment process on the SENVEND terminal.\
+Initiates a payment process on the SENVEND Terminal.\
 Accepts a stream of PayRequest for starting and controlling payments.\
 Returns a stream of PayResponse containing status and error return messages.
 
@@ -811,7 +811,7 @@ pub mod pay_service_server {
             + std::marker::Send
             + 'static;
         /**
-Initiates a payment process on the SENVEND terminal.\
+Initiates a payment process on the SENVEND Terminal.\
 Accepts a stream of PayRequest for starting and controlling payments.\
 Returns a stream of PayResponse containing status and error return messages.
 
@@ -1336,7 +1336,7 @@ This service provides the necessary functionality to vend products via a vending
             self
         }
         /**
-Initiates a vending process on a machine connected to the SENVEND terminal.\
+Initiates a vending process on a machine connected to the SENVEND Terminal.\
 Accepts a stream of VendRequest for starting and controlling vending.\
 Returns a stream of VendResponse containing status and error return messages.
 
@@ -1438,7 +1438,7 @@ pub mod vend_service_server {
             + std::marker::Send
             + 'static;
         /**
-Initiates a vending process on a machine connected to the SENVEND terminal.\
+Initiates a vending process on a machine connected to the SENVEND Terminal.\
 Accepts a stream of VendRequest for starting and controlling vending.\
 Returns a stream of VendResponse containing status and error return messages.
 
@@ -1675,7 +1675,7 @@ pub mod version_service_client {
     use tonic::codegen::*;
     use tonic::codegen::http::Uri;
     /**
-This service provides version information for the software on the SENVEND terminal.
+This service provides version information for the software on the SENVEND Terminal.
 */
     #[derive(Debug, Clone)]
     pub struct VersionServiceClient<T> {
@@ -1758,7 +1758,7 @@ This service provides version information for the software on the SENVEND termin
             self
         }
         /**
-Returns the version information of the software and API on the SENVEND terminal.
+Returns the version information of the software and API on the SENVEND Terminal.
 
 <details open>
 <summary>API Constraints</summary>
@@ -1820,7 +1820,7 @@ pub mod version_service_server {
     #[async_trait]
     pub trait VersionService: std::marker::Send + std::marker::Sync + 'static {
         /**
-Returns the version information of the software and API on the SENVEND terminal.
+Returns the version information of the software and API on the SENVEND Terminal.
 
 <details open>
 <summary>API Constraints</summary>
@@ -1849,7 +1849,7 @@ These are mostly provided for the cloud API functionality.
         >;
     }
     /**
-This service provides version information for the software on the SENVEND terminal.
+This service provides version information for the software on the SENVEND Terminal.
 */
     #[derive(Debug)]
     pub struct VersionServiceServer<T> {

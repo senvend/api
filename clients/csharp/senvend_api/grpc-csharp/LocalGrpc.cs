@@ -76,7 +76,7 @@ namespace com.senbax.senvend.proto.Local.V1 {
     {
       /// <summary>
       ///
-      ///Initiates an age verification process on the SENVEND terminal.\
+      ///Initiates an age verification process on the SENVEND Terminal.\
       ///Accepts a stream of AgeRequest for starting and controlling age verification.\
       ///Returns a stream of AgeResponse containing status and error return messages.
       ///
@@ -158,7 +158,7 @@ namespace com.senbax.senvend.proto.Local.V1 {
 
       /// <summary>
       ///
-      ///Initiates an age verification process on the SENVEND terminal.\
+      ///Initiates an age verification process on the SENVEND Terminal.\
       ///Accepts a stream of AgeRequest for starting and controlling age verification.\
       ///Returns a stream of AgeResponse containing status and error return messages.
       ///
@@ -210,7 +210,7 @@ namespace com.senbax.senvend.proto.Local.V1 {
       }
       /// <summary>
       ///
-      ///Initiates an age verification process on the SENVEND terminal.\
+      ///Initiates an age verification process on the SENVEND Terminal.\
       ///Accepts a stream of AgeRequest for starting and controlling age verification.\
       ///Returns a stream of AgeResponse containing status and error return messages.
       ///
@@ -354,7 +354,7 @@ namespace com.senbax.senvend.proto.Local.V1 {
     {
       /// <summary>
       ///
-      ///Initiates a payment process on the SENVEND terminal.\
+      ///Initiates a payment process on the SENVEND Terminal.\
       ///Accepts a stream of PayRequest for starting and controlling payments.\
       ///Returns a stream of PayResponse containing status and error return messages.
       ///
@@ -648,7 +648,7 @@ namespace com.senbax.senvend.proto.Local.V1 {
 
       /// <summary>
       ///
-      ///Initiates a payment process on the SENVEND terminal.\
+      ///Initiates a payment process on the SENVEND Terminal.\
       ///Accepts a stream of PayRequest for starting and controlling payments.\
       ///Returns a stream of PayResponse containing status and error return messages.
       ///
@@ -912,7 +912,7 @@ namespace com.senbax.senvend.proto.Local.V1 {
       }
       /// <summary>
       ///
-      ///Initiates a payment process on the SENVEND terminal.\
+      ///Initiates a payment process on the SENVEND Terminal.\
       ///Accepts a stream of PayRequest for starting and controlling payments.\
       ///Returns a stream of PayResponse containing status and error return messages.
       ///
@@ -1266,7 +1266,7 @@ namespace com.senbax.senvend.proto.Local.V1 {
     {
       /// <summary>
       ///
-      ///Initiates a vending process on a machine connected to the SENVEND terminal.\
+      ///Initiates a vending process on a machine connected to the SENVEND Terminal.\
       ///Accepts a stream of VendRequest for starting and controlling vending.\
       ///Returns a stream of VendResponse containing status and error return messages.
       ///
@@ -1357,7 +1357,7 @@ namespace com.senbax.senvend.proto.Local.V1 {
 
       /// <summary>
       ///
-      ///Initiates a vending process on a machine connected to the SENVEND terminal.\
+      ///Initiates a vending process on a machine connected to the SENVEND Terminal.\
       ///Accepts a stream of VendRequest for starting and controlling vending.\
       ///Returns a stream of VendResponse containing status and error return messages.
       ///
@@ -1418,7 +1418,7 @@ namespace com.senbax.senvend.proto.Local.V1 {
       }
       /// <summary>
       ///
-      ///Initiates a vending process on a machine connected to the SENVEND terminal.\
+      ///Initiates a vending process on a machine connected to the SENVEND Terminal.\
       ///Accepts a stream of VendRequest for starting and controlling vending.\
       ///Returns a stream of VendResponse containing status and error return messages.
       ///
@@ -1505,7 +1505,7 @@ namespace com.senbax.senvend.proto.Local.V1 {
   }
   /// <summary>
   ///
-  ///This service provides version information for the software on the SENVEND terminal.
+  ///This service provides version information for the software on the SENVEND Terminal.
   /// </summary>
   public static partial class VersionService
   {
@@ -1569,7 +1569,7 @@ namespace com.senbax.senvend.proto.Local.V1 {
     {
       /// <summary>
       ///
-      ///Returns the version information of the software and API on the SENVEND terminal.
+      ///Returns the version information of the software and API on the SENVEND Terminal.
       ///
       ///&lt;details open>
       ///&lt;summary>API Constraints&lt;/summary>
@@ -1629,7 +1629,7 @@ namespace com.senbax.senvend.proto.Local.V1 {
 
       /// <summary>
       ///
-      ///Returns the version information of the software and API on the SENVEND terminal.
+      ///Returns the version information of the software and API on the SENVEND Terminal.
       ///
       ///&lt;details open>
       ///&lt;summary>API Constraints&lt;/summary>
@@ -1661,7 +1661,7 @@ namespace com.senbax.senvend.proto.Local.V1 {
       }
       /// <summary>
       ///
-      ///Returns the version information of the software and API on the SENVEND terminal.
+      ///Returns the version information of the software and API on the SENVEND Terminal.
       ///
       ///&lt;details open>
       ///&lt;summary>API Constraints&lt;/summary>
@@ -1691,7 +1691,7 @@ namespace com.senbax.senvend.proto.Local.V1 {
       }
       /// <summary>
       ///
-      ///Returns the version information of the software and API on the SENVEND terminal.
+      ///Returns the version information of the software and API on the SENVEND Terminal.
       ///
       ///&lt;details open>
       ///&lt;summary>API Constraints&lt;/summary>
@@ -1723,7 +1723,7 @@ namespace com.senbax.senvend.proto.Local.V1 {
       }
       /// <summary>
       ///
-      ///Returns the version information of the software and API on the SENVEND terminal.
+      ///Returns the version information of the software and API on the SENVEND Terminal.
       ///
       ///&lt;details open>
       ///&lt;summary>API Constraints&lt;/summary>

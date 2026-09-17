@@ -35,7 +35,7 @@ class AgeVerificationServiceStub:
     ) -> "Iterator[__api__v1__.AgeResponse]":
         """
         
-        Initiates an age verification process on the SENVEND terminal.\\
+        Initiates an age verification process on the SENVEND Terminal.\\
         Accepts a stream of AgeRequest for starting and controlling age verification.\\
         Returns a stream of AgeResponse containing status and error return messages.
 
@@ -100,7 +100,7 @@ class PayServiceStub:
     ) -> "Iterator[__api__v1__.PayResponse]":
         """
         
-        Initiates a payment process on the SENVEND terminal.\\
+        Initiates a payment process on the SENVEND Terminal.\\
         Accepts a stream of PayRequest for starting and controlling payments.\\
         Returns a stream of PayResponse containing status and error return messages.
 
@@ -375,7 +375,7 @@ class VendServiceStub:
     ) -> "Iterator[__api__v1__.VendResponse]":
         """
         
-        Initiates a vending process on a machine connected to the SENVEND terminal.\\
+        Initiates a vending process on a machine connected to the SENVEND Terminal.\\
         Accepts a stream of VendRequest for starting and controlling vending.\\
         Returns a stream of VendResponse containing status and error return messages.
 
@@ -436,7 +436,7 @@ class VendServiceStub:
 class VersionServiceStub:
     """
 
-    This service provides version information for the software on the SENVEND terminal.
+    This service provides version information for the software on the SENVEND Terminal.
     """
 
     def __init__(self, channel: grpc.Channel):
@@ -447,7 +447,7 @@ class VersionServiceStub:
     ) -> "__api__v1__.VersionResponse":
         """
         
-        Returns the version information of the software and API on the SENVEND terminal.
+        Returns the version information of the software and API on the SENVEND Terminal.
 
         <details open>
         <summary>API Constraints</summary>

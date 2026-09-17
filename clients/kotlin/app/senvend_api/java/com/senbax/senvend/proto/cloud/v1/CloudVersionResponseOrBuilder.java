@@ -12,7 +12,7 @@ public interface CloudVersionResponseOrBuilder extends
 
   /**
    * <pre>
-   * Provides the current software and API version of the SENVEND terminal.
+   * Provides the current software and API version of the SENVEND Terminal.
    * </pre>
    *
    * <code>.api.v1.VersionResponse version_response = 1 [json_name = "versionResponse"];</code>
@@ -21,7 +21,7 @@ public interface CloudVersionResponseOrBuilder extends
   boolean hasVersionResponse();
   /**
    * <pre>
-   * Provides the current software and API version of the SENVEND terminal.
+   * Provides the current software and API version of the SENVEND Terminal.
    * </pre>
    *
    * <code>.api.v1.VersionResponse version_response = 1 [json_name = "versionResponse"];</code>
@@ -30,7 +30,7 @@ public interface CloudVersionResponseOrBuilder extends
   com.senbax.senvend.proto.api.v1.VersionResponse getVersionResponse();
   /**
    * <pre>
-   * Provides the current software and API version of the SENVEND terminal.
+   * Provides the current software and API version of the SENVEND Terminal.
    * </pre>
    *
    * <code>.api.v1.VersionResponse version_response = 1 [json_name = "versionResponse"];</code>

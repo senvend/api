@@ -13,7 +13,7 @@ public inline fun payRequest(block: com.senbax.senvend.proto.api.v1.PayRequestKt
 /**
  * ```
  *
- * All messages sent from the integrator/VMC to the SENVEND terminal to manage payments.
+ * All messages sent from the integrator/VMC to the SENVEND Terminal to manage payments.
  * A payment process must be started with the PayStart message.
  * ```
  *

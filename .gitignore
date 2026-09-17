@@ -1,3 +1,5 @@
 **.py[cod]
 .cache/
 **/target/
+# generated per ref right before `buf push`
+proto/buf.md

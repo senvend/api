@@ -8,7 +8,7 @@ package com.senbax.senvend.proto.api.v1;
 /**
  * <pre>
  *
- * Starts an age verification process on the SENVEND terminal.
+ * Starts an age verification process on the SENVEND Terminal.
  * </pre>
  *
  * Protobuf type {@code api.v1.AgeStartRequest}
@@ -280,7 +280,7 @@ private static final long serialVersionUID = 0L;
   /**
    * <pre>
    *
-   * Starts an age verification process on the SENVEND terminal.
+   * Starts an age verification process on the SENVEND Terminal.
    * </pre>
    *
    * Protobuf type {@code api.v1.AgeStartRequest}

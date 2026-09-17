@@ -118,7 +118,7 @@ public final class AgeVerificationServiceGrpc {
 
     /**
      * <pre>
-     *Initiates an age verification process on the SENVEND terminal.&#92;
+     *Initiates an age verification process on the SENVEND Terminal.&#92;
      *Accepts a stream of AgeRequest for starting and controlling age verification.&#92;
      *Returns a stream of AgeResponse containing status and error return messages.
      *&lt;details open&gt;
@@ -193,7 +193,7 @@ public final class AgeVerificationServiceGrpc {
 
     /**
      * <pre>
-     *Initiates an age verification process on the SENVEND terminal.&#92;
+     *Initiates an age verification process on the SENVEND Terminal.&#92;
      *Accepts a stream of AgeRequest for starting and controlling age verification.&#92;
      *Returns a stream of AgeResponse containing status and error return messages.
      *&lt;details open&gt;
@@ -253,7 +253,7 @@ public final class AgeVerificationServiceGrpc {
 
     /**
      * <pre>
-     *Initiates an age verification process on the SENVEND terminal.&#92;
+     *Initiates an age verification process on the SENVEND Terminal.&#92;
      *Accepts a stream of AgeRequest for starting and controlling age verification.&#92;
      *Returns a stream of AgeResponse containing status and error return messages.
      *&lt;details open&gt;

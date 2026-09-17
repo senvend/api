@@ -114,7 +114,7 @@ public final class CloudAgeVerificationServiceGrpc {
 
     /**
      * <pre>
-     * Initiates an age verification process on the SENVEND terminal.
+     * Initiates an age verification process on the SENVEND Terminal.
      * </pre>
      */
     default io.grpc.stub.StreamObserver<com.senbax.senvend.proto.cloud.v1.CloudAgeRequest> cloudAge(
@@ -158,7 +158,7 @@ public final class CloudAgeVerificationServiceGrpc {
 
     /**
      * <pre>
-     * Initiates an age verification process on the SENVEND terminal.
+     * Initiates an age verification process on the SENVEND Terminal.
      * </pre>
      */
     public io.grpc.stub.StreamObserver<com.senbax.senvend.proto.cloud.v1.CloudAgeRequest> cloudAge(
@@ -189,7 +189,7 @@ public final class CloudAgeVerificationServiceGrpc {
 
     /**
      * <pre>
-     * Initiates an age verification process on the SENVEND terminal.
+     * Initiates an age verification process on the SENVEND Terminal.
      * </pre>
      */
     @io.grpc.ExperimentalApi("https://github.com/grpc/grpc-java/issues/10918")

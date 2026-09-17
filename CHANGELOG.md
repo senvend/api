@@ -28,7 +28,7 @@
 ## v0.1.0 (2026-02-05)
 
 - First release of the SENVEND public API.
-  - Accessible via local (network) connection to the SENVEND terminal. With or without TLS and/or password.
+  - Accessible via local (network) connection to the SENVEND Terminal. With or without TLS and/or password.
   - Age verification service. End users can choose between all configured age verification methods on the device screen.
   - Payment service with optional age verification before payment.
   - Payments can be tracked via the SENVEND web portal, including quantity and price of sold products if provided via the API.

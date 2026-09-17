@@ -7,7 +7,7 @@ package com.senbax.senvend.proto.cloud.v1;
 
 /**
  * <pre>
- * Provides the current software and API version of the SENVEND terminal.
+ * Provides the current software and API version of the SENVEND Terminal.
  * </pre>
  *
  * Protobuf type {@code cloud.v1.CloudVersionResponse}
@@ -57,7 +57,7 @@ private static final long serialVersionUID = 0L;
   private com.senbax.senvend.proto.api.v1.VersionResponse versionResponse_;
   /**
    * <pre>
-   * Provides the current software and API version of the SENVEND terminal.
+   * Provides the current software and API version of the SENVEND Terminal.
    * </pre>
    *
    * <code>.api.v1.VersionResponse version_response = 1 [json_name = "versionResponse"];</code>
@@ -69,7 +69,7 @@ private static final long serialVersionUID = 0L;
   }
   /**
    * <pre>
-   * Provides the current software and API version of the SENVEND terminal.
+   * Provides the current software and API version of the SENVEND Terminal.
    * </pre>
    *
    * <code>.api.v1.VersionResponse version_response = 1 [json_name = "versionResponse"];</code>
@@ -81,7 +81,7 @@ private static final long serialVersionUID = 0L;
   }
   /**
    * <pre>
-   * Provides the current software and API version of the SENVEND terminal.
+   * Provides the current software and API version of the SENVEND Terminal.
    * </pre>
    *
    * <code>.api.v1.VersionResponse version_response = 1 [json_name = "versionResponse"];</code>
@@ -259,7 +259,7 @@ private static final long serialVersionUID = 0L;
   }
   /**
    * <pre>
-   * Provides the current software and API version of the SENVEND terminal.
+   * Provides the current software and API version of the SENVEND Terminal.
    * </pre>
    *
    * Protobuf type {@code cloud.v1.CloudVersionResponse}
@@ -417,7 +417,7 @@ private static final long serialVersionUID = 0L;
         com.senbax.senvend.proto.api.v1.VersionResponse, com.senbax.senvend.proto.api.v1.VersionResponse.Builder, com.senbax.senvend.proto.api.v1.VersionResponseOrBuilder> versionResponseBuilder_;
     /**
      * <pre>
-     * Provides the current software and API version of the SENVEND terminal.
+     * Provides the current software and API version of the SENVEND Terminal.
      * </pre>
      *
      * <code>.api.v1.VersionResponse version_response = 1 [json_name = "versionResponse"];</code>
@@ -428,7 +428,7 @@ private static final long serialVersionUID = 0L;
     }
     /**
      * <pre>
-     * Provides the current software and API version of the SENVEND terminal.
+     * Provides the current software and API version of the SENVEND Terminal.
      * </pre>
      *
      * <code>.api.v1.VersionResponse version_response = 1 [json_name = "versionResponse"];</code>
@@ -443,7 +443,7 @@ private static final long serialVersionUID = 0L;
     }
     /**
      * <pre>
-     * Provides the current software and API version of the SENVEND terminal.
+     * Provides the current software and API version of the SENVEND Terminal.
      * </pre>
      *
      * <code>.api.v1.VersionResponse version_response = 1 [json_name = "versionResponse"];</code>
@@ -461,7 +461,7 @@ private static final long serialVersionUID = 0L;
     }
     /**
      * <pre>
-     * Provides the current software and API version of the SENVEND terminal.
+     * Provides the current software and API version of the SENVEND Terminal.
      * </pre>
      *
      * <code>.api.v1.VersionResponse version_response = 1 [json_name = "versionResponse"];</code>
@@ -479,7 +479,7 @@ private static final long serialVersionUID = 0L;
     }
     /**
      * <pre>
-     * Provides the current software and API version of the SENVEND terminal.
+     * Provides the current software and API version of the SENVEND Terminal.
      * </pre>
      *
      * <code>.api.v1.VersionResponse version_response = 1 [json_name = "versionResponse"];</code>
@@ -504,7 +504,7 @@ private static final long serialVersionUID = 0L;
     }
     /**
      * <pre>
-     * Provides the current software and API version of the SENVEND terminal.
+     * Provides the current software and API version of the SENVEND Terminal.
      * </pre>
      *
      * <code>.api.v1.VersionResponse version_response = 1 [json_name = "versionResponse"];</code>
@@ -521,7 +521,7 @@ private static final long serialVersionUID = 0L;
     }
     /**
      * <pre>
-     * Provides the current software and API version of the SENVEND terminal.
+     * Provides the current software and API version of the SENVEND Terminal.
      * </pre>
      *
      * <code>.api.v1.VersionResponse version_response = 1 [json_name = "versionResponse"];</code>
@@ -533,7 +533,7 @@ private static final long serialVersionUID = 0L;
     }
     /**
      * <pre>
-     * Provides the current software and API version of the SENVEND terminal.
+     * Provides the current software and API version of the SENVEND Terminal.
      * </pre>
      *
      * <code>.api.v1.VersionResponse version_response = 1 [json_name = "versionResponse"];</code>
@@ -548,7 +548,7 @@ private static final long serialVersionUID = 0L;
     }
     /**
      * <pre>
-     * Provides the current software and API version of the SENVEND terminal.
+     * Provides the current software and API version of the SENVEND Terminal.
      * </pre>
      *
      * <code>.api.v1.VersionResponse version_response = 1 [json_name = "versionResponse"];</code>
