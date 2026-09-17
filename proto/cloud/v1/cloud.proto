@@ -1,5 +1,9 @@
 syntax = "proto3";
 
+/*
+   #### Cloud API
+   Address a SENVEND Terminal remotely, wrapping the api.v1 messages with a selector for the target machine. Not released yet.
+*/
 package cloud.v1;
 
 import "api/v1/age.proto";

@@ -74,7 +74,7 @@ mavenPublishing {
         signAllPublications()
     }
     coordinates("com.senbax.senvend", "senvend-api", project.version.toString())
-    configure(KotlinJvm(javadocJar = JavadocJar.Empty(), sourcesJar = true))
+    configure(KotlinJvm(javadocJar = JavadocJar.Javadoc(), sourcesJar = true))
     pom {
         name.set("SENVEND API")
         description.set("Public APIs to interact with the SENVEND ecosystem")
