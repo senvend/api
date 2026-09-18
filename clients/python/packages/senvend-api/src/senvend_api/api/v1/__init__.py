@@ -424,7 +424,7 @@ class PayApiFailureReason(betterproto2.Enum):
 
     AMOUNT_MISMATCH = 6
     """
-    If a list of LineItem entries is given, but the sum of their prices does not match the given total or partial amount.
+    If a list of LineItem entries is given, but the sum of their prices (times quantity) does not match the given total or partial amount.
     """
 
     INVALID_UUID = 7
@@ -576,7 +576,7 @@ class PayFailureReason(betterproto2.Enum):
 
     APPROVE_TIMEOUT = 7
     """
-    No PayGoodsIssued message was received after PayApproved. Payment was reimbursed.
+    The payment could not be finished after PayApproved. Payment was reimbursed.
     """
 
     @classmethod
@@ -845,7 +845,7 @@ class AgeCancelRequest(betterproto2.Message):
     Cancels an ongoing age verification process on the SENVEND Terminal.
     Can be sent at any time, but will result in AGE_API_FAILURE_REASON_UUID_NOT_FOUND
     if there is nothing to cancel.
-    If sent in an AgeRequest without UUID, will cancel any running process without UUID check, including vending. (Catch all)
+    If sent in an AgeRequest without UUID, will cancel any running age verification or payment process without UUID check.
     """
 
     pass
@@ -950,6 +950,8 @@ class AgeResponse(betterproto2.Message):
 
     Oneofs:
         - result: The result of the age verification process.
+            A transient state means the process continues and more responses follow.
+            A final state means this process ended; no further responses for this ID.
     """
 
     id: "Uuid4 | None" = betterproto2.field(1, betterproto2.TYPE_MESSAGE, optional=True)
@@ -983,7 +985,10 @@ class AgeResponse(betterproto2.Message):
         5, betterproto2.TYPE_MESSAGE, optional=True, group="result"
     )
     """
-    transient state
+    transient/final state
+    An API failure is usually transient as it doesn't end the current process.
+    But it is final if it does not result in a new process with that UUID either.
+    Prime examples are AgeStart with an invalid age or an AgeCancel for an unknown UUID.
     """
 
 
@@ -1260,6 +1265,9 @@ class PayResponse(betterproto2.Message):
 
     Oneofs:
         - result: The result of the payment process.
+            A transient state means the process continues and more responses follow.
+            A final state means this process ended; no further responses for this ID.
+            AgeSuccess and vending messages are transient inside a payment. They end their own sub-process, not the payment.
     """
 
     id: "Uuid4 | None" = betterproto2.field(1, betterproto2.TYPE_MESSAGE, optional=True)
@@ -1293,7 +1301,10 @@ class PayResponse(betterproto2.Message):
         5, betterproto2.TYPE_MESSAGE, optional=True, group="result"
     )
     """
-    final state
+    transient/final state
+    An API failure is usually transient as it doesn't end the current process.
+    But it is final if it does not result in a new process with that UUID either.
+    Prime examples are PayStart with an invalid amount or a PayCancel for an unknown UUID.
     """
 
     api_success: "PayApiSuccess | None" = betterproto2.field(
@@ -1585,7 +1596,7 @@ class VendCancel(betterproto2.Message):
     Cancels an ongoing vending process on the SENVEND Terminal.
     Can be sent at any time, but will result in VEND_API_FAILURE_REASON_UUID_NOT_FOUND
     if there is nothing to cancel.
-    If sent in a VendRequest without UUID, will cancel any running process without UUID check. (Catch all)
+    If sent in a VendRequest without UUID, will cancel any running vending process without UUID check.
     """
 
     pass
@@ -1708,7 +1719,8 @@ class VendResponse(betterproto2.Message):
     success and failure are final states, they indicate the end of the vending process.
 
     Oneofs:
-        - response:
+        - response: A transient state means the process continues and more responses follow.
+            A final state means this process ended; no further responses for this ID.
     """
 
     id: "Uuid4 | None" = betterproto2.field(1, betterproto2.TYPE_MESSAGE, optional=True)
@@ -1729,6 +1741,9 @@ class VendResponse(betterproto2.Message):
     )
     """
     transient/final state
+    An API failure is usually transient as it doesn't end the current process.
+    But it is final if it does not result in a new process with that UUID either.
+    Prime examples are VendStart with an invalid quantity or a VendCancel for an unknown UUID.
     """
 
     api_success: "VendApiSuccess | None" = betterproto2.field(

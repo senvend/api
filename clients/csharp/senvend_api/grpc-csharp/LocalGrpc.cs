@@ -422,17 +422,17 @@ namespace com.senbax.senvend.proto.Local.V1 {
       ///|--------------------------|----------------------------|------------------------------|
       ///| No payment running | PayStart | Payment start |
       ///| | PayStart (with AgeRequest) | AgeVerification start |
-      ///| | PayCancel | PayApiFailure |
+      ///| | PayCancel | PayApiFailure OR PayApiSuccess if sent without UUID |
       ///| | PayGoodsIssued | PayApiFailure |
-      ///| Age verification ongoing | PayStart | PayApiFailure |
+      ///| Age verification ongoing | PayStart | PayFailure (if auto_cancel=true, also PaymentStart) |
       ///| | PayCancel | AgeVerification cancel |
       ///| | PayGoodsIssued | PayApiFailure |
       ///| | AgeApproveRequest | Terminal Proceeds to payment |
-      ///| Payment process ongoing | PayStart | PayApiFailure |
+      ///| Payment process ongoing | PayStart | PayFailure (if auto_cancel=true, also PaymentStart) |
       ///| | PayCancel | Payment cancel |
       ///| | PayGoodsIssued | PayApiFailure |
       ///| | AgeApproveRequest | PayApiFailure |
-      ///| Payment accepted | PayStart | PayApiFailure |
+      ///| Payment accepted | PayStart | PayFailure (if auto_cancel=true, also PaymentStart) |
       ///| | PayCancel | Reimburse and cancel payment |
       ///| | PayGoodsIssued | Finalize payment |
       ///&lt;/details>
@@ -442,15 +442,18 @@ namespace com.senbax.senvend.proto.Local.V1 {
       ///
       ///| State | Event | Error |
       ///|--------------------------|---------------------------|-----------------------------------|
-      ///| Age verification ongoing | Took too long (timeout) | AGE_FAILURE_REASON_USER_CANCELLED |
+      ///| Age verification ongoing | Took too long (timeout) | AGE_FAILURE_REASON_TIMEOUT |
       ///| | User actively canceled | AGE_FAILURE_REASON_USER_CANCELLED |
       ///| | Cancel via API | AGE_FAILURE_REASON_API_CANCELLED |
+      ///| | User walked away | AGE_FAILURE_REASON_TIMEOUT |
       ///| | Verification fails | AgeFailureUnderage |
-      ///| Payment process ongoing | Took too long (timeout) | PAY_FAILURE_REASON_USER_CANCELLED |
+      ///| Payment process ongoing | Took too long (timeout) | PAY_FAILURE_REASON_TIMEOUT |
       ///| | User actively canceled | PAY_FAILURE_REASON_USER_CANCELLED |
       ///| | Canceled via API | PAY_FAILURE_REASON_API_CANCELLED |
       ///| | Payment failed (no debit) | PAY_FAILURE_REASON_PAYMENT_FAILED |
-      ///| Payment accepted | No response from API | PaySuccess |
+      ///| | User walked away | PAY_FAILURE_REASON_TIMEOUT |
+      ///| Payment accepted | PayGoodsIssued | PaySuccess |
+      ///| | No Response from API | PaySuccess |
       ///&lt;/details>
       ///
       ///&lt;details>
@@ -716,17 +719,17 @@ namespace com.senbax.senvend.proto.Local.V1 {
       ///|--------------------------|----------------------------|------------------------------|
       ///| No payment running | PayStart | Payment start |
       ///| | PayStart (with AgeRequest) | AgeVerification start |
-      ///| | PayCancel | PayApiFailure |
+      ///| | PayCancel | PayApiFailure OR PayApiSuccess if sent without UUID |
       ///| | PayGoodsIssued | PayApiFailure |
-      ///| Age verification ongoing | PayStart | PayApiFailure |
+      ///| Age verification ongoing | PayStart | PayFailure (if auto_cancel=true, also PaymentStart) |
       ///| | PayCancel | AgeVerification cancel |
       ///| | PayGoodsIssued | PayApiFailure |
       ///| | AgeApproveRequest | Terminal Proceeds to payment |
-      ///| Payment process ongoing | PayStart | PayApiFailure |
+      ///| Payment process ongoing | PayStart | PayFailure (if auto_cancel=true, also PaymentStart) |
       ///| | PayCancel | Payment cancel |
       ///| | PayGoodsIssued | PayApiFailure |
       ///| | AgeApproveRequest | PayApiFailure |
-      ///| Payment accepted | PayStart | PayApiFailure |
+      ///| Payment accepted | PayStart | PayFailure (if auto_cancel=true, also PaymentStart) |
       ///| | PayCancel | Reimburse and cancel payment |
       ///| | PayGoodsIssued | Finalize payment |
       ///&lt;/details>
@@ -736,15 +739,18 @@ namespace com.senbax.senvend.proto.Local.V1 {
       ///
       ///| State | Event | Error |
       ///|--------------------------|---------------------------|-----------------------------------|
-      ///| Age verification ongoing | Took too long (timeout) | AGE_FAILURE_REASON_USER_CANCELLED |
+      ///| Age verification ongoing | Took too long (timeout) | AGE_FAILURE_REASON_TIMEOUT |
       ///| | User actively canceled | AGE_FAILURE_REASON_USER_CANCELLED |
       ///| | Cancel via API | AGE_FAILURE_REASON_API_CANCELLED |
+      ///| | User walked away | AGE_FAILURE_REASON_TIMEOUT |
       ///| | Verification fails | AgeFailureUnderage |
-      ///| Payment process ongoing | Took too long (timeout) | PAY_FAILURE_REASON_USER_CANCELLED |
+      ///| Payment process ongoing | Took too long (timeout) | PAY_FAILURE_REASON_TIMEOUT |
       ///| | User actively canceled | PAY_FAILURE_REASON_USER_CANCELLED |
       ///| | Canceled via API | PAY_FAILURE_REASON_API_CANCELLED |
       ///| | Payment failed (no debit) | PAY_FAILURE_REASON_PAYMENT_FAILED |
-      ///| Payment accepted | No response from API | PaySuccess |
+      ///| | User walked away | PAY_FAILURE_REASON_TIMEOUT |
+      ///| Payment accepted | PayGoodsIssued | PaySuccess |
+      ///| | No Response from API | PaySuccess |
       ///&lt;/details>
       ///
       ///&lt;details>
@@ -980,17 +986,17 @@ namespace com.senbax.senvend.proto.Local.V1 {
       ///|--------------------------|----------------------------|------------------------------|
       ///| No payment running | PayStart | Payment start |
       ///| | PayStart (with AgeRequest) | AgeVerification start |
-      ///| | PayCancel | PayApiFailure |
+      ///| | PayCancel | PayApiFailure OR PayApiSuccess if sent without UUID |
       ///| | PayGoodsIssued | PayApiFailure |
-      ///| Age verification ongoing | PayStart | PayApiFailure |
+      ///| Age verification ongoing | PayStart | PayFailure (if auto_cancel=true, also PaymentStart) |
       ///| | PayCancel | AgeVerification cancel |
       ///| | PayGoodsIssued | PayApiFailure |
       ///| | AgeApproveRequest | Terminal Proceeds to payment |
-      ///| Payment process ongoing | PayStart | PayApiFailure |
+      ///| Payment process ongoing | PayStart | PayFailure (if auto_cancel=true, also PaymentStart) |
       ///| | PayCancel | Payment cancel |
       ///| | PayGoodsIssued | PayApiFailure |
       ///| | AgeApproveRequest | PayApiFailure |
-      ///| Payment accepted | PayStart | PayApiFailure |
+      ///| Payment accepted | PayStart | PayFailure (if auto_cancel=true, also PaymentStart) |
       ///| | PayCancel | Reimburse and cancel payment |
       ///| | PayGoodsIssued | Finalize payment |
       ///&lt;/details>
@@ -1000,15 +1006,18 @@ namespace com.senbax.senvend.proto.Local.V1 {
       ///
       ///| State | Event | Error |
       ///|--------------------------|---------------------------|-----------------------------------|
-      ///| Age verification ongoing | Took too long (timeout) | AGE_FAILURE_REASON_USER_CANCELLED |
+      ///| Age verification ongoing | Took too long (timeout) | AGE_FAILURE_REASON_TIMEOUT |
       ///| | User actively canceled | AGE_FAILURE_REASON_USER_CANCELLED |
       ///| | Cancel via API | AGE_FAILURE_REASON_API_CANCELLED |
+      ///| | User walked away | AGE_FAILURE_REASON_TIMEOUT |
       ///| | Verification fails | AgeFailureUnderage |
-      ///| Payment process ongoing | Took too long (timeout) | PAY_FAILURE_REASON_USER_CANCELLED |
+      ///| Payment process ongoing | Took too long (timeout) | PAY_FAILURE_REASON_TIMEOUT |
       ///| | User actively canceled | PAY_FAILURE_REASON_USER_CANCELLED |
       ///| | Canceled via API | PAY_FAILURE_REASON_API_CANCELLED |
       ///| | Payment failed (no debit) | PAY_FAILURE_REASON_PAYMENT_FAILED |
-      ///| Payment accepted | No response from API | PaySuccess |
+      ///| | User walked away | PAY_FAILURE_REASON_TIMEOUT |
+      ///| Payment accepted | PayGoodsIssued | PaySuccess |
+      ///| | No Response from API | PaySuccess |
       ///&lt;/details>
       ///
       ///&lt;details>

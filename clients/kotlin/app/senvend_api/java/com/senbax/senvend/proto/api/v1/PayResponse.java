@@ -294,7 +294,10 @@ private static final long serialVersionUID = 0L;
   public static final int API_FAILURE_FIELD_NUMBER = 5;
   /**
    * <pre>
-   * final state
+   * transient/final state
+   * An API failure is usually transient as it doesn't end the current process.
+   * But it is final if it does not result in a new process with that UUID either.
+   * Prime examples are PayStart with an invalid amount or a PayCancel for an unknown UUID.
    * </pre>
    *
    * <code>.api.v1.PayApiFailure api_failure = 5 [json_name = "apiFailure"];</code>
@@ -306,7 +309,10 @@ private static final long serialVersionUID = 0L;
   }
   /**
    * <pre>
-   * final state
+   * transient/final state
+   * An API failure is usually transient as it doesn't end the current process.
+   * But it is final if it does not result in a new process with that UUID either.
+   * Prime examples are PayStart with an invalid amount or a PayCancel for an unknown UUID.
    * </pre>
    *
    * <code>.api.v1.PayApiFailure api_failure = 5 [json_name = "apiFailure"];</code>
@@ -321,7 +327,10 @@ private static final long serialVersionUID = 0L;
   }
   /**
    * <pre>
-   * final state
+   * transient/final state
+   * An API failure is usually transient as it doesn't end the current process.
+   * But it is final if it does not result in a new process with that UUID either.
+   * Prime examples are PayStart with an invalid amount or a PayCancel for an unknown UUID.
    * </pre>
    *
    * <code>.api.v1.PayApiFailure api_failure = 5 [json_name = "apiFailure"];</code>
@@ -2282,7 +2291,10 @@ private static final long serialVersionUID = 0L;
         com.senbax.senvend.proto.api.v1.PayApiFailure, com.senbax.senvend.proto.api.v1.PayApiFailure.Builder, com.senbax.senvend.proto.api.v1.PayApiFailureOrBuilder> apiFailureBuilder_;
     /**
      * <pre>
-     * final state
+     * transient/final state
+     * An API failure is usually transient as it doesn't end the current process.
+     * But it is final if it does not result in a new process with that UUID either.
+     * Prime examples are PayStart with an invalid amount or a PayCancel for an unknown UUID.
      * </pre>
      *
      * <code>.api.v1.PayApiFailure api_failure = 5 [json_name = "apiFailure"];</code>
@@ -2294,7 +2306,10 @@ private static final long serialVersionUID = 0L;
     }
     /**
      * <pre>
-     * final state
+     * transient/final state
+     * An API failure is usually transient as it doesn't end the current process.
+     * But it is final if it does not result in a new process with that UUID either.
+     * Prime examples are PayStart with an invalid amount or a PayCancel for an unknown UUID.
      * </pre>
      *
      * <code>.api.v1.PayApiFailure api_failure = 5 [json_name = "apiFailure"];</code>
@@ -2316,7 +2331,10 @@ private static final long serialVersionUID = 0L;
     }
     /**
      * <pre>
-     * final state
+     * transient/final state
+     * An API failure is usually transient as it doesn't end the current process.
+     * But it is final if it does not result in a new process with that UUID either.
+     * Prime examples are PayStart with an invalid amount or a PayCancel for an unknown UUID.
      * </pre>
      *
      * <code>.api.v1.PayApiFailure api_failure = 5 [json_name = "apiFailure"];</code>
@@ -2334,7 +2352,10 @@ private static final long serialVersionUID = 0L;
     }
     /**
      * <pre>
-     * final state
+     * transient/final state
+     * An API failure is usually transient as it doesn't end the current process.
+     * But it is final if it does not result in a new process with that UUID either.
+     * Prime examples are PayStart with an invalid amount or a PayCancel for an unknown UUID.
      * </pre>
      *
      * <code>.api.v1.PayApiFailure api_failure = 5 [json_name = "apiFailure"];</code>
@@ -2352,7 +2373,10 @@ private static final long serialVersionUID = 0L;
     }
     /**
      * <pre>
-     * final state
+     * transient/final state
+     * An API failure is usually transient as it doesn't end the current process.
+     * But it is final if it does not result in a new process with that UUID either.
+     * Prime examples are PayStart with an invalid amount or a PayCancel for an unknown UUID.
      * </pre>
      *
      * <code>.api.v1.PayApiFailure api_failure = 5 [json_name = "apiFailure"];</code>
@@ -2379,7 +2403,10 @@ private static final long serialVersionUID = 0L;
     }
     /**
      * <pre>
-     * final state
+     * transient/final state
+     * An API failure is usually transient as it doesn't end the current process.
+     * But it is final if it does not result in a new process with that UUID either.
+     * Prime examples are PayStart with an invalid amount or a PayCancel for an unknown UUID.
      * </pre>
      *
      * <code>.api.v1.PayApiFailure api_failure = 5 [json_name = "apiFailure"];</code>
@@ -2402,7 +2429,10 @@ private static final long serialVersionUID = 0L;
     }
     /**
      * <pre>
-     * final state
+     * transient/final state
+     * An API failure is usually transient as it doesn't end the current process.
+     * But it is final if it does not result in a new process with that UUID either.
+     * Prime examples are PayStart with an invalid amount or a PayCancel for an unknown UUID.
      * </pre>
      *
      * <code>.api.v1.PayApiFailure api_failure = 5 [json_name = "apiFailure"];</code>
@@ -2412,7 +2442,10 @@ private static final long serialVersionUID = 0L;
     }
     /**
      * <pre>
-     * final state
+     * transient/final state
+     * An API failure is usually transient as it doesn't end the current process.
+     * But it is final if it does not result in a new process with that UUID either.
+     * Prime examples are PayStart with an invalid amount or a PayCancel for an unknown UUID.
      * </pre>
      *
      * <code>.api.v1.PayApiFailure api_failure = 5 [json_name = "apiFailure"];</code>
@@ -2430,7 +2463,10 @@ private static final long serialVersionUID = 0L;
     }
     /**
      * <pre>
-     * final state
+     * transient/final state
+     * An API failure is usually transient as it doesn't end the current process.
+     * But it is final if it does not result in a new process with that UUID either.
+     * Prime examples are PayStart with an invalid amount or a PayCancel for an unknown UUID.
      * </pre>
      *
      * <code>.api.v1.PayApiFailure api_failure = 5 [json_name = "apiFailure"];</code>

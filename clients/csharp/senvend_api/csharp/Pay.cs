@@ -155,7 +155,7 @@ namespace com.senbax.senvend.proto.Api.V1 {
     /// </summary>
     [pbr::OriginalName("PAY_FAILURE_REASON_API_CANCELLED")] ApiCancelled = 6,
     /// <summary>
-    /// No PayGoodsIssued message was received after PayApproved. Payment was reimbursed.
+    /// The payment could not be finished after PayApproved. Payment was reimbursed.
     /// </summary>
     [pbr::OriginalName("PAY_FAILURE_REASON_APPROVE_TIMEOUT")] ApproveTimeout = 7,
   }
@@ -190,7 +190,7 @@ namespace com.senbax.senvend.proto.Api.V1 {
     /// </summary>
     [pbr::OriginalName("PAY_API_FAILURE_REASON_NO_APPROVED_PAYMENT")] NoApprovedPayment = 5,
     /// <summary>
-    /// If a list of LineItem entries is given, but the sum of their prices does not match the given total or partial amount.
+    /// If a list of LineItem entries is given, but the sum of their prices (times quantity) does not match the given total or partial amount.
     /// </summary>
     [pbr::OriginalName("PAY_API_FAILURE_REASON_AMOUNT_MISMATCH")] AmountMismatch = 6,
     /// <summary>
@@ -2200,7 +2200,10 @@ namespace com.senbax.senvend.proto.Api.V1 {
     /// <summary>Field number for the "api_failure" field.</summary>
     public const int ApiFailureFieldNumber = 5;
     /// <summary>
-    /// final state
+    /// transient/final state
+    /// An API failure is usually transient as it doesn't end the current process.
+    /// But it is final if it does not result in a new process with that UUID either.
+    /// Prime examples are PayStart with an invalid amount or a PayCancel for an unknown UUID.
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]

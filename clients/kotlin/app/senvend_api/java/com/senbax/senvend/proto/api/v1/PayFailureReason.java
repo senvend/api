@@ -75,7 +75,7 @@ public enum PayFailureReason
   PAY_FAILURE_REASON_API_CANCELLED(6),
   /**
    * <pre>
-   * No PayGoodsIssued message was received after PayApproved. Payment was reimbursed.
+   * The payment could not be finished after PayApproved. Payment was reimbursed.
    * </pre>
    *
    * <code>PAY_FAILURE_REASON_APPROVE_TIMEOUT = 7;</code>
@@ -152,7 +152,7 @@ public enum PayFailureReason
   public static final int PAY_FAILURE_REASON_API_CANCELLED_VALUE = 6;
   /**
    * <pre>
-   * No PayGoodsIssued message was received after PayApproved. Payment was reimbursed.
+   * The payment could not be finished after PayApproved. Payment was reimbursed.
    * </pre>
    *
    * <code>PAY_FAILURE_REASON_APPROVE_TIMEOUT = 7;</code>

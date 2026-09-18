@@ -110,6 +110,9 @@ message PayResponse {
   // This field is always populated, either with the provided ID from the request or a newly generated one.
   Uuid4 id = 1;
   // The result of the payment process.
+  // A transient state means the process continues and more responses follow.
+  // A final state means this process ended; no further responses for this ID.
+  // AgeSuccess and vending messages are transient inside a payment. They end their own sub-process, not the payment.
   oneof result {
     // transient state
     PayApproved approved = 2;
@@ -117,7 +120,10 @@ message PayResponse {
     PaySuccess success = 3;
     // final state
     PayFailure failure = 4;
-    // final state
+    // transient/final state
+    // An API failure is usually transient as it doesn't end the current process.
+    // But it is final if it does not result in a new process with that UUID either.
+    // Prime examples are PayStart with an invalid amount or a PayCancel for an unknown UUID.
     PayApiFailure api_failure = 5;
     // transient state
     PayApiSuccess api_success = 6;
@@ -178,7 +184,7 @@ enum PayFailureReason {
   PAY_FAILURE_REASON_PAYMENT_FAILED = 5;
   // The payment process was cancelled by a previous PayCancel message.
   PAY_FAILURE_REASON_API_CANCELLED = 6;
-  // No PayGoodsIssued message was received after PayApproved. Payment was reimbursed.
+  // The payment could not be finished after PayApproved. Payment was reimbursed.
   PAY_FAILURE_REASON_APPROVE_TIMEOUT = 7;
 }
 
@@ -208,7 +214,7 @@ enum PayApiFailureReason {
   PAY_API_FAILURE_REASON_UNKNOWN_COMMAND = 4;
   // A PayGoodsIssued request was sent before a payment was started or approved.
   PAY_API_FAILURE_REASON_NO_APPROVED_PAYMENT = 5;
-  // If a list of LineItem entries is given, but the sum of their prices does not match the given total or partial amount.
+  // If a list of LineItem entries is given, but the sum of their prices (times quantity) does not match the given total or partial amount.
   PAY_API_FAILURE_REASON_AMOUNT_MISMATCH = 6;
   // If a given UUID is not a valid v4 UUID
   PAY_API_FAILURE_REASON_INVALID_UUID = 7;

@@ -187,7 +187,10 @@ public object PayResponseKt {
 
     /**
      * ```
-     * final state
+     * transient/final state
+     * An API failure is usually transient as it doesn't end the current process.
+     * But it is final if it does not result in a new process with that UUID either.
+     * Prime examples are PayStart with an invalid amount or a PayCancel for an unknown UUID.
      * ```
      *
      * `.api.v1.PayApiFailure api_failure = 5 [json_name = "apiFailure"];`
@@ -201,7 +204,10 @@ public object PayResponseKt {
       }
     /**
      * ```
-     * final state
+     * transient/final state
+     * An API failure is usually transient as it doesn't end the current process.
+     * But it is final if it does not result in a new process with that UUID either.
+     * Prime examples are PayStart with an invalid amount or a PayCancel for an unknown UUID.
      * ```
      *
      * `.api.v1.PayApiFailure api_failure = 5 [json_name = "apiFailure"];`
@@ -211,7 +217,10 @@ public object PayResponseKt {
     }
     /**
      * ```
-     * final state
+     * transient/final state
+     * An API failure is usually transient as it doesn't end the current process.
+     * But it is final if it does not result in a new process with that UUID either.
+     * Prime examples are PayStart with an invalid amount or a PayCancel for an unknown UUID.
      * ```
      *
      * `.api.v1.PayApiFailure api_failure = 5 [json_name = "apiFailure"];`

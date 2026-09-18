@@ -860,7 +860,7 @@ namespace com.senbax.senvend.proto.Api.V1 {
   /// Cancels an ongoing age verification process on the SENVEND Terminal.
   /// Can be sent at any time, but will result in AGE_API_FAILURE_REASON_UUID_NOT_FOUND
   /// if there is nothing to cancel.
-  /// If sent in an AgeRequest without UUID, will cancel any running process without UUID check, including vending. (Catch all)
+  /// If sent in an AgeRequest without UUID, will cancel any running age verification or payment process without UUID check.
   /// </summary>
   [global::System.Diagnostics.DebuggerDisplayAttribute("{ToString(),nq}")]
   public sealed partial class AgeCancelRequest : pb::IMessage<AgeCancelRequest>
@@ -1373,7 +1373,10 @@ namespace com.senbax.senvend.proto.Api.V1 {
     /// <summary>Field number for the "api_failure" field.</summary>
     public const int ApiFailureFieldNumber = 5;
     /// <summary>
-    /// transient state
+    /// transient/final state
+    /// An API failure is usually transient as it doesn't end the current process.
+    /// But it is final if it does not result in a new process with that UUID either.
+    /// Prime examples are AgeStart with an invalid age or an AgeCancel for an unknown UUID.
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]

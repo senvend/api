@@ -66,7 +66,7 @@ public enum PayApiFailureReason
   PAY_API_FAILURE_REASON_NO_APPROVED_PAYMENT(5),
   /**
    * <pre>
-   * If a list of LineItem entries is given, but the sum of their prices does not match the given total or partial amount.
+   * If a list of LineItem entries is given, but the sum of their prices (times quantity) does not match the given total or partial amount.
    * </pre>
    *
    * <code>PAY_API_FAILURE_REASON_AMOUNT_MISMATCH = 6;</code>
@@ -158,7 +158,7 @@ public enum PayApiFailureReason
   public static final int PAY_API_FAILURE_REASON_NO_APPROVED_PAYMENT_VALUE = 5;
   /**
    * <pre>
-   * If a list of LineItem entries is given, but the sum of their prices does not match the given total or partial amount.
+   * If a list of LineItem entries is given, but the sum of their prices (times quantity) does not match the given total or partial amount.
    * </pre>
    *
    * <code>PAY_API_FAILURE_REASON_AMOUNT_MISMATCH = 6;</code>

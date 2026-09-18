@@ -16,7 +16,7 @@ public inline fun ageCancelRequest(block: com.senbax.senvend.proto.api.v1.AgeCan
  * Cancels an ongoing age verification process on the SENVEND Terminal.
  * Can be sent at any time, but will result in AGE_API_FAILURE_REASON_UUID_NOT_FOUND
  * if there is nothing to cancel.
- * If sent in an AgeRequest without UUID, will cancel any running process without UUID check, including vending. (Catch all)
+ * If sent in an AgeRequest without UUID, will cancel any running age verification or payment process without UUID check.
  * ```
  *
  * Protobuf type `api.v1.AgeCancelRequest`

@@ -64,6 +64,30 @@ syntax = "proto3";
       </details>
 
       <details>
+       <summary>UUIDs and Processes</summary>
+
+       The API is used to control processes on the SENVEND Terminal, i.e. a series of steps that
+       are executed one by one and independent of a single request or connection.\
+       Currently these processes are Payment, Age Verification and Vending.
+
+       These processes are identified by a UUID v4 unique to each process, which can be supplied manually,
+       or generated automatically by the system.\
+       These can be considered as a session id, with the session being the current process (NOT the request or connection).\
+       Conversely, if a request does not result in a process with a UUID, it is considered finished immediately.
+
+       A UUID will stay valid as long as the process is still running, independent of the transport layer used.\
+       This for example means that a process can be started via local gRPC, and controlled via the cloud API or vice versa.
+
+       The Payment and Age Verification processes are exclusive, only one can run on the terminal at the same time.\
+       Vending processes are exclusive with each other, but can run during a specific window of a Payment process.
+
+       The API provides some checks against accidental misuse, which usually result in a *ApiFailure response.\
+       These responses are always in relation to the last command, and carry the UUID of that.\
+       This can also mean that a command with a UUID different from the current process UUID is answered with *ApiFailure,
+       but not resulting in any further non-api failure or success messages for that UUID.
+      </details>
+
+      <details>
        <summary>Examples</summary>
 
        The individual service documentation contains examples demonstrating the message flow for that particular service.\
@@ -232,17 +256,17 @@ service PayService {
       |--------------------------|----------------------------|------------------------------|
       | No payment running | PayStart | Payment start |
       | | PayStart (with AgeRequest) | AgeVerification start |
-      | | PayCancel | PayApiFailure |
+      | | PayCancel | PayApiFailure OR PayApiSuccess if sent without UUID |
       | | PayGoodsIssued | PayApiFailure |
-      | Age verification ongoing | PayStart | PayApiFailure |
+      | Age verification ongoing | PayStart | PayFailure (if auto_cancel=true, also PaymentStart) |
       | | PayCancel | AgeVerification cancel |
       | | PayGoodsIssued | PayApiFailure |
       | | AgeApproveRequest | Terminal Proceeds to payment |
-      | Payment process ongoing | PayStart | PayApiFailure |
+      | Payment process ongoing | PayStart | PayFailure (if auto_cancel=true, also PaymentStart) |
       | | PayCancel | Payment cancel |
       | | PayGoodsIssued | PayApiFailure |
       | | AgeApproveRequest | PayApiFailure |
-      | Payment accepted | PayStart | PayApiFailure |
+      | Payment accepted | PayStart | PayFailure (if auto_cancel=true, also PaymentStart) |
       | | PayCancel | Reimburse and cancel payment |
       | | PayGoodsIssued | Finalize payment |
      </details>
@@ -252,15 +276,18 @@ service PayService {
 
       | State | Event | Error |
       |--------------------------|---------------------------|-----------------------------------|
-      | Age verification ongoing | Took too long (timeout) | AGE_FAILURE_REASON_USER_CANCELLED |
+      | Age verification ongoing | Took too long (timeout) | AGE_FAILURE_REASON_TIMEOUT |
       | | User actively canceled | AGE_FAILURE_REASON_USER_CANCELLED |
       | | Cancel via API | AGE_FAILURE_REASON_API_CANCELLED |
+      | | User walked away | AGE_FAILURE_REASON_TIMEOUT |
       | | Verification fails | AgeFailureUnderage |
-      | Payment process ongoing | Took too long (timeout) | PAY_FAILURE_REASON_USER_CANCELLED |
+      | Payment process ongoing | Took too long (timeout) | PAY_FAILURE_REASON_TIMEOUT |
       | | User actively canceled | PAY_FAILURE_REASON_USER_CANCELLED |
       | | Canceled via API | PAY_FAILURE_REASON_API_CANCELLED |
       | | Payment failed (no debit) | PAY_FAILURE_REASON_PAYMENT_FAILED |
-      | Payment accepted | No response from API | PaySuccess |
+      | | User walked away | PAY_FAILURE_REASON_TIMEOUT |
+      | Payment accepted | PayGoodsIssued | PaySuccess |
+      | | No Response from API | PaySuccess |
      </details>
 
      <details>

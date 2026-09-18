@@ -746,7 +746,7 @@ namespace com.senbax.senvend.proto.Api.V1 {
   /// Cancels an ongoing vending process on the SENVEND Terminal.
   /// Can be sent at any time, but will result in VEND_API_FAILURE_REASON_UUID_NOT_FOUND
   /// if there is nothing to cancel.
-  /// If sent in a VendRequest without UUID, will cancel any running process without UUID check. (Catch all)
+  /// If sent in a VendRequest without UUID, will cancel any running vending process without UUID check.
   /// </summary>
   [global::System.Diagnostics.DebuggerDisplayAttribute("{ToString(),nq}")]
   public sealed partial class VendCancel : pb::IMessage<VendCancel>
@@ -1012,6 +1012,9 @@ namespace com.senbax.senvend.proto.Api.V1 {
     public const int ApiFailureFieldNumber = 3;
     /// <summary>
     /// transient/final state
+    /// An API failure is usually transient as it doesn't end the current process.
+    /// But it is final if it does not result in a new process with that UUID either.
+    /// Prime examples are VendStart with an invalid quantity or a VendCancel for an unknown UUID.
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
