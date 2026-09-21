@@ -913,6 +913,9 @@ namespace com.senbax.senvend.proto.Api.V1 {
   ///
   /// Response to a VendRequest.
   /// success and failure are final states, they indicate the end of the vending process.
+  ///
+  /// A transient state means the process continues and more responses follow.
+  /// A final state means this process ended; no further responses for this ID.
   /// </summary>
   [global::System.Diagnostics.DebuggerDisplayAttribute("{ToString(),nq}")]
   public sealed partial class VendResponse : pb::IMessage<VendResponse>

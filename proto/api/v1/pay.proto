@@ -104,15 +104,16 @@ message PayGoodsIssued {
 /*
  * Response to a PayRequest.
  * PaySuccess and PayFailure are final states, they indicate the end of the payment process.
+ *
+ * A transient state means the process continues and more responses follow.
+ * A final state means this process ended; no further responses for this ID.
+ * AgeSuccess and vending messages are transient inside a payment. They end their own sub-process, not the payment.
  */
 message PayResponse {
   // Unique identifier for the payment request. Mirrors the ID from the PayRequest.
   // This field is always populated, either with the provided ID from the request or a newly generated one.
   Uuid4 id = 1;
   // The result of the payment process.
-  // A transient state means the process continues and more responses follow.
-  // A final state means this process ended; no further responses for this ID.
-  // AgeSuccess and vending messages are transient inside a payment. They end their own sub-process, not the payment.
   oneof result {
     // transient state
     PayApproved approved = 2;

@@ -424,7 +424,7 @@ namespace com.senbax.senvend.proto.Local.V1 {
       ///| | PayStart (with AgeRequest) | AgeVerification start |
       ///| | PayCancel | PayApiFailure OR PayApiSuccess if sent without UUID |
       ///| | PayGoodsIssued | PayApiFailure |
-      ///| Age verification ongoing | PayStart | PayFailure (if auto_cancel=true, also PaymentStart) |
+      ///| Age verification ongoing | PayStart | AgeFailure (if auto_cancel=true, also PaymentStart) |
       ///| | PayCancel | AgeVerification cancel |
       ///| | PayGoodsIssued | PayApiFailure |
       ///| | AgeApproveRequest | Terminal Proceeds to payment |
@@ -721,7 +721,7 @@ namespace com.senbax.senvend.proto.Local.V1 {
       ///| | PayStart (with AgeRequest) | AgeVerification start |
       ///| | PayCancel | PayApiFailure OR PayApiSuccess if sent without UUID |
       ///| | PayGoodsIssued | PayApiFailure |
-      ///| Age verification ongoing | PayStart | PayFailure (if auto_cancel=true, also PaymentStart) |
+      ///| Age verification ongoing | PayStart | AgeFailure (if auto_cancel=true, also PaymentStart) |
       ///| | PayCancel | AgeVerification cancel |
       ///| | PayGoodsIssued | PayApiFailure |
       ///| | AgeApproveRequest | Terminal Proceeds to payment |
@@ -988,7 +988,7 @@ namespace com.senbax.senvend.proto.Local.V1 {
       ///| | PayStart (with AgeRequest) | AgeVerification start |
       ///| | PayCancel | PayApiFailure OR PayApiSuccess if sent without UUID |
       ///| | PayGoodsIssued | PayApiFailure |
-      ///| Age verification ongoing | PayStart | PayFailure (if auto_cancel=true, also PaymentStart) |
+      ///| Age verification ongoing | PayStart | AgeFailure (if auto_cancel=true, also PaymentStart) |
       ///| | PayCancel | AgeVerification cancel |
       ///| | PayGoodsIssued | PayApiFailure |
       ///| | AgeApproveRequest | Terminal Proceeds to payment |

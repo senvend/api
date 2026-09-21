@@ -27,7 +27,7 @@
 
   <ItemGroup>
     <!-- runtime for the code generated into ./csharp by protoc -->
-    <PackageReference Include="Google.Protobuf" Version="3.36.1" />
+    <PackageReference Include="Google.Protobuf" Version="3.36.2" />
     <!-- GrpcChannel plus the Grpc.Core.Api types used by ./grpc-csharp -->
     <PackageReference Include="Grpc.Net.Client" Version="2.83.0" />
   </ItemGroup>

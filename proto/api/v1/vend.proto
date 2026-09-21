@@ -44,13 +44,14 @@ message VendCancel {}
 /*
  * Response to a VendRequest.
  * success and failure are final states, they indicate the end of the vending process.
+ *
+ * A transient state means the process continues and more responses follow.
+ * A final state means this process ended; no further responses for this ID.
  */
 message VendResponse {
   // Unique identifier for the vending request. Mirrors the ID from the VendRequest.
   // This field is always populated, either with the provided ID from the request or a newly generated one.
   Uuid4 id = 1;
-  // A transient state means the process continues and more responses follow.
-  // A final state means this process ended; no further responses for this ID.
   oneof response {
     //transient state
     VendEvent event = 2;

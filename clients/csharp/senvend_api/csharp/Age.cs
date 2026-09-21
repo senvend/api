@@ -1248,6 +1248,10 @@ namespace com.senbax.senvend.proto.Api.V1 {
   /// <summary>
   ///
   /// Response to an AgeRequest.
+  /// AgeSuccess and AgeFailure are final states, they indicate the end of the age verification process.
+  ///
+  /// A transient state means the process continues and more responses follow.
+  /// A final state means this process ended; no further responses for this ID.
   /// </summary>
   [global::System.Diagnostics.DebuggerDisplayAttribute("{ToString(),nq}")]
   public sealed partial class AgeResponse : pb::IMessage<AgeResponse>

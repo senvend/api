@@ -15,6 +15,10 @@ public inline fun payResponse(block: com.senbax.senvend.proto.api.v1.PayResponse
  *
  * Response to a PayRequest.
  * PaySuccess and PayFailure are final states, they indicate the end of the payment process.
+ *
+ * A transient state means the process continues and more responses follow.
+ * A final state means this process ended; no further responses for this ID.
+ * AgeSuccess and vending messages are transient inside a payment. They end their own sub-process, not the payment.
  * ```
  *
  * Protobuf type `api.v1.PayResponse`

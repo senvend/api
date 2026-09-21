@@ -947,11 +947,13 @@ class AgeResponse(betterproto2.Message):
     """
 
     Response to an AgeRequest.
+    AgeSuccess and AgeFailure are final states, they indicate the end of the age verification process.
+
+    A transient state means the process continues and more responses follow.
+    A final state means this process ended; no further responses for this ID.
 
     Oneofs:
         - result: The result of the age verification process.
-            A transient state means the process continues and more responses follow.
-            A final state means this process ended; no further responses for this ID.
     """
 
     id: "Uuid4 | None" = betterproto2.field(1, betterproto2.TYPE_MESSAGE, optional=True)
@@ -1263,11 +1265,12 @@ class PayResponse(betterproto2.Message):
     Response to a PayRequest.
     PaySuccess and PayFailure are final states, they indicate the end of the payment process.
 
+    A transient state means the process continues and more responses follow.
+    A final state means this process ended; no further responses for this ID.
+    AgeSuccess and vending messages are transient inside a payment. They end their own sub-process, not the payment.
+
     Oneofs:
         - result: The result of the payment process.
-            A transient state means the process continues and more responses follow.
-            A final state means this process ended; no further responses for this ID.
-            AgeSuccess and vending messages are transient inside a payment. They end their own sub-process, not the payment.
     """
 
     id: "Uuid4 | None" = betterproto2.field(1, betterproto2.TYPE_MESSAGE, optional=True)
@@ -1718,9 +1721,11 @@ class VendResponse(betterproto2.Message):
     Response to a VendRequest.
     success and failure are final states, they indicate the end of the vending process.
 
+    A transient state means the process continues and more responses follow.
+    A final state means this process ended; no further responses for this ID.
+
     Oneofs:
-        - response: A transient state means the process continues and more responses follow.
-            A final state means this process ended; no further responses for this ID.
+        - response:
     """
 
     id: "Uuid4 | None" = betterproto2.field(1, betterproto2.TYPE_MESSAGE, optional=True)

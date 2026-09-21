@@ -36,7 +36,7 @@ dependencies {
 
     api("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.11.0")
 
-    api("com.google.protobuf:protobuf-kotlin:4.36.1")
+    api("com.google.protobuf:protobuf-kotlin:4.36.2")
 
     api("io.netty:netty-handler:4.2.18.Final")
 

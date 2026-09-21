@@ -56,14 +56,16 @@ message AgeApproveRequest {
 
 /*
  * Response to an AgeRequest.
+ * AgeSuccess and AgeFailure are final states, they indicate the end of the age verification process.
+ *
+ * A transient state means the process continues and more responses follow.
+ * A final state means this process ended; no further responses for this ID.
  */
 message AgeResponse {
   // Unique identifier for the age verification request. Mirrors the ID from the AgeRequest.
   // This field is always populated, either with the provided ID from the request or a newly generated one.
   Uuid4 id = 1;
   // The result of the age verification process.
-  // A transient state means the process continues and more responses follow.
-  // A final state means this process ended; no further responses for this ID.
   oneof result {
     // final state
     AgeSuccess success = 2;

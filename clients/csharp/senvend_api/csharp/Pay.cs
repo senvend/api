@@ -2045,6 +2045,10 @@ namespace com.senbax.senvend.proto.Api.V1 {
   ///
   /// Response to a PayRequest.
   /// PaySuccess and PayFailure are final states, they indicate the end of the payment process.
+  ///
+  /// A transient state means the process continues and more responses follow.
+  /// A final state means this process ended; no further responses for this ID.
+  /// AgeSuccess and vending messages are transient inside a payment. They end their own sub-process, not the payment.
   /// </summary>
   [global::System.Diagnostics.DebuggerDisplayAttribute("{ToString(),nq}")]
   public sealed partial class PayResponse : pb::IMessage<PayResponse>
