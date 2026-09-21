@@ -1,0 +1,4 @@
+<Solution>
+  <Project Path="senvend_api/Senvend.Api.csproj" />
+  <Project Path="example/Example.csproj" />
+</Solution>

@@ -1,0 +1,21 @@
+#!/bin/sh
+# buf wrapper: downloads and runs the pinned buf version (like gradlew)
+set -eu
+
+# renovate: datasource=github-releases depName=bufbuild/buf extractVersion=v(?<version>.*)
+BUF_VERSION="1.73.0"
+
+CACHE_DIR="${XDG_CACHE_HOME:-$HOME/.cache}/senvend-bufw"
+BIN="$CACHE_DIR/buf-$BUF_VERSION"
+
+if [ ! -x "$BIN" ]; then
+  mkdir -p "$CACHE_DIR"
+  echo "bufw: downloading buf $BUF_VERSION" >&2
+  curl -fsSL \
+    "https://github.com/bufbuild/buf/releases/download/v${BUF_VERSION}/buf-$(uname -s)-$(uname -m)" \
+    -o "$BIN.tmp"
+  chmod +x "$BIN.tmp"
+  mv "$BIN.tmp" "$BIN"
+fi
+
+exec "$BIN" "$@"

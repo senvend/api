@@ -12,7 +12,7 @@ plugins:
       - bytes=.
       - compile_well_known_types
       - extern_path=.google.protobuf=::pbjson_types
-      - type_attribute=Uuid4=#[senvend_api_macros::proto_uuid4]
+      - type_attribute=Uuid4=#[derive(senvend_api_macros::ProtoUuid4)]
       - file_descriptor_set
       - enable_type_names
   # Note that the remote plugin form is not compatible with the gen_crate option, as the plugin is executed outside the context of the current file system, so template information cannot be used.

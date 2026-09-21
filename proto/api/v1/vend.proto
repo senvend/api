@@ -1,0 +1,181 @@
+syntax = "proto3";
+
+package api.v1;
+
+import "api/v1/common.proto";
+
+/*
+ * All messages sent from the integrator/VMC to the SENVEND terminal to manage vending.
+ * A Vending process must be started with the VendStart message.
+ */
+message VendRequest {
+  // Unique identifier for this vend request. Can be used for tracing and correlating requests and responses.
+  // Optional field. If not provided, the system will generate a new UUID.
+  Uuid4 id = 1;
+  // Actual command to control a specific vend process with the given UUID.
+  oneof request {
+    // Start a new vending process.
+    VendStart start = 2;
+    // Cancel an ongoing vend process.
+    VendCancel cancel = 3;
+  }
+}
+
+/*
+ * Starts a vending process on the SENVEND terminal.
+ * It can only be executed after a previous process finished with either VendFailure or VendSuccess.
+ * Will result in a VEND_API_FAILURE_REASON_VENDING_ONGOING otherwise.
+ */
+message VendStart {
+  // The list of products to vend. Price is ignored currently.
+  // The terminal will try to vend each product in the list, and will send an individual response per item.
+  // Quantity will be used to vend the same product multiple times.
+  repeated LineItem line_items = 1;
+}
+
+/*
+ * Cancels an ongoing vending process on the SENVEND terminal.
+ * Can be sent at any time, but will result in VEND_API_FAILURE_REASON_UUID_NOT_FOUND
+ * if there is nothing to cancel.
+ * If sent in a VendRequest without UUID, will cancel any running process without UUID check. (Catch all)
+ */
+message VendCancel {}
+
+/*
+ * Response to a VendRequest.
+ * success and failure are final states, they indicate the end of the vending process.
+ */
+message VendResponse {
+  // Unique identifier for the vending request. Mirrors the ID from the VendRequest.
+  // This field is always populated, either with the provided ID from the request or a newly generated one.
+  Uuid4 id = 1;
+  oneof response {
+    //transient state
+    VendEvent event = 2;
+    // transient/final state
+    VendApiFailure api_failure = 3;
+    // transient state
+    VendApiSuccess api_success = 4;
+    // final state
+    VendResult success = 5;
+    // final state
+    VendResult failure = 6;
+  }
+}
+
+/*
+ * Indicates that the items were successfully vended.
+ */
+message VendSuccess {}
+
+/*
+ * The reason a vending process ended in failure.
+ */
+enum VendFailureReason {
+  // Unspecified reason. Protocol reserved, do not use.
+  VEND_FAILURE_REASON_UNSPECIFIED = 0;
+  // Vending process ended due to timeout.
+  VEND_FAILURE_REASON_TIMEOUT = 1;
+  // Vending one of the products failed (see protocol specific error)
+  VEND_FAILURE_REASON_VENDING_FAILED = 2;
+  // The vending process was cancelled by a previous VendCancel message.
+  VEND_FAILURE_REASON_API_CANCELLED = 3;
+  // The system entered an invalid state to perform vending.
+  VEND_FAILURE_REASON_INVALID_STATE = 4;
+}
+
+/*
+ * Indicates a vending process ending in failure.
+ */
+message VendFailure {
+  // The reason for the vending failure.
+  VendFailureReason reason = 1;
+  // The number of successfully vended items, before a failure occurred
+  // i.e. if line_item.quantity = 2 and the second item failed, successes = 1
+  // always 0 if quantity is 1
+  uint32 successes = 2;
+  // Contains the protocol specific error, if there is one
+  oneof protocol_error {
+    MdbSelectionDeniedReason mdb_selection_denied = 3;
+    MdbVendFailureReason mdb_vend_failure = 4;
+  }
+}
+
+/*
+ * VendEvent will be sent for each individual item that was vended, indicating failure or success.
+ */
+message VendEvent {
+  // The actual result of the vending attempt
+  oneof result {
+    // The vending attempt was successful.
+    VendSuccess success = 1;
+    // At least one item failed to vend.
+    VendFailure failure = 2;
+  }
+  // The line_item this status is for
+  LineItem line_item = 3;
+}
+
+/*
+ * The final result of all VendEvents that happened during the vending process.
+ * Ends the vending process.
+ */
+message VendResult {
+  // The list of all vending states that happened during vending execution.
+  // In the same order as they were given via VendStart.
+  repeated VendEvent results = 1;
+}
+
+/*
+ * The actual API usage error.
+ */
+enum VendApiFailureReason {
+  // Unspecified reason. Protocol reserved, do not use.
+  VEND_API_FAILURE_REASON_UNSPECIFIED = 0;
+  // The provided vending quantity is invalid (e.g. zero).
+  VEND_API_FAILURE_REASON_INVALID_QUANTITY = 1;
+  // A cancel failed or there was nothing to cancel
+  VEND_API_FAILURE_REASON_CANCEL_FAILED = 2;
+  // No request for this UUID found (could already be finished or cancelled).
+  VEND_API_FAILURE_REASON_UUID_NOT_FOUND = 3;
+  // The command inside VendRequest is unknown to the API (i.e. mismatching proto versions).
+  VEND_API_FAILURE_REASON_UNKNOWN_COMMAND = 4;
+  // If a given UUID is not a valid v4 UUID
+  VEND_API_FAILURE_REASON_INVALID_UUID = 5;
+  // If a command inside VendRequest was sent during a state in which it cannot be accepted.
+  VEND_API_FAILURE_REASON_INVALID_STATE = 6;
+  // A vending process is already ongoing.
+  VEND_API_FAILURE_REASON_VENDING_ONGOING = 7;
+  // The config is in a state where vending is not possible (i.e. no remote vend, no always idle etc.)
+  VEND_API_FAILURE_REASON_INVALID_CONFIG = 8;
+  // A vend via MDB was requested (Selection), but MDB is disabled.
+  VEND_API_FAILURE_REASON_MDB_DISABLED = 9;
+}
+
+/*
+ * Indicates a wrong usage/argument in the Vend API.
+ * Does not end an already running vend process.
+ */
+message VendApiFailure {
+  // The reason for the API failure.
+  VendApiFailureReason reason = 1;
+}
+
+/*
+ * The specific reason for an API success message.
+ */
+enum VendApiSuccessReason {
+  // Unspecified reason. Protocol reserved, do not use.
+  VEND_API_SUCCESS_REASON_UNSPECIFIED = 0;
+  // A vending process was successfully started.
+  VEND_API_SUCCESS_REASON_VENDING_STARTED = 1;
+  // A cancel request was successfully executed and cancellation is in progress.
+  VEND_API_SUCCESS_REASON_CANCEL_ACCEPTED = 2;
+}
+
+/*
+ * Indicates a successfully executed request.
+ */
+message VendApiSuccess {
+  VendApiSuccessReason reason = 1;
+}

@@ -5,49 +5,77 @@ package cloud.v1;
 import "api/v1/age.proto";
 import "api/v1/common.proto";
 import "api/v1/pay.proto";
+import "api/v1/version.proto";
 
+// Identifies the terminal to send messages to.
 message CloudTargetSelector {
-  // The unique identifier of the machine or terminal
+  // The unique identifier of the machine or terminal.
   oneof selector {
-    // Select by my.senvend.com machine UUID
+    // Select by my.senvend.com machine UUID.
     api.v1.Uuid4 machine_id = 1;
-    // Select by SENVEND Terminal serial number
+    // Select by SENVEND terminal serial number.
     string serial_number = 2;
   }
 }
 
+// Starts an age verification process on the SENVEND terminal.
 message CloudAgeRequest {
-  // Selector for the target machine or terminal
-  // Required for the first AgeRequest in the stream, subsequent messages may omit this field
+  // Selector for the target machine or terminal.
+  // Required for the first AgeRequest in the stream, subsequent messages may omit this field.
   CloudTargetSelector target = 1;
-  // The age verification request to be sent to the terminal
+  // The age verification request to be sent to the terminal.
   api.v1.AgeRequest age_request = 2;
 }
 
+// Response to a CloudAgeRequest.
 message CloudAgeResponse {
-  // The age verification response from the terminal
+  // The age verification response from the terminal.
   api.v1.AgeResponse age_response = 1;
 }
 
+// This service provides the necessary functionality to handle age verification via the SENVEND Terminal.
 service CloudAgeVerificationService {
-  // Initiates an age verification process on the SENVEND Terminal
+  // Initiates an age verification process on the SENVEND terminal.
   rpc CloudAge(stream CloudAgeRequest) returns (CloudAgeResponse);
 }
 
+// All messages sent from the integrator/VMC to the SENVEND terminal to manage payments.
 message CloudPayRequest {
-  // Selector for the target machine or terminal
-  // Required for the first PayRequest in the stream, subsequent messages may omit this field
+  // Selector for the target machine or terminal.
+  // Required for the first PayRequest in the stream, subsequent messages may omit this field.
   CloudTargetSelector target = 1;
-  // The payment request to be sent to the terminal
+  // The payment request to be sent to the terminal.
   api.v1.PayRequest pay_request = 2;
 }
 
+// Response to a CloudPayRequest.
 message CloudPayResponse {
-  // The payment response from the terminal
+  // The payment response from the terminal.
   api.v1.PayResponse pay_response = 1;
 }
 
+// This service provides the necessary functionality to handle payments via the SENVEND Terminal.
 service CloudPayService {
-  // Initiates a payment process on the SENVEND Terminal
+  // Initiates a payment process on the SENVEND terminal.
   rpc CloudPay(stream CloudPayRequest) returns (stream CloudPayResponse);
+}
+
+// Starts a one-off request for version information of the SENVEND terminal.
+message CloudVersionRequest {
+  // Selector for the target machine or terminal.
+  CloudTargetSelector target = 1;
+  // Starts a one-off request for version information of the SENVEND terminal.
+  api.v1.VersionRequest version_request = 2;
+}
+
+// Provides the current software and API version of the SENVEND terminal.
+message CloudVersionResponse {
+  // Provides the current software and API version of the SENVEND terminal.
+  api.v1.VersionResponse version_response = 1;
+}
+
+// This service provides version information for the software on the SENVEND terminal.
+service CloudVersionService {
+  // Returns the version information of the software and API on the SENVEND terminal.
+  rpc CloudVersion(CloudVersionRequest) returns (CloudVersionResponse);
 }

@@ -1,3 +1,3 @@
-# SENVEND Api Rust Client Example
+# SENVEND API Rust Client Example
 
-This is a simple example of how to use the SENVEND Api Rust Client to interact with the SENVEND Terminal.
+This is a simple example of how to use the SENVEND API Rust Client to interact with the SENVEND Terminal.

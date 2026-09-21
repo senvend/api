@@ -1,0 +1,33 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFrameworks>netstandard2.0;net8.0</TargetFrameworks>
+    <LangVersion>latest</LangVersion>
+  </PropertyGroup>
+
+  <!-- nuget package metadata -->
+  <PropertyGroup>
+    <PackageId>Senvend.Api</PackageId>
+    <Version>0.0.1</Version>
+    <Authors>SENVEND</Authors>
+    <Company>SENVEND</Company>
+    <Copyright>Copyright (c) SENVEND</Copyright>
+    <Description>Public APIs to interact with the SENVEND ecosystem</Description>
+    <PackageProjectUrl>https://github.com/senvend/api</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/senvend/api</RepositoryUrl>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <PackageTags>senvend;vending;payment;age-verification;grpc;protobuf</PackageTags>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="../README.md" Pack="true" PackagePath="/" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <!-- runtime for the code generated into ./csharp by protoc -->
+    <PackageReference Include="Google.Protobuf" Version="3.36.1" />
+    <!-- GrpcChannel plus the Grpc.Core.Api types used by ./grpc-csharp -->
+    <PackageReference Include="Grpc.Net.Client" Version="2.83.0" />
+  </ItemGroup>
+
+</Project>

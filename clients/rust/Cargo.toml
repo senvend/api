@@ -13,20 +13,21 @@ categories = ["senbax", "senvend", "api", "payment"]
 keywords = ["ecr", "payment", "payment-terminal", "age-verification"]
 
 [workspace.dependencies]
-bytes = "1.10.1"
+bytes = "1.11.1"
 prost = "0.14.1"
-pbjson = "0.8.0"
-pbjson-types = "0.8.0"
+pbjson = "0.9.0"
+pbjson-types = "0.9.0"
 serde = "1.0.228"
 tonic = { version = "0.14.2", features = ["gzip"] }
 tonic-prost = "0.14.2"
 
 # example
+
+uuid = { version = "1.23.1", default-features = false }
 senvend_api = { path = "./senvend_api" }
 senvend_api_macros = { path = "./senvend_api_macros" }
 senvend_api_utils = { path = "./senvend_api_utils" }
 tokio = { version = "1.48.0", features = ["full"] }
 tokio-stream = "0.1.17"
-quote = "=1.0.42"
-syn = { version = "=2.0.111", features = ["parsing"] }
-uuid = { version = "=1.17.0", default-features = false }
+quote = "1.0.46"
+syn = { version = "3.0.0", features = ["parsing"] }

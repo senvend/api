@@ -4,3 +4,6 @@ set -euo pipefail
 
 (cd clients/rust && ./gen.sh)
 (cd clients/python && ./gen.sh)
+(cd clients/kotlin && ./gen.sh)
+(cd clients/csharp && ./gen.sh)
+

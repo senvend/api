@@ -1,0 +1,16 @@
+# https://buf.build/docs/configuration/v2/buf-gen-yaml/
+version: v2
+clean: true
+managed:
+  enabled: true
+  override:
+    - file_option: csharp_namespace_prefix
+      value: com.senbax.senvend.proto
+plugins:
+  - protoc_builtin: csharp
+    out: senvend_api/csharp
+  # local plugin is downloaded by download-grpc-csharp-plugin.sh, see gen.sh
+  - local: grpc_csharp_plugin
+    out: senvend_api/grpc-csharp
+inputs:
+  - directory: ../../proto

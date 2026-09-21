@@ -1,6 +1,6 @@
 [package]
 name = "senvend_api_utils"
-version.workspace = true
+version = "0.0.1"
 edition.workspace = true
 authors.workspace = true
 license.workspace = true
@@ -11,3 +11,7 @@ keywords.workspace = true
 
 [dependencies]
 uuid.workspace = true
+
+[features]
+default = ["std"]
+std = []

@@ -1,0 +1,20 @@
+# https://buf.build/docs/configuration/v2/buf-gen-yaml/
+version: v2
+clean: true
+managed:
+  enabled: true
+  override:
+    - file_option: java_package_prefix
+      value: com.senbax.senvend.proto
+plugins:
+  - protoc_builtin: java
+    out: app/senvend_api/java
+  - protoc_builtin: kotlin
+    out: app/senvend_api/kotlin
+  # local plugins are downloaded by the gradle "downloadGrpcPlugins" task, see gen.sh
+  - local: [java, -jar, .plugins/protoc-gen-grpc-kotlin.jar]
+    out: app/senvend_api/grpc-kotlin
+  - local: .plugins/protoc-gen-grpc-java
+    out: app/senvend_api/grpc-java
+inputs:
+  - directory: ../../proto
