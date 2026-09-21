@@ -10,6 +10,9 @@ package com.senbax.senvend.proto.api.v1;
  *
  * Response to a VendRequest.
  * success and failure are final states, they indicate the end of the vending process.
+ *
+ * A transient state means the process continues and more responses follow.
+ * A final state means this process ended; no further responses for this ID.
  * </pre>
  *
  * Protobuf type {@code api.v1.VendResponse}
@@ -191,6 +194,9 @@ private static final long serialVersionUID = 0L;
   /**
    * <pre>
    * transient/final state
+   * An API failure is usually transient as it doesn't end the current process.
+   * But it is final if it does not result in a new process with that UUID either.
+   * Prime examples are VendStart with an invalid quantity or a VendCancel for an unknown UUID.
    * </pre>
    *
    * <code>.api.v1.VendApiFailure api_failure = 3 [json_name = "apiFailure"];</code>
@@ -203,6 +209,9 @@ private static final long serialVersionUID = 0L;
   /**
    * <pre>
    * transient/final state
+   * An API failure is usually transient as it doesn't end the current process.
+   * But it is final if it does not result in a new process with that UUID either.
+   * Prime examples are VendStart with an invalid quantity or a VendCancel for an unknown UUID.
    * </pre>
    *
    * <code>.api.v1.VendApiFailure api_failure = 3 [json_name = "apiFailure"];</code>
@@ -218,6 +227,9 @@ private static final long serialVersionUID = 0L;
   /**
    * <pre>
    * transient/final state
+   * An API failure is usually transient as it doesn't end the current process.
+   * But it is final if it does not result in a new process with that UUID either.
+   * Prime examples are VendStart with an invalid quantity or a VendCancel for an unknown UUID.
    * </pre>
    *
    * <code>.api.v1.VendApiFailure api_failure = 3 [json_name = "apiFailure"];</code>
@@ -614,6 +626,9 @@ private static final long serialVersionUID = 0L;
    *
    * Response to a VendRequest.
    * success and failure are final states, they indicate the end of the vending process.
+   *
+   * A transient state means the process continues and more responses follow.
+   * A final state means this process ended; no further responses for this ID.
    * </pre>
    *
    * Protobuf type {@code api.v1.VendResponse}
@@ -1229,6 +1244,9 @@ private static final long serialVersionUID = 0L;
     /**
      * <pre>
      * transient/final state
+     * An API failure is usually transient as it doesn't end the current process.
+     * But it is final if it does not result in a new process with that UUID either.
+     * Prime examples are VendStart with an invalid quantity or a VendCancel for an unknown UUID.
      * </pre>
      *
      * <code>.api.v1.VendApiFailure api_failure = 3 [json_name = "apiFailure"];</code>
@@ -1241,6 +1259,9 @@ private static final long serialVersionUID = 0L;
     /**
      * <pre>
      * transient/final state
+     * An API failure is usually transient as it doesn't end the current process.
+     * But it is final if it does not result in a new process with that UUID either.
+     * Prime examples are VendStart with an invalid quantity or a VendCancel for an unknown UUID.
      * </pre>
      *
      * <code>.api.v1.VendApiFailure api_failure = 3 [json_name = "apiFailure"];</code>
@@ -1263,6 +1284,9 @@ private static final long serialVersionUID = 0L;
     /**
      * <pre>
      * transient/final state
+     * An API failure is usually transient as it doesn't end the current process.
+     * But it is final if it does not result in a new process with that UUID either.
+     * Prime examples are VendStart with an invalid quantity or a VendCancel for an unknown UUID.
      * </pre>
      *
      * <code>.api.v1.VendApiFailure api_failure = 3 [json_name = "apiFailure"];</code>
@@ -1281,6 +1305,9 @@ private static final long serialVersionUID = 0L;
     /**
      * <pre>
      * transient/final state
+     * An API failure is usually transient as it doesn't end the current process.
+     * But it is final if it does not result in a new process with that UUID either.
+     * Prime examples are VendStart with an invalid quantity or a VendCancel for an unknown UUID.
      * </pre>
      *
      * <code>.api.v1.VendApiFailure api_failure = 3 [json_name = "apiFailure"];</code>
@@ -1299,6 +1326,9 @@ private static final long serialVersionUID = 0L;
     /**
      * <pre>
      * transient/final state
+     * An API failure is usually transient as it doesn't end the current process.
+     * But it is final if it does not result in a new process with that UUID either.
+     * Prime examples are VendStart with an invalid quantity or a VendCancel for an unknown UUID.
      * </pre>
      *
      * <code>.api.v1.VendApiFailure api_failure = 3 [json_name = "apiFailure"];</code>
@@ -1326,6 +1356,9 @@ private static final long serialVersionUID = 0L;
     /**
      * <pre>
      * transient/final state
+     * An API failure is usually transient as it doesn't end the current process.
+     * But it is final if it does not result in a new process with that UUID either.
+     * Prime examples are VendStart with an invalid quantity or a VendCancel for an unknown UUID.
      * </pre>
      *
      * <code>.api.v1.VendApiFailure api_failure = 3 [json_name = "apiFailure"];</code>
@@ -1349,6 +1382,9 @@ private static final long serialVersionUID = 0L;
     /**
      * <pre>
      * transient/final state
+     * An API failure is usually transient as it doesn't end the current process.
+     * But it is final if it does not result in a new process with that UUID either.
+     * Prime examples are VendStart with an invalid quantity or a VendCancel for an unknown UUID.
      * </pre>
      *
      * <code>.api.v1.VendApiFailure api_failure = 3 [json_name = "apiFailure"];</code>
@@ -1359,6 +1395,9 @@ private static final long serialVersionUID = 0L;
     /**
      * <pre>
      * transient/final state
+     * An API failure is usually transient as it doesn't end the current process.
+     * But it is final if it does not result in a new process with that UUID either.
+     * Prime examples are VendStart with an invalid quantity or a VendCancel for an unknown UUID.
      * </pre>
      *
      * <code>.api.v1.VendApiFailure api_failure = 3 [json_name = "apiFailure"];</code>
@@ -1377,6 +1416,9 @@ private static final long serialVersionUID = 0L;
     /**
      * <pre>
      * transient/final state
+     * An API failure is usually transient as it doesn't end the current process.
+     * But it is final if it does not result in a new process with that UUID either.
+     * Prime examples are VendStart with an invalid quantity or a VendCancel for an unknown UUID.
      * </pre>
      *
      * <code>.api.v1.VendApiFailure api_failure = 3 [json_name = "apiFailure"];</code>

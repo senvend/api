@@ -13,7 +13,7 @@ public inline fun payCancel(block: com.senbax.senvend.proto.api.v1.PayCancelKt.D
 /**
  * ```
  *
- * Cancels an ongoing payment process on the SENVEND terminal.
+ * Cancels an ongoing payment process on the SENVEND Terminal.
  * Can also be used to cancel an approved payment (instead of PayGoodsIssued).
  * Can be sent at any time, but will result in PAY_API_FAILURE_REASON_UUID_NOT_FOUND
  * if there is nothing to cancel.

@@ -1,5 +1,9 @@
 syntax = "proto3";
 
+/*
+   #### Shared API Messages
+   The message types shared by the local and cloud APIs: payment, age verification, vending and version information.
+*/
 package api.v1;
 
 /*

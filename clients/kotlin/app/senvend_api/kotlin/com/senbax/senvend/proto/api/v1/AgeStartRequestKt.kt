@@ -13,7 +13,7 @@ public inline fun ageStartRequest(block: com.senbax.senvend.proto.api.v1.AgeStar
 /**
  * ```
  *
- * Starts an age verification process on the SENVEND terminal.
+ * Starts an age verification process on the SENVEND Terminal.
  * ```
  *
  * Protobuf type `api.v1.AgeStartRequest`

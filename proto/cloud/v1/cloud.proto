@@ -1,5 +1,9 @@
 syntax = "proto3";
 
+/*
+   #### Cloud API
+   Address a SENVEND Terminal remotely, wrapping the api.v1 messages with a selector for the target machine. Not released yet.
+*/
 package cloud.v1;
 
 import "api/v1/age.proto";
@@ -13,12 +17,12 @@ message CloudTargetSelector {
   oneof selector {
     // Select by my.senvend.com machine UUID.
     api.v1.Uuid4 machine_id = 1;
-    // Select by SENVEND terminal serial number.
+    // Select by SENVEND Terminal serial number.
     string serial_number = 2;
   }
 }
 
-// Starts an age verification process on the SENVEND terminal.
+// Starts an age verification process on the SENVEND Terminal.
 message CloudAgeRequest {
   // Selector for the target machine or terminal.
   // Required for the first AgeRequest in the stream, subsequent messages may omit this field.
@@ -35,11 +39,11 @@ message CloudAgeResponse {
 
 // This service provides the necessary functionality to handle age verification via the SENVEND Terminal.
 service CloudAgeVerificationService {
-  // Initiates an age verification process on the SENVEND terminal.
-  rpc CloudAge(stream CloudAgeRequest) returns (CloudAgeResponse);
+  // Initiates an age verification process on the SENVEND Terminal.
+  rpc CloudAge(stream CloudAgeRequest) returns (stream CloudAgeResponse);
 }
 
-// All messages sent from the integrator/VMC to the SENVEND terminal to manage payments.
+// All messages sent from the integrator/VMC to the SENVEND Terminal to manage payments.
 message CloudPayRequest {
   // Selector for the target machine or terminal.
   // Required for the first PayRequest in the stream, subsequent messages may omit this field.
@@ -56,26 +60,26 @@ message CloudPayResponse {
 
 // This service provides the necessary functionality to handle payments via the SENVEND Terminal.
 service CloudPayService {
-  // Initiates a payment process on the SENVEND terminal.
+  // Initiates a payment process on the SENVEND Terminal.
   rpc CloudPay(stream CloudPayRequest) returns (stream CloudPayResponse);
 }
 
-// Starts a one-off request for version information of the SENVEND terminal.
+// Starts a one-off request for version information of the SENVEND Terminal.
 message CloudVersionRequest {
   // Selector for the target machine or terminal.
   CloudTargetSelector target = 1;
-  // Starts a one-off request for version information of the SENVEND terminal.
+  // Starts a one-off request for version information of the SENVEND Terminal.
   api.v1.VersionRequest version_request = 2;
 }
 
-// Provides the current software and API version of the SENVEND terminal.
+// Provides the current software and API version of the SENVEND Terminal.
 message CloudVersionResponse {
-  // Provides the current software and API version of the SENVEND terminal.
+  // Provides the current software and API version of the SENVEND Terminal.
   api.v1.VersionResponse version_response = 1;
 }
 
-// This service provides version information for the software on the SENVEND terminal.
+// This service provides version information for the software on the SENVEND Terminal.
 service CloudVersionService {
-  // Returns the version information of the software and API on the SENVEND terminal.
+  // Returns the version information of the software and API on the SENVEND Terminal.
   rpc CloudVersion(CloudVersionRequest) returns (CloudVersionResponse);
 }

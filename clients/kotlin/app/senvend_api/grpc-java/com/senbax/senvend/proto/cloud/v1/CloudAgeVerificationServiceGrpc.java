@@ -22,7 +22,7 @@ public final class CloudAgeVerificationServiceGrpc {
       fullMethodName = SERVICE_NAME + '/' + "CloudAge",
       requestType = com.senbax.senvend.proto.cloud.v1.CloudAgeRequest.class,
       responseType = com.senbax.senvend.proto.cloud.v1.CloudAgeResponse.class,
-      methodType = io.grpc.MethodDescriptor.MethodType.CLIENT_STREAMING)
+      methodType = io.grpc.MethodDescriptor.MethodType.BIDI_STREAMING)
   public static io.grpc.MethodDescriptor<com.senbax.senvend.proto.cloud.v1.CloudAgeRequest,
       com.senbax.senvend.proto.cloud.v1.CloudAgeResponse> getCloudAgeMethod() {
     io.grpc.MethodDescriptor<com.senbax.senvend.proto.cloud.v1.CloudAgeRequest, com.senbax.senvend.proto.cloud.v1.CloudAgeResponse> getCloudAgeMethod;
@@ -31,7 +31,7 @@ public final class CloudAgeVerificationServiceGrpc {
         if ((getCloudAgeMethod = CloudAgeVerificationServiceGrpc.getCloudAgeMethod) == null) {
           CloudAgeVerificationServiceGrpc.getCloudAgeMethod = getCloudAgeMethod =
               io.grpc.MethodDescriptor.<com.senbax.senvend.proto.cloud.v1.CloudAgeRequest, com.senbax.senvend.proto.cloud.v1.CloudAgeResponse>newBuilder()
-              .setType(io.grpc.MethodDescriptor.MethodType.CLIENT_STREAMING)
+              .setType(io.grpc.MethodDescriptor.MethodType.BIDI_STREAMING)
               .setFullMethodName(generateFullMethodName(SERVICE_NAME, "CloudAge"))
               .setSampledToLocalTracing(true)
               .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
@@ -114,7 +114,7 @@ public final class CloudAgeVerificationServiceGrpc {
 
     /**
      * <pre>
-     * Initiates an age verification process on the SENVEND terminal.
+     * Initiates an age verification process on the SENVEND Terminal.
      * </pre>
      */
     default io.grpc.stub.StreamObserver<com.senbax.senvend.proto.cloud.v1.CloudAgeRequest> cloudAge(
@@ -158,12 +158,12 @@ public final class CloudAgeVerificationServiceGrpc {
 
     /**
      * <pre>
-     * Initiates an age verification process on the SENVEND terminal.
+     * Initiates an age verification process on the SENVEND Terminal.
      * </pre>
      */
     public io.grpc.stub.StreamObserver<com.senbax.senvend.proto.cloud.v1.CloudAgeRequest> cloudAge(
         io.grpc.stub.StreamObserver<com.senbax.senvend.proto.cloud.v1.CloudAgeResponse> responseObserver) {
-      return io.grpc.stub.ClientCalls.asyncClientStreamingCall(
+      return io.grpc.stub.ClientCalls.asyncBidiStreamingCall(
           getChannel().newCall(getCloudAgeMethod(), getCallOptions()), responseObserver);
     }
   }
@@ -189,13 +189,13 @@ public final class CloudAgeVerificationServiceGrpc {
 
     /**
      * <pre>
-     * Initiates an age verification process on the SENVEND terminal.
+     * Initiates an age verification process on the SENVEND Terminal.
      * </pre>
      */
     @io.grpc.ExperimentalApi("https://github.com/grpc/grpc-java/issues/10918")
     public io.grpc.stub.BlockingClientCall<com.senbax.senvend.proto.cloud.v1.CloudAgeRequest, com.senbax.senvend.proto.cloud.v1.CloudAgeResponse>
         cloudAge() {
-      return io.grpc.stub.ClientCalls.blockingClientStreamingCall(
+      return io.grpc.stub.ClientCalls.blockingBidiStreamingCall(
           getChannel(), getCloudAgeMethod(), getCallOptions());
     }
   }
@@ -282,7 +282,7 @@ public final class CloudAgeVerificationServiceGrpc {
     return io.grpc.ServerServiceDefinition.builder(getServiceDescriptor())
         .addMethod(
           getCloudAgeMethod(),
-          io.grpc.stub.ServerCalls.asyncClientStreamingCall(
+          io.grpc.stub.ServerCalls.asyncBidiStreamingCall(
             new MethodHandlers<
               com.senbax.senvend.proto.cloud.v1.CloudAgeRequest,
               com.senbax.senvend.proto.cloud.v1.CloudAgeResponse>(

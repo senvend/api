@@ -1,7 +1,9 @@
+import com.vanniktech.maven.publish.JavadocJar
+import com.vanniktech.maven.publish.KotlinJvm
+
 plugins {
-    // Apply the application plugin to add support for building a CLI application in Java.
-    application
     kotlin("jvm")
+    id("com.vanniktech.maven.publish") version "0.37.0"
 }
 
 repositories {
@@ -30,23 +32,16 @@ dependencies {
     grpcPlugins("io.grpc:protoc-gen-grpc-java:1.84.0:linux-aarch_64@exe")
     grpcPlugins("io.grpc:protoc-gen-grpc-kotlin:1.5.0:jdk8@jar")
 
-    // Use JUnit Jupiter for testing.
-    //testImplementation(libs.junit.jupiter)
-
-    //testRuntimeOnly("org.junit.platform:junit-platform-launcher")
-
-    // This dependency is used by the application.
-    //implementation(libs.guava)
     api(kotlin("stdlib-jdk8"))
 
     api("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.11.0")
 
-    api("com.google.protobuf:protobuf-kotlin:4.36.1")
+    api("com.google.protobuf:protobuf-kotlin:4.36.2")
 
     api("io.netty:netty-handler:4.2.18.Final")
 
     api("io.grpc:grpc-netty:1.84.0")
-    
+
     api("io.grpc:grpc-kotlin-stub:1.5.0")
     api("io.grpc:grpc-core:1.84.0")
     api("io.grpc:grpc-protobuf:1.84.0")
@@ -71,7 +66,40 @@ java {
     }
 }
 
-application {
-    // Define the main class for the application.
-    mainClass = "senbax.example.MainKt"
+mavenPublishing {
+    publishToMavenCentral()
+    // only sign when a key is provided (real releases), so that local
+    // verification via publishToMavenLocal works without one
+    if (providers.gradleProperty("signingInMemoryKey").isPresent) {
+        signAllPublications()
+    }
+    coordinates("com.senbax.senvend", "senvend-api", project.version.toString())
+    configure(KotlinJvm(javadocJar = JavadocJar.Javadoc(), sourcesJar = true))
+    pom {
+        name.set("SENVEND API")
+        description.set("Public APIs to interact with the SENVEND ecosystem")
+        url.set("https://github.com/senvend/api")
+        licenses {
+            license {
+                name.set("MIT License")
+                url.set("https://opensource.org/license/mit")
+            }
+            license {
+                name.set("Apache License, Version 2.0")
+                url.set("https://www.apache.org/licenses/LICENSE-2.0")
+            }
+        }
+        developers {
+            developer {
+                id.set("senvend")
+                name.set("SENVEND")
+                email.set("api@senvend.com")
+            }
+        }
+        scm {
+            url.set("https://github.com/senvend/api")
+            connection.set("scm:git:https://github.com/senvend/api.git")
+            developerConnection.set("scm:git:git@github.com:senvend/api.git")
+        }
+    }
 }

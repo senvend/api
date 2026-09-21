@@ -8,7 +8,7 @@ package com.senbax.senvend.proto.api.v1;
 /**
  * <pre>
  *
- * Provides the current software and API version of the SENVEND terminal.
+ * Provides the current software and API version of the SENVEND Terminal.
  * </pre>
  *
  * Protobuf type {@code api.v1.VersionResponse}
@@ -99,7 +99,7 @@ private static final long serialVersionUID = 0L;
   private com.senbax.senvend.proto.api.v1.SemanticVersion appVersion_;
   /**
    * <pre>
-   * The version of the software installed on the SENVEND terminal.
+   * The version of the software installed on the SENVEND Terminal.
    * </pre>
    *
    * <code>.api.v1.SemanticVersion app_version = 2 [json_name = "appVersion"];</code>
@@ -111,7 +111,7 @@ private static final long serialVersionUID = 0L;
   }
   /**
    * <pre>
-   * The version of the software installed on the SENVEND terminal.
+   * The version of the software installed on the SENVEND Terminal.
    * </pre>
    *
    * <code>.api.v1.SemanticVersion app_version = 2 [json_name = "appVersion"];</code>
@@ -123,7 +123,7 @@ private static final long serialVersionUID = 0L;
   }
   /**
    * <pre>
-   * The version of the software installed on the SENVEND terminal.
+   * The version of the software installed on the SENVEND Terminal.
    * </pre>
    *
    * <code>.api.v1.SemanticVersion app_version = 2 [json_name = "appVersion"];</code>
@@ -372,7 +372,7 @@ private static final long serialVersionUID = 0L;
   /**
    * <pre>
    *
-   * Provides the current software and API version of the SENVEND terminal.
+   * Provides the current software and API version of the SENVEND Terminal.
    * </pre>
    *
    * Protobuf type {@code api.v1.VersionResponse}
@@ -738,7 +738,7 @@ private static final long serialVersionUID = 0L;
         com.senbax.senvend.proto.api.v1.SemanticVersion, com.senbax.senvend.proto.api.v1.SemanticVersion.Builder, com.senbax.senvend.proto.api.v1.SemanticVersionOrBuilder> appVersionBuilder_;
     /**
      * <pre>
-     * The version of the software installed on the SENVEND terminal.
+     * The version of the software installed on the SENVEND Terminal.
      * </pre>
      *
      * <code>.api.v1.SemanticVersion app_version = 2 [json_name = "appVersion"];</code>
@@ -749,7 +749,7 @@ private static final long serialVersionUID = 0L;
     }
     /**
      * <pre>
-     * The version of the software installed on the SENVEND terminal.
+     * The version of the software installed on the SENVEND Terminal.
      * </pre>
      *
      * <code>.api.v1.SemanticVersion app_version = 2 [json_name = "appVersion"];</code>
@@ -764,7 +764,7 @@ private static final long serialVersionUID = 0L;
     }
     /**
      * <pre>
-     * The version of the software installed on the SENVEND terminal.
+     * The version of the software installed on the SENVEND Terminal.
      * </pre>
      *
      * <code>.api.v1.SemanticVersion app_version = 2 [json_name = "appVersion"];</code>
@@ -782,7 +782,7 @@ private static final long serialVersionUID = 0L;
     }
     /**
      * <pre>
-     * The version of the software installed on the SENVEND terminal.
+     * The version of the software installed on the SENVEND Terminal.
      * </pre>
      *
      * <code>.api.v1.SemanticVersion app_version = 2 [json_name = "appVersion"];</code>
@@ -800,7 +800,7 @@ private static final long serialVersionUID = 0L;
     }
     /**
      * <pre>
-     * The version of the software installed on the SENVEND terminal.
+     * The version of the software installed on the SENVEND Terminal.
      * </pre>
      *
      * <code>.api.v1.SemanticVersion app_version = 2 [json_name = "appVersion"];</code>
@@ -825,7 +825,7 @@ private static final long serialVersionUID = 0L;
     }
     /**
      * <pre>
-     * The version of the software installed on the SENVEND terminal.
+     * The version of the software installed on the SENVEND Terminal.
      * </pre>
      *
      * <code>.api.v1.SemanticVersion app_version = 2 [json_name = "appVersion"];</code>
@@ -842,7 +842,7 @@ private static final long serialVersionUID = 0L;
     }
     /**
      * <pre>
-     * The version of the software installed on the SENVEND terminal.
+     * The version of the software installed on the SENVEND Terminal.
      * </pre>
      *
      * <code>.api.v1.SemanticVersion app_version = 2 [json_name = "appVersion"];</code>
@@ -854,7 +854,7 @@ private static final long serialVersionUID = 0L;
     }
     /**
      * <pre>
-     * The version of the software installed on the SENVEND terminal.
+     * The version of the software installed on the SENVEND Terminal.
      * </pre>
      *
      * <code>.api.v1.SemanticVersion app_version = 2 [json_name = "appVersion"];</code>
@@ -869,7 +869,7 @@ private static final long serialVersionUID = 0L;
     }
     /**
      * <pre>
-     * The version of the software installed on the SENVEND terminal.
+     * The version of the software installed on the SENVEND Terminal.
      * </pre>
      *
      * <code>.api.v1.SemanticVersion app_version = 2 [json_name = "appVersion"];</code>

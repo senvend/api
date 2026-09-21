@@ -8,7 +8,7 @@ package com.senbax.senvend.proto.api.v1;
 /**
  * <pre>
  *
- * Starts a payment process on the SENVEND terminal.
+ * Starts a payment process on the SENVEND Terminal.
  * If auto_cancel is given and false, it can only be executed after a previous process finished with either PayFailure or PaySuccess.
  * Will result in a PAY_FAILURE_REASON_PAYMENT_ONGOING or PAY_FAILURE_REASON_INVALID_STATE otherwise.
  * Without auto_cancel or if it is true, will automatically cancel any running request and then try to start this one.
@@ -467,7 +467,7 @@ private static final long serialVersionUID = 0L;
   /**
    * <pre>
    *
-   * Starts a payment process on the SENVEND terminal.
+   * Starts a payment process on the SENVEND Terminal.
    * If auto_cancel is given and false, it can only be executed after a previous process finished with either PayFailure or PaySuccess.
    * Will result in a PAY_FAILURE_REASON_PAYMENT_ONGOING or PAY_FAILURE_REASON_INVALID_STATE otherwise.
    * Without auto_cancel or if it is true, will automatically cancel any running request and then try to start this one.

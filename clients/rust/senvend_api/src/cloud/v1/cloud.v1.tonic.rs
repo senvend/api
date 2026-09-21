@@ -96,7 +96,7 @@ pub mod cloud_age_verification_service_client {
             &mut self,
             request: impl tonic::IntoStreamingRequest<Message = super::CloudAgeRequest>,
         ) -> std::result::Result<
-            tonic::Response<super::CloudAgeResponse>,
+            tonic::Response<tonic::codec::Streaming<super::CloudAgeResponse>>,
             tonic::Status,
         > {
             self.inner
@@ -116,7 +116,7 @@ pub mod cloud_age_verification_service_client {
                 .insert(
                     GrpcMethod::new("cloud.v1.CloudAgeVerificationService", "CloudAge"),
                 );
-            self.inner.client_streaming(req, path, codec).await
+            self.inner.streaming(req, path, codec).await
         }
     }
 }
@@ -133,13 +133,16 @@ pub mod cloud_age_verification_service_server {
     /// Generated trait containing gRPC methods that should be implemented for use with CloudAgeVerificationServiceServer.
     #[async_trait]
     pub trait CloudAgeVerificationService: std::marker::Send + std::marker::Sync + 'static {
+        /// Server streaming response type for the CloudAge method.
+        type CloudAgeStream: tonic::codegen::tokio_stream::Stream<
+                Item = std::result::Result<super::CloudAgeResponse, tonic::Status>,
+            >
+            + std::marker::Send
+            + 'static;
         async fn cloud_age(
             &self,
             request: tonic::Request<tonic::Streaming<super::CloudAgeRequest>>,
-        ) -> std::result::Result<
-            tonic::Response<super::CloudAgeResponse>,
-            tonic::Status,
-        >;
+        ) -> std::result::Result<tonic::Response<Self::CloudAgeStream>, tonic::Status>;
     }
     #[derive(Debug)]
     pub struct CloudAgeVerificationServiceServer<T> {
@@ -223,11 +226,12 @@ pub mod cloud_age_verification_service_server {
                     struct CloudAgeSvc<T: CloudAgeVerificationService>(pub Arc<T>);
                     impl<
                         T: CloudAgeVerificationService,
-                    > tonic::server::ClientStreamingService<super::CloudAgeRequest>
+                    > tonic::server::StreamingService<super::CloudAgeRequest>
                     for CloudAgeSvc<T> {
                         type Response = super::CloudAgeResponse;
+                        type ResponseStream = T::CloudAgeStream;
                         type Future = BoxFuture<
-                            tonic::Response<Self::Response>,
+                            tonic::Response<Self::ResponseStream>,
                             tonic::Status,
                         >;
                         fn call(
@@ -264,7 +268,7 @@ pub mod cloud_age_verification_service_server {
                                 max_decoding_message_size,
                                 max_encoding_message_size,
                             );
-                        let res = grpc.client_streaming(method, req).await;
+                        let res = grpc.streaming(method, req).await;
                         Ok(res)
                     };
                     Box::pin(fut)
@@ -320,6 +324,8 @@ pub mod cloud_pay_service_client {
     )]
     use tonic::codegen::*;
     use tonic::codegen::http::Uri;
+    /** This service provides the necessary functionality to handle payments via the SENVEND Terminal.
+*/
     #[derive(Debug, Clone)]
     pub struct CloudPayServiceClient<T> {
         inner: tonic::client::Grpc<T>,
@@ -400,6 +406,8 @@ pub mod cloud_pay_service_client {
             self.inner = self.inner.max_encoding_message_size(limit);
             self
         }
+        /** Initiates a payment process on the SENVEND Terminal.
+*/
         pub async fn cloud_pay(
             &mut self,
             request: impl tonic::IntoStreamingRequest<Message = super::CloudPayRequest>,
@@ -445,11 +453,15 @@ pub mod cloud_pay_service_server {
             >
             + std::marker::Send
             + 'static;
+        /** Initiates a payment process on the SENVEND Terminal.
+*/
         async fn cloud_pay(
             &self,
             request: tonic::Request<tonic::Streaming<super::CloudPayRequest>>,
         ) -> std::result::Result<tonic::Response<Self::CloudPayStream>, tonic::Status>;
     }
+    /** This service provides the necessary functionality to handle payments via the SENVEND Terminal.
+*/
     #[derive(Debug)]
     pub struct CloudPayServiceServer<T> {
         inner: Arc<T>,
@@ -625,7 +637,7 @@ pub mod cloud_version_service_client {
     )]
     use tonic::codegen::*;
     use tonic::codegen::http::Uri;
-    /** This service provides version information for the software on the SENVEND terminal.
+    /** This service provides version information for the software on the SENVEND Terminal.
 */
     #[derive(Debug, Clone)]
     pub struct CloudVersionServiceClient<T> {
@@ -707,7 +719,7 @@ pub mod cloud_version_service_client {
             self.inner = self.inner.max_encoding_message_size(limit);
             self
         }
-        /** Returns the version information of the software and API on the SENVEND terminal.
+        /** Returns the version information of the software and API on the SENVEND Terminal.
 */
         pub async fn cloud_version(
             &mut self,
@@ -748,7 +760,7 @@ pub mod cloud_version_service_server {
     /// Generated trait containing gRPC methods that should be implemented for use with CloudVersionServiceServer.
     #[async_trait]
     pub trait CloudVersionService: std::marker::Send + std::marker::Sync + 'static {
-        /** Returns the version information of the software and API on the SENVEND terminal.
+        /** Returns the version information of the software and API on the SENVEND Terminal.
 */
         async fn cloud_version(
             &self,
@@ -758,7 +770,7 @@ pub mod cloud_version_service_server {
             tonic::Status,
         >;
     }
-    /** This service provides version information for the software on the SENVEND terminal.
+    /** This service provides version information for the software on the SENVEND Terminal.
 */
     #[derive(Debug)]
     pub struct CloudVersionServiceServer<T> {

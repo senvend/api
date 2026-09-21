@@ -190,7 +190,7 @@ class AgeFailureReason(betterproto2.Enum):
     INVALID_STATE = 4
     """
     The system is in an invalid state to perform age verification.
-    (f.e. a payment is in progress)
+    (e.g. a payment is in progress)
     """
 
     API_CANCELLED = 5
@@ -424,7 +424,7 @@ class PayApiFailureReason(betterproto2.Enum):
 
     AMOUNT_MISMATCH = 6
     """
-    If a list of LineItems is given but the sum of their prices does not match the given total or partial amount.
+    If a list of LineItem entries is given, but the sum of their prices (times quantity) does not match the given total or partial amount.
     """
 
     INVALID_UUID = 7
@@ -574,9 +574,9 @@ class PayFailureReason(betterproto2.Enum):
     The payment process was cancelled by a previous PayCancel message.
     """
 
-    APPROVE_TIMEOUT = 7
+    COMPLETION_FAILED = 7
     """
-    No GoodsIssued message was received after PaymentApproved. Payment was reimbursed.
+    The payment could not be finished after PayApproved. Payment was reimbursed.
     """
 
     @classmethod
@@ -589,7 +589,7 @@ class PayFailureReason(betterproto2.Enum):
             4: "PAY_FAILURE_REASON_INVALID_STATE",
             5: "PAY_FAILURE_REASON_PAYMENT_FAILED",
             6: "PAY_FAILURE_REASON_API_CANCELLED",
-            7: "PAY_FAILURE_REASON_APPROVE_TIMEOUT",
+            7: "PAY_FAILURE_REASON_COMPLETION_FAILED",
         }
 
     @classmethod
@@ -602,7 +602,7 @@ class PayFailureReason(betterproto2.Enum):
             "PAY_FAILURE_REASON_INVALID_STATE": 4,
             "PAY_FAILURE_REASON_PAYMENT_FAILED": 5,
             "PAY_FAILURE_REASON_API_CANCELLED": 6,
-            "PAY_FAILURE_REASON_APPROVE_TIMEOUT": 7,
+            "PAY_FAILURE_REASON_COMPLETION_FAILED": 7,
         }
 
 
@@ -821,9 +821,9 @@ default_message_pool.register_message("api.v1", "AgeApiSuccess", AgeApiSuccess)
 class AgeApproveRequest(betterproto2.Message):
     """
 
-    Approves an ongoing age verification process on the SENVEND terminal.
+    Approves an ongoing age verification process on the SENVEND Terminal.
     Can be sent instead of a cancel, to end the age request and proceed without an error.
-    Useful if an external age verification is used in addition to the SENVEND terminal.
+    Useful if an external age verification is used in addition to the SENVEND Terminal.
     If sent in an AgeRequest without UUID, will approve any running process without UUID check. (Catch all)
     """
 
@@ -842,10 +842,10 @@ default_message_pool.register_message("api.v1", "AgeApproveRequest", AgeApproveR
 class AgeCancelRequest(betterproto2.Message):
     """
 
-    Cancels an ongoing age verification process on the SENVEND terminal.
+    Cancels an ongoing age verification process on the SENVEND Terminal.
     Can be sent at any time, but will result in AGE_API_FAILURE_REASON_UUID_NOT_FOUND
     if there is nothing to cancel.
-    If sent in an AgeRequest without UUID, will cancel any running process without UUID check, including vending. (Catch all)
+    If sent in an AgeRequest without UUID, will cancel any running age verification or payment process without UUID check.
     """
 
     pass
@@ -904,7 +904,7 @@ default_message_pool.register_message(
 class AgeRequest(betterproto2.Message):
     """
 
-    All messages sent from the integrator/VMC to the SENVEND terminal to manage age verification.
+    All messages sent from the integrator/VMC to the SENVEND Terminal to manage age verification.
     An age verification process must be started with the AgeStartRequest message.
 
     Oneofs:
@@ -947,6 +947,10 @@ class AgeResponse(betterproto2.Message):
     """
 
     Response to an AgeRequest.
+    AgeSuccess and AgeFailure are final states, they indicate the end of the age verification process.
+
+    A transient state means the process continues and more responses follow.
+    A final state means this process ended; no further responses for this ID.
 
     Oneofs:
         - result: The result of the age verification process.
@@ -983,7 +987,10 @@ class AgeResponse(betterproto2.Message):
         5, betterproto2.TYPE_MESSAGE, optional=True, group="result"
     )
     """
-    transient state
+    transient/final state
+    An API failure is usually transient as it doesn't end the current process.
+    But it is final if it does not result in a new process with that UUID either.
+    Prime examples are AgeStart with an invalid age or an AgeCancel for an unknown UUID.
     """
 
 
@@ -994,7 +1001,7 @@ default_message_pool.register_message("api.v1", "AgeResponse", AgeResponse)
 class AgeStartRequest(betterproto2.Message):
     """
 
-    Starts an age verification process on the SENVEND terminal.
+    Starts an age verification process on the SENVEND Terminal.
     """
 
     min_age: "int" = betterproto2.field(1, betterproto2.TYPE_UINT32)
@@ -1116,7 +1123,7 @@ default_message_pool.register_message("api.v1", "PayApproved", PayApproved)
 class PayCancel(betterproto2.Message):
     """
 
-    Cancels an ongoing payment process on the SENVEND terminal.
+    Cancels an ongoing payment process on the SENVEND Terminal.
     Can also be used to cancel an approved payment (instead of PayGoodsIssued).
     Can be sent at any time, but will result in PAY_API_FAILURE_REASON_UUID_NOT_FOUND
     if there is nothing to cancel.
@@ -1185,7 +1192,7 @@ default_message_pool.register_message("api.v1", "PayGoodsIssued", PayGoodsIssued
 class PayRequest(betterproto2.Message):
     """
 
-    All messages sent from the integrator/VMC to the SENVEND terminal to manage payments.
+    All messages sent from the integrator/VMC to the SENVEND Terminal to manage payments.
     A payment process must be started with the PayStart message.
 
     Oneofs:
@@ -1258,6 +1265,10 @@ class PayResponse(betterproto2.Message):
     Response to a PayRequest.
     PaySuccess and PayFailure are final states, they indicate the end of the payment process.
 
+    A transient state means the process continues and more responses follow.
+    A final state means this process ended; no further responses for this ID.
+    AgeSuccess and vending messages are transient inside a payment. They end their own sub-process, not the payment.
+
     Oneofs:
         - result: The result of the payment process.
     """
@@ -1293,7 +1304,10 @@ class PayResponse(betterproto2.Message):
         5, betterproto2.TYPE_MESSAGE, optional=True, group="result"
     )
     """
-    final state
+    transient/final state
+    An API failure is usually transient as it doesn't end the current process.
+    But it is final if it does not result in a new process with that UUID either.
+    Prime examples are PayStart with an invalid amount or a PayCancel for an unknown UUID.
     """
 
     api_success: "PayApiSuccess | None" = betterproto2.field(
@@ -1374,7 +1388,7 @@ default_message_pool.register_message("api.v1", "PayResponse", PayResponse)
 class PayStart(betterproto2.Message):
     """
 
-    Starts a payment process on the SENVEND terminal.
+    Starts a payment process on the SENVEND Terminal.
     If auto_cancel is given and false, it can only be executed after a previous process finished with either PayFailure or PaySuccess.
     Will result in a PAY_FAILURE_REASON_PAYMENT_ONGOING or PAY_FAILURE_REASON_INVALID_STATE otherwise.
     Without auto_cancel or if it is true, will automatically cancel any running request and then try to start this one.
@@ -1440,9 +1454,9 @@ default_message_pool.register_message("api.v1", "PaySuccess", PaySuccess)
 class PayUpdate(betterproto2.Message):
     """
 
-    Updates the payment amount on the SENVEND terminal mid-transaction.
+    Updates the payment amount on the SENVEND Terminal mid-transaction.
     Main use case is handling cash payments after `PayStart`,
-    and/or changing individual `LineItems` (e.g. if one item in a Basket was cancelled individually).
+    and/or changing individual `LineItem` entries (e.g. if one item in a basket was cancelled individually).
     If age verification was requested as well, this message is only accepted after the age verification was successful.
     Will result in a PAY_API_FAILURE_REASON_INVALID_STATE otherwise.
     Can only be accepted if the payment was not approved yet, or will result in a PAY_API_FAILURE_REASON_ALREADY_APPROVED otherwise.
@@ -1582,10 +1596,10 @@ default_message_pool.register_message("api.v1", "VendApiSuccess", VendApiSuccess
 class VendCancel(betterproto2.Message):
     """
 
-    Cancels an ongoing vending process on the SENVEND terminal.
+    Cancels an ongoing vending process on the SENVEND Terminal.
     Can be sent at any time, but will result in VEND_API_FAILURE_REASON_UUID_NOT_FOUND
     if there is nothing to cancel.
-    If sent in a VendRequest without UUID, will cancel any running process without UUID check. (Catch all)
+    If sent in a VendRequest without UUID, will cancel any running vending process without UUID check.
     """
 
     pass
@@ -1669,7 +1683,7 @@ default_message_pool.register_message("api.v1", "VendFailure", VendFailure)
 class VendRequest(betterproto2.Message):
     """
 
-    All messages sent from the integrator/VMC to the SENVEND terminal to manage vending.
+    All messages sent from the integrator/VMC to the SENVEND Terminal to manage vending.
     A Vending process must be started with the VendStart message.
 
     Oneofs:
@@ -1707,6 +1721,9 @@ class VendResponse(betterproto2.Message):
     Response to a VendRequest.
     success and failure are final states, they indicate the end of the vending process.
 
+    A transient state means the process continues and more responses follow.
+    A final state means this process ended; no further responses for this ID.
+
     Oneofs:
         - response:
     """
@@ -1729,6 +1746,9 @@ class VendResponse(betterproto2.Message):
     )
     """
     transient/final state
+    An API failure is usually transient as it doesn't end the current process.
+    But it is final if it does not result in a new process with that UUID either.
+    Prime examples are VendStart with an invalid quantity or a VendCancel for an unknown UUID.
     """
 
     api_success: "VendApiSuccess | None" = betterproto2.field(
@@ -1780,7 +1800,7 @@ default_message_pool.register_message("api.v1", "VendResult", VendResult)
 class VendStart(betterproto2.Message):
     """
 
-    Starts a vending process on the SENVEND terminal.
+    Starts a vending process on the SENVEND Terminal.
     It can only be executed after a previous process finished with either VendFailure or VendSuccess.
     Will result in a VEND_API_FAILURE_REASON_VENDING_ONGOING otherwise.
     """
@@ -1815,7 +1835,7 @@ default_message_pool.register_message("api.v1", "VendSuccess", VendSuccess)
 class VersionRequest(betterproto2.Message):
     """
 
-    Starts a one-off request for version information of the SENVEND terminal.
+    Starts a one-off request for version information of the SENVEND Terminal.
     """
 
     id: "Uuid4 | None" = betterproto2.field(1, betterproto2.TYPE_MESSAGE, optional=True)
@@ -1832,7 +1852,7 @@ default_message_pool.register_message("api.v1", "VersionRequest", VersionRequest
 class VersionResponse(betterproto2.Message):
     """
 
-    Provides the current software and API version of the SENVEND terminal.
+    Provides the current software and API version of the SENVEND Terminal.
     """
 
     id: "Uuid4 | None" = betterproto2.field(1, betterproto2.TYPE_MESSAGE, optional=True)
@@ -1845,7 +1865,7 @@ class VersionResponse(betterproto2.Message):
         2, betterproto2.TYPE_MESSAGE, optional=True
     )
     """
-    The version of the software installed on the SENVEND terminal.
+    The version of the software installed on the SENVEND Terminal.
     """
 
     api_version: "SemanticVersion | None" = betterproto2.field(

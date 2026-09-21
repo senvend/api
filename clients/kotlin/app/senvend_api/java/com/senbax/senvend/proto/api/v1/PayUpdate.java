@@ -8,9 +8,9 @@ package com.senbax.senvend.proto.api.v1;
 /**
  * <pre>
  *
- * Updates the payment amount on the SENVEND terminal mid-transaction.
+ * Updates the payment amount on the SENVEND Terminal mid-transaction.
  * Main use case is handling cash payments after `PayStart`,
- * and/or changing individual `LineItems` (e.g. if one item in a Basket was cancelled individually).
+ * and/or changing individual `LineItem` entries (e.g. if one item in a basket was cancelled individually).
  * If age verification was requested as well, this message is only accepted after the age verification was successful.
  * Will result in a PAY_API_FAILURE_REASON_INVALID_STATE otherwise.
  * Can only be accepted if the payment was not approved yet, or will result in a PAY_API_FAILURE_REASON_ALREADY_APPROVED otherwise.
@@ -364,9 +364,9 @@ private static final long serialVersionUID = 0L;
   /**
    * <pre>
    *
-   * Updates the payment amount on the SENVEND terminal mid-transaction.
+   * Updates the payment amount on the SENVEND Terminal mid-transaction.
    * Main use case is handling cash payments after `PayStart`,
-   * and/or changing individual `LineItems` (e.g. if one item in a Basket was cancelled individually).
+   * and/or changing individual `LineItem` entries (e.g. if one item in a basket was cancelled individually).
    * If age verification was requested as well, this message is only accepted after the age verification was successful.
    * Will result in a PAY_API_FAILURE_REASON_INVALID_STATE otherwise.
    * Can only be accepted if the payment was not approved yet, or will result in a PAY_API_FAILURE_REASON_ALREADY_APPROVED otherwise.

@@ -91,18 +91,18 @@ public final class CloudProto extends com.google.protobuf.GeneratedFile {
       "\n\017version_request\030\002 \001(\0132\026.api.v1.Version" +
       "RequestR\016versionRequest\"Z\n\024CloudVersionR" +
       "esponse\022B\n\020version_response\030\001 \001(\0132\027.api." +
-      "v1.VersionResponseR\017versionResponse2b\n\033C" +
-      "loudAgeVerificationService\022C\n\010CloudAge\022\031" +
+      "v1.VersionResponseR\017versionResponse2d\n\033C" +
+      "loudAgeVerificationService\022E\n\010CloudAge\022\031" +
       ".cloud.v1.CloudAgeRequest\032\032.cloud.v1.Clo" +
-      "udAgeResponse(\0012X\n\017CloudPayService\022E\n\010Cl" +
-      "oudPay\022\031.cloud.v1.CloudPayRequest\032\032.clou" +
-      "d.v1.CloudPayResponse(\0010\0012d\n\023CloudVersio" +
-      "nService\022M\n\014CloudVersion\022\035.cloud.v1.Clou" +
-      "dVersionRequest\032\036.cloud.v1.CloudVersionR" +
-      "esponseBp\n!com.senbax.senvend.proto.clou" +
-      "d.v1B\nCloudProtoP\001\242\002\003CXX\252\002\010Cloud.V1\312\002\010Cl" +
-      "oud\\V1\342\002\024Cloud\\V1\\GPBMetadata\352\002\tCloud::V" +
-      "1b\006proto3"
+      "udAgeResponse(\0010\0012X\n\017CloudPayService\022E\n\010" +
+      "CloudPay\022\031.cloud.v1.CloudPayRequest\032\032.cl" +
+      "oud.v1.CloudPayResponse(\0010\0012d\n\023CloudVers" +
+      "ionService\022M\n\014CloudVersion\022\035.cloud.v1.Cl" +
+      "oudVersionRequest\032\036.cloud.v1.CloudVersio" +
+      "nResponseBp\n!com.senbax.senvend.proto.cl" +
+      "oud.v1B\nCloudProtoP\001\242\002\003CXX\252\002\010Cloud.V1\312\002\010" +
+      "Cloud\\V1\342\002\024Cloud\\V1\\GPBMetadata\352\002\tCloud:" +
+      ":V1b\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,

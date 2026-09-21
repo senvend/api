@@ -107,7 +107,7 @@ name = "example"
 version = "0.0.1"
 source = { virtual = "packages/example" }
 dependencies = [
-    { name = "senvend-api", extra = ["grpcio"] },
+    { name = "senvend-api" },
 ]
 
 [package.metadata]
@@ -414,17 +414,13 @@ version = "0.0.1"
 source = { editable = "packages/senvend-api" }
 dependencies = [
     { name = "betterproto2" },
-]
-
-[package.optional-dependencies]
-grpcio = [
     { name = "grpcio" },
 ]
 
 [package.metadata]
 requires-dist = [
-    { name = "betterproto2", specifier = ">=0.9.1" },
-    { name = "grpcio", marker = "extra == 'grpcio'", specifier = ">=1.76.0" },
+    { name = "betterproto2", specifier = ">=0.10,<0.11" },
+    { name = "grpcio", specifier = ">=1.76.0" },
 ]
 provides-extras = ["grpcio"]
 
@@ -439,7 +435,7 @@ dependencies = [
 
 [package.metadata]
 requires-dist = [
-    { name = "betterproto2", specifier = ">=0.9.1" },
+    { name = "betterproto2", specifier = ">=0.10,<0.11" },
     { name = "grpclib", specifier = ">=0.4.8" },
 ]
 

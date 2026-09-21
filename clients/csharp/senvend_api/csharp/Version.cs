@@ -46,7 +46,7 @@ namespace com.senbax.senvend.proto.Api.V1 {
   #region Messages
   /// <summary>
   ///
-  /// Starts a one-off request for version information of the SENVEND terminal.
+  /// Starts a one-off request for version information of the SENVEND Terminal.
   /// </summary>
   [global::System.Diagnostics.DebuggerDisplayAttribute("{ToString(),nq}")]
   public sealed partial class VersionRequest : pb::IMessage<VersionRequest>
@@ -261,7 +261,7 @@ namespace com.senbax.senvend.proto.Api.V1 {
 
   /// <summary>
   ///
-  /// Provides the current software and API version of the SENVEND terminal.
+  /// Provides the current software and API version of the SENVEND Terminal.
   /// </summary>
   [global::System.Diagnostics.DebuggerDisplayAttribute("{ToString(),nq}")]
   public sealed partial class VersionResponse : pb::IMessage<VersionResponse>
@@ -330,7 +330,7 @@ namespace com.senbax.senvend.proto.Api.V1 {
     public const int AppVersionFieldNumber = 2;
     private global::com.senbax.senvend.proto.Api.V1.SemanticVersion appVersion_;
     /// <summary>
-    /// The version of the software installed on the SENVEND terminal.
+    /// The version of the software installed on the SENVEND Terminal.
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]

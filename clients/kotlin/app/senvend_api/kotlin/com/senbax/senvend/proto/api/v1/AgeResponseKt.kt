@@ -14,6 +14,10 @@ public inline fun ageResponse(block: com.senbax.senvend.proto.api.v1.AgeResponse
  * ```
  *
  * Response to an AgeRequest.
+ * AgeSuccess and AgeFailure are final states, they indicate the end of the age verification process.
+ *
+ * A transient state means the process continues and more responses follow.
+ * A final state means this process ended; no further responses for this ID.
  * ```
  *
  * Protobuf type `api.v1.AgeResponse`
@@ -186,7 +190,10 @@ public object AgeResponseKt {
 
     /**
      * ```
-     * transient state
+     * transient/final state
+     * An API failure is usually transient as it doesn't end the current process.
+     * But it is final if it does not result in a new process with that UUID either.
+     * Prime examples are AgeStart with an invalid age or an AgeCancel for an unknown UUID.
      * ```
      *
      * `.api.v1.AgeApiFailure api_failure = 5 [json_name = "apiFailure"];`
@@ -200,7 +207,10 @@ public object AgeResponseKt {
       }
     /**
      * ```
-     * transient state
+     * transient/final state
+     * An API failure is usually transient as it doesn't end the current process.
+     * But it is final if it does not result in a new process with that UUID either.
+     * Prime examples are AgeStart with an invalid age or an AgeCancel for an unknown UUID.
      * ```
      *
      * `.api.v1.AgeApiFailure api_failure = 5 [json_name = "apiFailure"];`
@@ -210,7 +220,10 @@ public object AgeResponseKt {
     }
     /**
      * ```
-     * transient state
+     * transient/final state
+     * An API failure is usually transient as it doesn't end the current process.
+     * But it is final if it does not result in a new process with that UUID either.
+     * Prime examples are AgeStart with an invalid age or an AgeCancel for an unknown UUID.
      * ```
      *
      * `.api.v1.AgeApiFailure api_failure = 5 [json_name = "apiFailure"];`

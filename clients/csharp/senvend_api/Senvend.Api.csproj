@@ -3,6 +3,7 @@
   <PropertyGroup>
     <TargetFrameworks>netstandard2.0;net8.0</TargetFrameworks>
     <LangVersion>latest</LangVersion>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
   </PropertyGroup>
 
   <!-- nuget package metadata -->
@@ -13,6 +14,7 @@
     <Company>SENVEND</Company>
     <Copyright>Copyright (c) SENVEND</Copyright>
     <Description>Public APIs to interact with the SENVEND ecosystem</Description>
+    <PackageLicenseExpression>MIT OR Apache-2.0</PackageLicenseExpression>
     <PackageProjectUrl>https://github.com/senvend/api</PackageProjectUrl>
     <RepositoryUrl>https://github.com/senvend/api</RepositoryUrl>
     <PackageReadmeFile>README.md</PackageReadmeFile>
@@ -20,14 +22,14 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Include="../README.md" Pack="true" PackagePath="/" />
+    <None Include="README.md" Pack="true" PackagePath="/" />
   </ItemGroup>
 
   <ItemGroup>
     <!-- runtime for the code generated into ./csharp by protoc -->
-    <PackageReference Include="Google.Protobuf" Version="3.36.1" />
+    <PackageReference Include="Google.Protobuf" Version="3.36.2" />
     <!-- GrpcChannel plus the Grpc.Core.Api types used by ./grpc-csharp -->
-    <PackageReference Include="Grpc.Net.Client" Version="2.83.0" />
+    <PackageReference Include="Grpc.Net.Client" Version="2.84.0" />
   </ItemGroup>
 
 </Project>

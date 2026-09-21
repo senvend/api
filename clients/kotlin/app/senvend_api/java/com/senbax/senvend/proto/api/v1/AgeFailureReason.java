@@ -51,7 +51,7 @@ public enum AgeFailureReason
   /**
    * <pre>
    * The system is in an invalid state to perform age verification.
-   * (f.e. a payment is in progress)
+   * (e.g. a payment is in progress)
    * </pre>
    *
    * <code>AGE_FAILURE_REASON_INVALID_STATE = 4;</code>
@@ -128,7 +128,7 @@ public enum AgeFailureReason
   /**
    * <pre>
    * The system is in an invalid state to perform age verification.
-   * (f.e. a payment is in progress)
+   * (e.g. a payment is in progress)
    * </pre>
    *
    * <code>AGE_FAILURE_REASON_INVALID_STATE = 4;</code>

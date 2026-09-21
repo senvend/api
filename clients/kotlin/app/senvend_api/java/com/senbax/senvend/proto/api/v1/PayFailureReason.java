@@ -75,12 +75,12 @@ public enum PayFailureReason
   PAY_FAILURE_REASON_API_CANCELLED(6),
   /**
    * <pre>
-   * No GoodsIssued message was received after PaymentApproved. Payment was reimbursed.
+   * The payment could not be finished after PayApproved. Payment was reimbursed.
    * </pre>
    *
-   * <code>PAY_FAILURE_REASON_APPROVE_TIMEOUT = 7;</code>
+   * <code>PAY_FAILURE_REASON_COMPLETION_FAILED = 7;</code>
    */
-  PAY_FAILURE_REASON_APPROVE_TIMEOUT(7),
+  PAY_FAILURE_REASON_COMPLETION_FAILED(7),
   UNRECOGNIZED(-1),
   ;
 
@@ -152,12 +152,12 @@ public enum PayFailureReason
   public static final int PAY_FAILURE_REASON_API_CANCELLED_VALUE = 6;
   /**
    * <pre>
-   * No GoodsIssued message was received after PaymentApproved. Payment was reimbursed.
+   * The payment could not be finished after PayApproved. Payment was reimbursed.
    * </pre>
    *
-   * <code>PAY_FAILURE_REASON_APPROVE_TIMEOUT = 7;</code>
+   * <code>PAY_FAILURE_REASON_COMPLETION_FAILED = 7;</code>
    */
-  public static final int PAY_FAILURE_REASON_APPROVE_TIMEOUT_VALUE = 7;
+  public static final int PAY_FAILURE_REASON_COMPLETION_FAILED_VALUE = 7;
 
 
   public final int getNumber() {
@@ -191,7 +191,7 @@ public enum PayFailureReason
       case 4: return PAY_FAILURE_REASON_INVALID_STATE;
       case 5: return PAY_FAILURE_REASON_PAYMENT_FAILED;
       case 6: return PAY_FAILURE_REASON_API_CANCELLED;
-      case 7: return PAY_FAILURE_REASON_APPROVE_TIMEOUT;
+      case 7: return PAY_FAILURE_REASON_COMPLETION_FAILED;
       default: return null;
     }
   }

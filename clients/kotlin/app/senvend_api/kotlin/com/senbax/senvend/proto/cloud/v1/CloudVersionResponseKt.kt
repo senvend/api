@@ -12,7 +12,7 @@ public inline fun cloudVersionResponse(block: com.senbax.senvend.proto.cloud.v1.
   com.senbax.senvend.proto.cloud.v1.CloudVersionResponseKt.Dsl._create(com.senbax.senvend.proto.cloud.v1.CloudVersionResponse.newBuilder()).apply { block() }._build()
 /**
  * ```
- * Provides the current software and API version of the SENVEND terminal.
+ * Provides the current software and API version of the SENVEND Terminal.
  * ```
  *
  * Protobuf type `cloud.v1.CloudVersionResponse`
@@ -35,7 +35,7 @@ public object CloudVersionResponseKt {
 
     /**
      * ```
-     * Provides the current software and API version of the SENVEND terminal.
+     * Provides the current software and API version of the SENVEND Terminal.
      * ```
      *
      * `.api.v1.VersionResponse version_response = 1 [json_name = "versionResponse"];`
@@ -49,7 +49,7 @@ public object CloudVersionResponseKt {
       }
     /**
      * ```
-     * Provides the current software and API version of the SENVEND terminal.
+     * Provides the current software and API version of the SENVEND Terminal.
      * ```
      *
      * `.api.v1.VersionResponse version_response = 1 [json_name = "versionResponse"];`
@@ -59,7 +59,7 @@ public object CloudVersionResponseKt {
     }
     /**
      * ```
-     * Provides the current software and API version of the SENVEND terminal.
+     * Provides the current software and API version of the SENVEND Terminal.
      * ```
      *
      * `.api.v1.VersionResponse version_response = 1 [json_name = "versionResponse"];`

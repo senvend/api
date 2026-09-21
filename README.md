@@ -6,7 +6,7 @@ To make handling protobuf definitions easier, we use [buf.build](https://buf.bui
 All protobuf definitions are stored in the [`proto/`](./proto/) directory.
 
 The current version of the API is 0.0.1.
-Changes in the API between versions are marked within this documentation with a "since x.y.z" version notice. Everything else can be assumed to be part of the initial API release.
+Changes between versions are listed in the [CHANGELOG](./CHANGELOG.md).
 
 ## Help us improve
 
@@ -28,7 +28,9 @@ You can find the protobuf definitions and documentation for the local API in the
 The terminal needs to be connected to the same network as your client application. You can connect it via Ethernet or Wi-Fi.  
 Before using the local API with your terminal, you need to enable and configure it in the terminal settings on [my.senvend.com](https://my.senvend.com).  
 By default the API listens on port `11111` without authentication and encryption. 
-But it can be configured to use TLS (self-signed via the senvendCA.crt in this repo) and basic password authentication.  
+But it can be configured to use TLS (self-signed via [senvendCA.crt](./senvendCA.crt)) and an authentication token.  
+Verify the root CA before trusting it, its SHA-256 fingerprint is
+`C0:18:70:DC:71:94:35:1A:51:BD:84:75:FF:FE:80:91:31:4A:98:E4:CE:DD:88:43:43:DF:0E:4A:2A:E9:A2:51`.  
 The IP and port where the API can be reached can be displayed on the terminal, in the Service screen, subsection "RPC Info".
 The IPs of the last 5 connected clients are listed there as well, including a notice when authentication from a client IP failed.
 
@@ -79,3 +81,14 @@ You can use [./gen.sh](./gen.sh) to regenerate the example clients after making 
 
 All definitions in this repository are published to the [SENVEND schema registry on buf.build](https://buf.build/senvend/api).  
 This means you can use them as dependencies in your [buf.build](https://buf.build/) projects if you want to generate your own client.
+
+## License
+
+Licensed under either of
+
+- [Apache License, Version 2.0](https://www.apache.org/licenses/LICENSE-2.0)
+- [MIT license](https://opensource.org/license/mit)
+
+at your option.
+
+Unless you explicitly state otherwise, any contribution intentionally submitted for inclusion in this repository, as defined in the Apache-2.0 license, shall be dual licensed as above, without any additional terms or conditions.

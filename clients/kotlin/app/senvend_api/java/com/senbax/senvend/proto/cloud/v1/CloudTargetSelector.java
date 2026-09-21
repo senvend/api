@@ -140,7 +140,7 @@ private static final long serialVersionUID = 0L;
   public static final int SERIAL_NUMBER_FIELD_NUMBER = 2;
   /**
    * <pre>
-   * Select by SENVEND terminal serial number.
+   * Select by SENVEND Terminal serial number.
    * </pre>
    *
    * <code>string serial_number = 2 [json_name = "serialNumber"];</code>
@@ -151,7 +151,7 @@ private static final long serialVersionUID = 0L;
   }
   /**
    * <pre>
-   * Select by SENVEND terminal serial number.
+   * Select by SENVEND Terminal serial number.
    * </pre>
    *
    * <code>string serial_number = 2 [json_name = "serialNumber"];</code>
@@ -174,7 +174,7 @@ private static final long serialVersionUID = 0L;
   }
   /**
    * <pre>
-   * Select by SENVEND terminal serial number.
+   * Select by SENVEND Terminal serial number.
    * </pre>
    *
    * <code>string serial_number = 2 [json_name = "serialNumber"];</code>
@@ -746,7 +746,7 @@ private static final long serialVersionUID = 0L;
 
     /**
      * <pre>
-     * Select by SENVEND terminal serial number.
+     * Select by SENVEND Terminal serial number.
      * </pre>
      *
      * <code>string serial_number = 2 [json_name = "serialNumber"];</code>
@@ -758,7 +758,7 @@ private static final long serialVersionUID = 0L;
     }
     /**
      * <pre>
-     * Select by SENVEND terminal serial number.
+     * Select by SENVEND Terminal serial number.
      * </pre>
      *
      * <code>string serial_number = 2 [json_name = "serialNumber"];</code>
@@ -782,7 +782,7 @@ private static final long serialVersionUID = 0L;
     }
     /**
      * <pre>
-     * Select by SENVEND terminal serial number.
+     * Select by SENVEND Terminal serial number.
      * </pre>
      *
      * <code>string serial_number = 2 [json_name = "serialNumber"];</code>
@@ -807,7 +807,7 @@ private static final long serialVersionUID = 0L;
     }
     /**
      * <pre>
-     * Select by SENVEND terminal serial number.
+     * Select by SENVEND Terminal serial number.
      * </pre>
      *
      * <code>string serial_number = 2 [json_name = "serialNumber"];</code>
@@ -824,7 +824,7 @@ private static final long serialVersionUID = 0L;
     }
     /**
      * <pre>
-     * Select by SENVEND terminal serial number.
+     * Select by SENVEND Terminal serial number.
      * </pre>
      *
      * <code>string serial_number = 2 [json_name = "serialNumber"];</code>
@@ -840,7 +840,7 @@ private static final long serialVersionUID = 0L;
     }
     /**
      * <pre>
-     * Select by SENVEND terminal serial number.
+     * Select by SENVEND Terminal serial number.
      * </pre>
      *
      * <code>string serial_number = 2 [json_name = "serialNumber"];</code>

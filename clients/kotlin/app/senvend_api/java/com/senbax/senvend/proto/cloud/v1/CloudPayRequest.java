@@ -7,7 +7,7 @@ package com.senbax.senvend.proto.cloud.v1;
 
 /**
  * <pre>
- * All messages sent from the integrator/VMC to the SENVEND terminal to manage payments.
+ * All messages sent from the integrator/VMC to the SENVEND Terminal to manage payments.
  * </pre>
  *
  * Protobuf type {@code cloud.v1.CloudPayRequest}
@@ -316,7 +316,7 @@ private static final long serialVersionUID = 0L;
   }
   /**
    * <pre>
-   * All messages sent from the integrator/VMC to the SENVEND terminal to manage payments.
+   * All messages sent from the integrator/VMC to the SENVEND Terminal to manage payments.
    * </pre>
    *
    * Protobuf type {@code cloud.v1.CloudPayRequest}

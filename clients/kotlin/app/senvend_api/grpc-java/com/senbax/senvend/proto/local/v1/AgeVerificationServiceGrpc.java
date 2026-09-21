@@ -118,7 +118,7 @@ public final class AgeVerificationServiceGrpc {
 
     /**
      * <pre>
-     *Initiates an age verification process on the SENVEND terminal.&#92;
+     *Initiates an age verification process on the SENVEND Terminal.&#92;
      *Accepts a stream of AgeRequest for starting and controlling age verification.&#92;
      *Returns a stream of AgeResponse containing status and error return messages.
      *&lt;details open&gt;
@@ -132,11 +132,11 @@ public final class AgeVerificationServiceGrpc {
      *- If disconnected during a verification process, after a reconnect the currently running process can still be controlled.&#92;
      *AgeResponses that occurred during the disconnect are lost though.
      *- If auto_cancel is left out or set to true, a new AgeRequest with a different UUID or without one will automatically cancel any currently running process on the terminal.&#92;
-     *If given but false, sending a new AgeRequest while another process is still running will result in a PAY_FAILURE_REASON_PAYMENT_ONGOING error message.
+     *If given but false, sending a new AgeRequest while another process is still running will result in an AGE_FAILURE_REASON_VERIFICATION_ONGOING error message.
      *&lt;/details&gt;
      *&lt;details open&gt;
      *&lt;summary&gt;Process Constraints&lt;/summary&gt;
-     *- The minimum age to verify has to be greater than zero and can maximally be 120.&#92;
+     *- The minimum age to verify has to be greater than zero and at most 120.&#92;
      *Depending on the method chosen, only certain ages can be verified.
      *- Girocard: 16 or 18. Will be set to the next one above if below (e.g. to 18 if 17 is requested).&#92;
      *Will not be available for selection if above 18 is requested. Will fail in older app versions (&lt;1.7.0) instead.
@@ -193,7 +193,7 @@ public final class AgeVerificationServiceGrpc {
 
     /**
      * <pre>
-     *Initiates an age verification process on the SENVEND terminal.&#92;
+     *Initiates an age verification process on the SENVEND Terminal.&#92;
      *Accepts a stream of AgeRequest for starting and controlling age verification.&#92;
      *Returns a stream of AgeResponse containing status and error return messages.
      *&lt;details open&gt;
@@ -207,11 +207,11 @@ public final class AgeVerificationServiceGrpc {
      *- If disconnected during a verification process, after a reconnect the currently running process can still be controlled.&#92;
      *AgeResponses that occurred during the disconnect are lost though.
      *- If auto_cancel is left out or set to true, a new AgeRequest with a different UUID or without one will automatically cancel any currently running process on the terminal.&#92;
-     *If given but false, sending a new AgeRequest while another process is still running will result in a PAY_FAILURE_REASON_PAYMENT_ONGOING error message.
+     *If given but false, sending a new AgeRequest while another process is still running will result in an AGE_FAILURE_REASON_VERIFICATION_ONGOING error message.
      *&lt;/details&gt;
      *&lt;details open&gt;
      *&lt;summary&gt;Process Constraints&lt;/summary&gt;
-     *- The minimum age to verify has to be greater than zero and can maximally be 120.&#92;
+     *- The minimum age to verify has to be greater than zero and at most 120.&#92;
      *Depending on the method chosen, only certain ages can be verified.
      *- Girocard: 16 or 18. Will be set to the next one above if below (e.g. to 18 if 17 is requested).&#92;
      *Will not be available for selection if above 18 is requested. Will fail in older app versions (&lt;1.7.0) instead.
@@ -253,7 +253,7 @@ public final class AgeVerificationServiceGrpc {
 
     /**
      * <pre>
-     *Initiates an age verification process on the SENVEND terminal.&#92;
+     *Initiates an age verification process on the SENVEND Terminal.&#92;
      *Accepts a stream of AgeRequest for starting and controlling age verification.&#92;
      *Returns a stream of AgeResponse containing status and error return messages.
      *&lt;details open&gt;
@@ -267,11 +267,11 @@ public final class AgeVerificationServiceGrpc {
      *- If disconnected during a verification process, after a reconnect the currently running process can still be controlled.&#92;
      *AgeResponses that occurred during the disconnect are lost though.
      *- If auto_cancel is left out or set to true, a new AgeRequest with a different UUID or without one will automatically cancel any currently running process on the terminal.&#92;
-     *If given but false, sending a new AgeRequest while another process is still running will result in a PAY_FAILURE_REASON_PAYMENT_ONGOING error message.
+     *If given but false, sending a new AgeRequest while another process is still running will result in an AGE_FAILURE_REASON_VERIFICATION_ONGOING error message.
      *&lt;/details&gt;
      *&lt;details open&gt;
      *&lt;summary&gt;Process Constraints&lt;/summary&gt;
-     *- The minimum age to verify has to be greater than zero and can maximally be 120.&#92;
+     *- The minimum age to verify has to be greater than zero and at most 120.&#92;
      *Depending on the method chosen, only certain ages can be verified.
      *- Girocard: 16 or 18. Will be set to the next one above if below (e.g. to 18 if 17 is requested).&#92;
      *Will not be available for selection if above 18 is requested. Will fail in older app versions (&lt;1.7.0) instead.

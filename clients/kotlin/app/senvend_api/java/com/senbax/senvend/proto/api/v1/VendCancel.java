@@ -8,10 +8,10 @@ package com.senbax.senvend.proto.api.v1;
 /**
  * <pre>
  *
- * Cancels an ongoing vending process on the SENVEND terminal.
+ * Cancels an ongoing vending process on the SENVEND Terminal.
  * Can be sent at any time, but will result in VEND_API_FAILURE_REASON_UUID_NOT_FOUND
  * if there is nothing to cancel.
- * If sent in a VendRequest without UUID, will cancel any running process without UUID check. (Catch all)
+ * If sent in a VendRequest without UUID, will cancel any running vending process without UUID check.
  * </pre>
  *
  * Protobuf type {@code api.v1.VendCancel}
@@ -204,10 +204,10 @@ private static final long serialVersionUID = 0L;
   /**
    * <pre>
    *
-   * Cancels an ongoing vending process on the SENVEND terminal.
+   * Cancels an ongoing vending process on the SENVEND Terminal.
    * Can be sent at any time, but will result in VEND_API_FAILURE_REASON_UUID_NOT_FOUND
    * if there is nothing to cancel.
-   * If sent in a VendRequest without UUID, will cancel any running process without UUID check. (Catch all)
+   * If sent in a VendRequest without UUID, will cancel any running vending process without UUID check.
    * </pre>
    *
    * Protobuf type {@code api.v1.VendCancel}

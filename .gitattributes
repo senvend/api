@@ -1,6 +1,9 @@
 clients/rust/senvend_api/src/api/v1/** linguist-generated
 clients/rust/senvend_api/src/cloud/v1/** linguist-generated
-clients/python/src/senvend_api/gen/** linguist-generated
+clients/rust/senvend_api/src/local/v1/** linguist-generated
+clients/rust/senvend_api/src/protos.rs linguist-generated
+clients/python/packages/senvend-api/src/senvend_api/** linguist-generated
+clients/python/packages/senvend-api-async/src/senvend_api_async/** linguist-generated
 clients/kotlin/app/senvend_api/** linguist-generated
 clients/csharp/senvend_api/csharp/** linguist-generated
 clients/csharp/senvend_api/grpc-csharp/** linguist-generated

@@ -4,7 +4,7 @@ import static io.grpc.MethodDescriptor.generateFullMethodName;
 
 /**
  * <pre>
- *This service provides version information for the software on the SENVEND terminal.
+ *This service provides version information for the software on the SENVEND Terminal.
  * </pre>
  */
 @io.grpc.stub.annotations.GrpcGenerated
@@ -107,14 +107,14 @@ public final class VersionServiceGrpc {
 
   /**
    * <pre>
-   *This service provides version information for the software on the SENVEND terminal.
+   *This service provides version information for the software on the SENVEND Terminal.
    * </pre>
    */
   public interface AsyncService {
 
     /**
      * <pre>
-     *Returns the version information of the software and API on the SENVEND terminal.
+     *Returns the version information of the software and API on the SENVEND Terminal.
      *&lt;details open&gt;
      *&lt;summary&gt;API Constraints&lt;/summary&gt;
      *- Request ids are optional.&#92;
@@ -125,7 +125,7 @@ public final class VersionServiceGrpc {
      *&lt;summary&gt;Examples&lt;/summary&gt;
      *###### Standard version request
      *&gt; **-&gt;** {}
-     *&gt; **&#92;&lt;-** {"id": {"msb": "10249154777407571789", "lsb": "11282912518529581516"}, appVersion": {"major": 1, "minor": 3, "patch": 11}, "apiVersion": {"patch": 1}}
+     *&gt; **&#92;&lt;-** {"id": {"msb": "10249154777407571789", "lsb": "11282912518529581516"}, "appVersion": {"major": 1, "minor": 3, "patch": 11}, "apiVersion": {"major": 1}}
      *&lt;/details&gt;
      * </pre>
      */
@@ -138,7 +138,7 @@ public final class VersionServiceGrpc {
   /**
    * Base class for the server implementation of the service VersionService.
    * <pre>
-   *This service provides version information for the software on the SENVEND terminal.
+   *This service provides version information for the software on the SENVEND Terminal.
    * </pre>
    */
   public static abstract class VersionServiceImplBase
@@ -152,7 +152,7 @@ public final class VersionServiceGrpc {
   /**
    * A stub to allow clients to do asynchronous rpc calls to service VersionService.
    * <pre>
-   *This service provides version information for the software on the SENVEND terminal.
+   *This service provides version information for the software on the SENVEND Terminal.
    * </pre>
    */
   public static final class VersionServiceStub
@@ -170,7 +170,7 @@ public final class VersionServiceGrpc {
 
     /**
      * <pre>
-     *Returns the version information of the software and API on the SENVEND terminal.
+     *Returns the version information of the software and API on the SENVEND Terminal.
      *&lt;details open&gt;
      *&lt;summary&gt;API Constraints&lt;/summary&gt;
      *- Request ids are optional.&#92;
@@ -181,7 +181,7 @@ public final class VersionServiceGrpc {
      *&lt;summary&gt;Examples&lt;/summary&gt;
      *###### Standard version request
      *&gt; **-&gt;** {}
-     *&gt; **&#92;&lt;-** {"id": {"msb": "10249154777407571789", "lsb": "11282912518529581516"}, appVersion": {"major": 1, "minor": 3, "patch": 11}, "apiVersion": {"patch": 1}}
+     *&gt; **&#92;&lt;-** {"id": {"msb": "10249154777407571789", "lsb": "11282912518529581516"}, "appVersion": {"major": 1, "minor": 3, "patch": 11}, "apiVersion": {"major": 1}}
      *&lt;/details&gt;
      * </pre>
      */
@@ -195,7 +195,7 @@ public final class VersionServiceGrpc {
   /**
    * A stub to allow clients to do synchronous rpc calls to service VersionService.
    * <pre>
-   *This service provides version information for the software on the SENVEND terminal.
+   *This service provides version information for the software on the SENVEND Terminal.
    * </pre>
    */
   public static final class VersionServiceBlockingV2Stub
@@ -213,7 +213,7 @@ public final class VersionServiceGrpc {
 
     /**
      * <pre>
-     *Returns the version information of the software and API on the SENVEND terminal.
+     *Returns the version information of the software and API on the SENVEND Terminal.
      *&lt;details open&gt;
      *&lt;summary&gt;API Constraints&lt;/summary&gt;
      *- Request ids are optional.&#92;
@@ -224,7 +224,7 @@ public final class VersionServiceGrpc {
      *&lt;summary&gt;Examples&lt;/summary&gt;
      *###### Standard version request
      *&gt; **-&gt;** {}
-     *&gt; **&#92;&lt;-** {"id": {"msb": "10249154777407571789", "lsb": "11282912518529581516"}, appVersion": {"major": 1, "minor": 3, "patch": 11}, "apiVersion": {"patch": 1}}
+     *&gt; **&#92;&lt;-** {"id": {"msb": "10249154777407571789", "lsb": "11282912518529581516"}, "appVersion": {"major": 1, "minor": 3, "patch": 11}, "apiVersion": {"major": 1}}
      *&lt;/details&gt;
      * </pre>
      */
@@ -237,7 +237,7 @@ public final class VersionServiceGrpc {
   /**
    * A stub to allow clients to do limited synchronous rpc calls to service VersionService.
    * <pre>
-   *This service provides version information for the software on the SENVEND terminal.
+   *This service provides version information for the software on the SENVEND Terminal.
    * </pre>
    */
   public static final class VersionServiceBlockingStub
@@ -255,7 +255,7 @@ public final class VersionServiceGrpc {
 
     /**
      * <pre>
-     *Returns the version information of the software and API on the SENVEND terminal.
+     *Returns the version information of the software and API on the SENVEND Terminal.
      *&lt;details open&gt;
      *&lt;summary&gt;API Constraints&lt;/summary&gt;
      *- Request ids are optional.&#92;
@@ -266,7 +266,7 @@ public final class VersionServiceGrpc {
      *&lt;summary&gt;Examples&lt;/summary&gt;
      *###### Standard version request
      *&gt; **-&gt;** {}
-     *&gt; **&#92;&lt;-** {"id": {"msb": "10249154777407571789", "lsb": "11282912518529581516"}, appVersion": {"major": 1, "minor": 3, "patch": 11}, "apiVersion": {"patch": 1}}
+     *&gt; **&#92;&lt;-** {"id": {"msb": "10249154777407571789", "lsb": "11282912518529581516"}, "appVersion": {"major": 1, "minor": 3, "patch": 11}, "apiVersion": {"major": 1}}
      *&lt;/details&gt;
      * </pre>
      */
@@ -279,7 +279,7 @@ public final class VersionServiceGrpc {
   /**
    * A stub to allow clients to do ListenableFuture-style rpc calls to service VersionService.
    * <pre>
-   *This service provides version information for the software on the SENVEND terminal.
+   *This service provides version information for the software on the SENVEND Terminal.
    * </pre>
    */
   public static final class VersionServiceFutureStub
@@ -297,7 +297,7 @@ public final class VersionServiceGrpc {
 
     /**
      * <pre>
-     *Returns the version information of the software and API on the SENVEND terminal.
+     *Returns the version information of the software and API on the SENVEND Terminal.
      *&lt;details open&gt;
      *&lt;summary&gt;API Constraints&lt;/summary&gt;
      *- Request ids are optional.&#92;
@@ -308,7 +308,7 @@ public final class VersionServiceGrpc {
      *&lt;summary&gt;Examples&lt;/summary&gt;
      *###### Standard version request
      *&gt; **-&gt;** {}
-     *&gt; **&#92;&lt;-** {"id": {"msb": "10249154777407571789", "lsb": "11282912518529581516"}, appVersion": {"major": 1, "minor": 3, "patch": 11}, "apiVersion": {"patch": 1}}
+     *&gt; **&#92;&lt;-** {"id": {"msb": "10249154777407571789", "lsb": "11282912518529581516"}, "appVersion": {"major": 1, "minor": 3, "patch": 11}, "apiVersion": {"major": 1}}
      *&lt;/details&gt;
      * </pre>
      */

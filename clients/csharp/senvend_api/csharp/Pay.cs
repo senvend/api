@@ -73,33 +73,33 @@ namespace com.senbax.senvend.proto.Api.V1 {
             "bHVyZVJlYXNvbkIICgZyZWFzb24iRAoNUGF5QXBpRmFpbHVyZRIzCgZyZWFz",
             "b24YASABKA4yGy5hcGkudjEuUGF5QXBpRmFpbHVyZVJlYXNvblIGcmVhc29u",
             "IkQKDVBheUFwaVN1Y2Nlc3MSMwoGcmVhc29uGAEgASgOMhsuYXBpLnYxLlBh",
-            "eUFwaVN1Y2Nlc3NSZWFzb25SBnJlYXNvbirAAgoQUGF5RmFpbHVyZVJlYXNv",
+            "eUFwaVN1Y2Nlc3NSZWFzb25SBnJlYXNvbirCAgoQUGF5RmFpbHVyZVJlYXNv",
             "bhIiCh5QQVlfRkFJTFVSRV9SRUFTT05fVU5TUEVDSUZJRUQQABIlCiFQQVlf",
             "RkFJTFVSRV9SRUFTT05fVVNFUl9DQU5DRUxMRUQQARIeChpQQVlfRkFJTFVS",
             "RV9SRUFTT05fVElNRU9VVBACEiYKIlBBWV9GQUlMVVJFX1JFQVNPTl9QQVlN",
             "RU5UX09OR09JTkcQAxIkCiBQQVlfRkFJTFVSRV9SRUFTT05fSU5WQUxJRF9T",
             "VEFURRAEEiUKIVBBWV9GQUlMVVJFX1JFQVNPTl9QQVlNRU5UX0ZBSUxFRBAF",
-            "EiQKIFBBWV9GQUlMVVJFX1JFQVNPTl9BUElfQ0FOQ0VMTEVEEAYSJgoiUEFZ",
-            "X0ZBSUxVUkVfUkVBU09OX0FQUFJPVkVfVElNRU9VVBAHKsUDChNQYXlBcGlG",
-            "YWlsdXJlUmVhc29uEiYKIlBBWV9BUElfRkFJTFVSRV9SRUFTT05fVU5TUEVD",
-            "SUZJRUQQABIpCiVQQVlfQVBJX0ZBSUxVUkVfUkVBU09OX0lOVkFMSURfQU1P",
-            "VU5UEAESKAokUEFZX0FQSV9GQUlMVVJFX1JFQVNPTl9DQU5DRUxfRkFJTEVE",
-            "EAISKQolUEFZX0FQSV9GQUlMVVJFX1JFQVNPTl9VVUlEX05PVF9GT1VORBAD",
-            "EioKJlBBWV9BUElfRkFJTFVSRV9SRUFTT05fVU5LTk9XTl9DT01NQU5EEAQS",
-            "LgoqUEFZX0FQSV9GQUlMVVJFX1JFQVNPTl9OT19BUFBST1ZFRF9QQVlNRU5U",
-            "EAUSKgomUEFZX0FQSV9GQUlMVVJFX1JFQVNPTl9BTU9VTlRfTUlTTUFUQ0gQ",
-            "BhInCiNQQVlfQVBJX0ZBSUxVUkVfUkVBU09OX0lOVkFMSURfVVVJRBAHEigK",
-            "JFBBWV9BUElfRkFJTFVSRV9SRUFTT05fSU5WQUxJRF9TVEFURRAIEisKJ1BB",
-            "WV9BUElfRkFJTFVSRV9SRUFTT05fQUxSRUFEWV9BUFBST1ZFRBAJKqQCChNQ",
-            "YXlBcGlTdWNjZXNzUmVhc29uEiYKIlBBWV9BUElfU1VDQ0VTU19SRUFTT05f",
-            "VU5TUEVDSUZJRUQQABIqCiZQQVlfQVBJX1NVQ0NFU1NfUkVBU09OX1BBWU1F",
-            "TlRfU1RBUlRFRBABEioKJlBBWV9BUElfU1VDQ0VTU19SRUFTT05fQ0FOQ0VM",
-            "X0FDQ0VQVEVEEAISMAosUEFZX0FQSV9TVUNDRVNTX1JFQVNPTl9HT09EU19J",
-            "U1NVRURfQUNDRVBURUQQAxIvCitQQVlfQVBJX1NVQ0NFU1NfUkVBU09OX0FH",
-            "RV9BUFBST1ZFX0FDQ0VQVEVEEAQSKgomUEFZX0FQSV9TVUNDRVNTX1JFQVNP",
-            "Tl9VUERBVEVfQUNDRVBURUQQBUJoCgpjb20uYXBpLnYxQghQYXlQcm90b1AB",
-            "ogIDQVhYqgIfY29tLnNlbmJheC5zZW52ZW5kLnByb3RvLkFwaS5WMcoCBkFw",
-            "aVxWMeICEkFwaVxWMVxHUEJNZXRhZGF0YeoCB0FwaTo6VjFiBnByb3RvMw=="));
+            "EiQKIFBBWV9GQUlMVVJFX1JFQVNPTl9BUElfQ0FOQ0VMTEVEEAYSKAokUEFZ",
+            "X0ZBSUxVUkVfUkVBU09OX0NPTVBMRVRJT05fRkFJTEVEEAcqxQMKE1BheUFw",
+            "aUZhaWx1cmVSZWFzb24SJgoiUEFZX0FQSV9GQUlMVVJFX1JFQVNPTl9VTlNQ",
+            "RUNJRklFRBAAEikKJVBBWV9BUElfRkFJTFVSRV9SRUFTT05fSU5WQUxJRF9B",
+            "TU9VTlQQARIoCiRQQVlfQVBJX0ZBSUxVUkVfUkVBU09OX0NBTkNFTF9GQUlM",
+            "RUQQAhIpCiVQQVlfQVBJX0ZBSUxVUkVfUkVBU09OX1VVSURfTk9UX0ZPVU5E",
+            "EAMSKgomUEFZX0FQSV9GQUlMVVJFX1JFQVNPTl9VTktOT1dOX0NPTU1BTkQQ",
+            "BBIuCipQQVlfQVBJX0ZBSUxVUkVfUkVBU09OX05PX0FQUFJPVkVEX1BBWU1F",
+            "TlQQBRIqCiZQQVlfQVBJX0ZBSUxVUkVfUkVBU09OX0FNT1VOVF9NSVNNQVRD",
+            "SBAGEicKI1BBWV9BUElfRkFJTFVSRV9SRUFTT05fSU5WQUxJRF9VVUlEEAcS",
+            "KAokUEFZX0FQSV9GQUlMVVJFX1JFQVNPTl9JTlZBTElEX1NUQVRFEAgSKwon",
+            "UEFZX0FQSV9GQUlMVVJFX1JFQVNPTl9BTFJFQURZX0FQUFJPVkVEEAkqpAIK",
+            "E1BheUFwaVN1Y2Nlc3NSZWFzb24SJgoiUEFZX0FQSV9TVUNDRVNTX1JFQVNP",
+            "Tl9VTlNQRUNJRklFRBAAEioKJlBBWV9BUElfU1VDQ0VTU19SRUFTT05fUEFZ",
+            "TUVOVF9TVEFSVEVEEAESKgomUEFZX0FQSV9TVUNDRVNTX1JFQVNPTl9DQU5D",
+            "RUxfQUNDRVBURUQQAhIwCixQQVlfQVBJX1NVQ0NFU1NfUkVBU09OX0dPT0RT",
+            "X0lTU1VFRF9BQ0NFUFRFRBADEi8KK1BBWV9BUElfU1VDQ0VTU19SRUFTT05f",
+            "QUdFX0FQUFJPVkVfQUNDRVBURUQQBBIqCiZQQVlfQVBJX1NVQ0NFU1NfUkVB",
+            "U09OX1VQREFURV9BQ0NFUFRFRBAFQmgKCmNvbS5hcGkudjFCCFBheVByb3Rv",
+            "UAGiAgNBWFiqAh9jb20uc2VuYmF4LnNlbnZlbmQucHJvdG8uQXBpLlYxygIG",
+            "QXBpXFYx4gISQXBpXFYxXEdQQk1ldGFkYXRh6gIHQXBpOjpWMWIGcHJvdG8z"));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { global::com.senbax.senvend.proto.Api.V1.AgeReflection.Descriptor, global::com.senbax.senvend.proto.Api.V1.CommonReflection.Descriptor, global::com.senbax.senvend.proto.Api.V1.VendReflection.Descriptor, },
           new pbr::GeneratedClrTypeInfo(new[] {typeof(global::com.senbax.senvend.proto.Api.V1.PayFailureReason), typeof(global::com.senbax.senvend.proto.Api.V1.PayApiFailureReason), typeof(global::com.senbax.senvend.proto.Api.V1.PayApiSuccessReason), }, null, new pbr::GeneratedClrTypeInfo[] {
@@ -155,9 +155,9 @@ namespace com.senbax.senvend.proto.Api.V1 {
     /// </summary>
     [pbr::OriginalName("PAY_FAILURE_REASON_API_CANCELLED")] ApiCancelled = 6,
     /// <summary>
-    /// No GoodsIssued message was received after PaymentApproved. Payment was reimbursed.
+    /// The payment could not be finished after PayApproved. Payment was reimbursed.
     /// </summary>
-    [pbr::OriginalName("PAY_FAILURE_REASON_APPROVE_TIMEOUT")] ApproveTimeout = 7,
+    [pbr::OriginalName("PAY_FAILURE_REASON_COMPLETION_FAILED")] CompletionFailed = 7,
   }
 
   /// <summary>
@@ -190,7 +190,7 @@ namespace com.senbax.senvend.proto.Api.V1 {
     /// </summary>
     [pbr::OriginalName("PAY_API_FAILURE_REASON_NO_APPROVED_PAYMENT")] NoApprovedPayment = 5,
     /// <summary>
-    /// If a list of LineItems is given but the sum of their prices does not match the given total or partial amount.
+    /// If a list of LineItem entries is given, but the sum of their prices (times quantity) does not match the given total or partial amount.
     /// </summary>
     [pbr::OriginalName("PAY_API_FAILURE_REASON_AMOUNT_MISMATCH")] AmountMismatch = 6,
     /// <summary>
@@ -243,7 +243,7 @@ namespace com.senbax.senvend.proto.Api.V1 {
   #region Messages
   /// <summary>
   ///
-  /// All messages sent from the integrator/VMC to the SENVEND terminal to manage payments.
+  /// All messages sent from the integrator/VMC to the SENVEND Terminal to manage payments.
   /// A payment process must be started with the PayStart message.
   /// </summary>
   [global::System.Diagnostics.DebuggerDisplayAttribute("{ToString(),nq}")]
@@ -878,7 +878,7 @@ namespace com.senbax.senvend.proto.Api.V1 {
 
   /// <summary>
   ///
-  /// Starts a payment process on the SENVEND terminal.
+  /// Starts a payment process on the SENVEND Terminal.
   /// If auto_cancel is given and false, it can only be executed after a previous process finished with either PayFailure or PaySuccess.
   /// Will result in a PAY_FAILURE_REASON_PAYMENT_ONGOING or PAY_FAILURE_REASON_INVALID_STATE otherwise.
   /// Without auto_cancel or if it is true, will automatically cancel any running request and then try to start this one.
@@ -1281,9 +1281,9 @@ namespace com.senbax.senvend.proto.Api.V1 {
 
   /// <summary>
   ///
-  /// Updates the payment amount on the SENVEND terminal mid-transaction.
+  /// Updates the payment amount on the SENVEND Terminal mid-transaction.
   /// Main use case is handling cash payments after `PayStart`,
-  /// and/or changing individual `LineItems` (e.g. if one item in a Basket was cancelled individually).
+  /// and/or changing individual `LineItem` entries (e.g. if one item in a basket was cancelled individually).
   /// If age verification was requested as well, this message is only accepted after the age verification was successful.
   /// Will result in a PAY_API_FAILURE_REASON_INVALID_STATE otherwise.
   /// Can only be accepted if the payment was not approved yet, or will result in a PAY_API_FAILURE_REASON_ALREADY_APPROVED otherwise.
@@ -1579,7 +1579,7 @@ namespace com.senbax.senvend.proto.Api.V1 {
 
   /// <summary>
   ///
-  /// Cancels an ongoing payment process on the SENVEND terminal.
+  /// Cancels an ongoing payment process on the SENVEND Terminal.
   /// Can also be used to cancel an approved payment (instead of PayGoodsIssued).
   /// Can be sent at any time, but will result in PAY_API_FAILURE_REASON_UUID_NOT_FOUND
   /// if there is nothing to cancel.
@@ -2045,6 +2045,10 @@ namespace com.senbax.senvend.proto.Api.V1 {
   ///
   /// Response to a PayRequest.
   /// PaySuccess and PayFailure are final states, they indicate the end of the payment process.
+  ///
+  /// A transient state means the process continues and more responses follow.
+  /// A final state means this process ended; no further responses for this ID.
+  /// AgeSuccess and vending messages are transient inside a payment. They end their own sub-process, not the payment.
   /// </summary>
   [global::System.Diagnostics.DebuggerDisplayAttribute("{ToString(),nq}")]
   public sealed partial class PayResponse : pb::IMessage<PayResponse>
@@ -2200,7 +2204,10 @@ namespace com.senbax.senvend.proto.Api.V1 {
     /// <summary>Field number for the "api_failure" field.</summary>
     public const int ApiFailureFieldNumber = 5;
     /// <summary>
-    /// final state
+    /// transient/final state
+    /// An API failure is usually transient as it doesn't end the current process.
+    /// But it is final if it does not result in a new process with that UUID either.
+    /// Prime examples are PayStart with an invalid amount or a PayCancel for an unknown UUID.
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]

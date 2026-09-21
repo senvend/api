@@ -1,13 +1,16 @@
 [package]
 name = "senvend_api_utils"
 version = "0.0.1"
+description = "Utilities for the senvend_api crate"
 edition.workspace = true
 authors.workspace = true
 license.workspace = true
-readme.workspace = true
 repository.workspace = true
 categories.workspace = true
 keywords.workspace = true
+
+[lints.cargo]
+manual_readme = "allow"
 
 [dependencies]
 uuid.workspace = true

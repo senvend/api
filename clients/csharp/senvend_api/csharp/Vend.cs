@@ -190,7 +190,7 @@ namespace com.senbax.senvend.proto.Api.V1 {
   #region Messages
   /// <summary>
   ///
-  /// All messages sent from the integrator/VMC to the SENVEND terminal to manage vending.
+  /// All messages sent from the integrator/VMC to the SENVEND Terminal to manage vending.
   /// A Vending process must be started with the VendStart message.
   /// </summary>
   [global::System.Diagnostics.DebuggerDisplayAttribute("{ToString(),nq}")]
@@ -545,7 +545,7 @@ namespace com.senbax.senvend.proto.Api.V1 {
 
   /// <summary>
   ///
-  /// Starts a vending process on the SENVEND terminal.
+  /// Starts a vending process on the SENVEND Terminal.
   /// It can only be executed after a previous process finished with either VendFailure or VendSuccess.
   /// Will result in a VEND_API_FAILURE_REASON_VENDING_ONGOING otherwise.
   /// </summary>
@@ -743,10 +743,10 @@ namespace com.senbax.senvend.proto.Api.V1 {
 
   /// <summary>
   ///
-  /// Cancels an ongoing vending process on the SENVEND terminal.
+  /// Cancels an ongoing vending process on the SENVEND Terminal.
   /// Can be sent at any time, but will result in VEND_API_FAILURE_REASON_UUID_NOT_FOUND
   /// if there is nothing to cancel.
-  /// If sent in a VendRequest without UUID, will cancel any running process without UUID check. (Catch all)
+  /// If sent in a VendRequest without UUID, will cancel any running vending process without UUID check.
   /// </summary>
   [global::System.Diagnostics.DebuggerDisplayAttribute("{ToString(),nq}")]
   public sealed partial class VendCancel : pb::IMessage<VendCancel>
@@ -913,6 +913,9 @@ namespace com.senbax.senvend.proto.Api.V1 {
   ///
   /// Response to a VendRequest.
   /// success and failure are final states, they indicate the end of the vending process.
+  ///
+  /// A transient state means the process continues and more responses follow.
+  /// A final state means this process ended; no further responses for this ID.
   /// </summary>
   [global::System.Diagnostics.DebuggerDisplayAttribute("{ToString(),nq}")]
   public sealed partial class VendResponse : pb::IMessage<VendResponse>
@@ -1012,6 +1015,9 @@ namespace com.senbax.senvend.proto.Api.V1 {
     public const int ApiFailureFieldNumber = 3;
     /// <summary>
     /// transient/final state
+    /// An API failure is usually transient as it doesn't end the current process.
+    /// But it is final if it does not result in a new process with that UUID either.
+    /// Prime examples are VendStart with an invalid quantity or a VendCancel for an unknown UUID.
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]

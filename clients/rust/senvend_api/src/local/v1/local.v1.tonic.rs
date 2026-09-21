@@ -98,7 +98,7 @@ The PayService contains its own way of starting age verification before the actu
             self
         }
         /**
-Initiates an age verification process on the SENVEND terminal.\
+Initiates an age verification process on the SENVEND Terminal.\
 Accepts a stream of AgeRequest for starting and controlling age verification.\
 Returns a stream of AgeResponse containing status and error return messages.
 
@@ -118,12 +118,12 @@ An empty id will work as well if the original request started the currently runn
 AgeResponses that occurred during the disconnect are lost though.
 
 - If auto_cancel is left out or set to true, a new AgeRequest with a different UUID or without one will automatically cancel any currently running process on the terminal.\
-If given but false, sending a new AgeRequest while another process is still running will result in a PAY_FAILURE_REASON_PAYMENT_ONGOING error message.
+If given but false, sending a new AgeRequest while another process is still running will result in an AGE_FAILURE_REASON_VERIFICATION_ONGOING error message.
 </details>
 
 <details open>
 <summary>Process Constraints</summary>
-- The minimum age to verify has to be greater than zero and can maximally be 120.\
+- The minimum age to verify has to be greater than zero and at most 120.\
 Depending on the method chosen, only certain ages can be verified.
 
 - Girocard: 16 or 18. Will be set to the next one above if below (e.g. to 18 if 17 is requested).\
@@ -192,7 +192,7 @@ pub mod age_verification_service_server {
             + std::marker::Send
             + 'static;
         /**
-Initiates an age verification process on the SENVEND terminal.\
+Initiates an age verification process on the SENVEND Terminal.\
 Accepts a stream of AgeRequest for starting and controlling age verification.\
 Returns a stream of AgeResponse containing status and error return messages.
 
@@ -212,12 +212,12 @@ An empty id will work as well if the original request started the currently runn
 AgeResponses that occurred during the disconnect are lost though.
 
 - If auto_cancel is left out or set to true, a new AgeRequest with a different UUID or without one will automatically cancel any currently running process on the terminal.\
-If given but false, sending a new AgeRequest while another process is still running will result in a PAY_FAILURE_REASON_PAYMENT_ONGOING error message.
+If given but false, sending a new AgeRequest while another process is still running will result in an AGE_FAILURE_REASON_VERIFICATION_ONGOING error message.
 </details>
 
 <details open>
 <summary>Process Constraints</summary>
-- The minimum age to verify has to be greater than zero and can maximally be 120.\
+- The minimum age to verify has to be greater than zero and at most 120.\
 Depending on the method chosen, only certain ages can be verified.
 
 - Girocard: 16 or 18. Will be set to the next one above if below (e.g. to 18 if 17 is requested).\
@@ -425,7 +425,7 @@ pub mod pay_service_client {
     /**
 This service provides the necessary functionality to handle payments via the SENVEND Terminal.\
 Optionally, age verification can be enforced before the payment via the `PayStart` message.\
-Optionally, vending is possible after APPROVE is received, either via this or via the `Vend` service.
+Optionally, vending is possible after PayApproved is received, either via this or via the `Vend` service.
 */
     #[derive(Debug, Clone)]
     pub struct PayServiceClient<T> {
@@ -508,7 +508,7 @@ Optionally, vending is possible after APPROVE is received, either via this or vi
             self
         }
         /**
-Initiates a payment process on the SENVEND terminal.\
+Initiates a payment process on the SENVEND Terminal.\
 Accepts a stream of PayRequest for starting and controlling payments.\
 Returns a stream of PayResponse containing status and error return messages.
 
@@ -535,17 +535,17 @@ If given but false, sending a new PayRequest while another process is still runn
 <summary>Process Constraints</summary>
 
 - The amount to charge is given in cents and can even be zero.\
-The last option is useful to combine vending or age verification with a `GoodsIssued` message,\
+The last option is useful to combine vending or age verification with a `PayGoodsIssued` message,\
 mostly for telemetry purposes.
 
-- The minimum age to verify has to be greater than zero and can maximally be 120.\
+- The minimum age to verify has to be greater than zero and at most 120.\
 Depending on the method chosen, only certain ages can be verified.\
 See the `Age` service for more details.
 
 - An additional external age verification step can be implemented by sending an `AgeApproveRequest` message.\
 This will mark the age verification as approved and continue with payment.
 
-- If a payment was approved, a `GoodsIssued` message must be sent in order to finalize it.\
+- If a payment was approved, a `PayGoodsIssued` message must be sent in order to finalize it.\
 *The client has 9m30s to answer to the approval, or the goods will be issued to the customer as an emergency measure.**
 
 - Vending can also be done via this endpoint by sending a VendStart message.\
@@ -556,17 +556,17 @@ See `Vend` service for details.
 <details>
 <summary>Telemetry / Invoice Line Items / Mixed Payments</summary>
 
-It is possible to send a list of products, their prices and the quantity per product sold alongside the `pay_start` and `goods_issued` requests. See the documentation of the api.v1.LineItems message.
+It is possible to send a list of products, their prices and the quantity per product sold alongside the `pay_start` and `goods_issued` requests. See the documentation of the api.v1.LineItem message.
 
 Mixed payments can be supported by sending an additional cash_amount via the `pay_start` or `goods_issued` message.
 The amount in PayStart.amount or PayGoodsIssued.partial_amount only covers cashless transactions,
 therefore cash_amount is independent of that and only for reporting purposes via telemetry.
 
-The device will do a verification of the payment amount (including cash_amount if present) versus the sum of the provided LineItem list, and report an API_ERROR if these amounts mismatch.
+The device will do a verification of the payment amount (including cash_amount if present) versus the sum of the provided LineItem list, and report a PAY_API_FAILURE_REASON_AMOUNT_MISMATCH if these amounts mismatch.
 
 These messages are processed by the SENVEND web portal and taken into consideration when generating sales reports.
 
-If LineItems or cash_amount are sent alongside the `goods_issued` message, they take precedence over any values from the `pay_start` message, effectively overriding them.
+If line_items or cash_amount are sent alongside the `goods_issued` message, they take precedence over any values from the `pay_start` message, effectively overriding them.
 </details>
 
 <details>
@@ -576,17 +576,17 @@ If LineItems or cash_amount are sent alongside the `goods_issued` message, they 
 |--------------------------|----------------------------|------------------------------|
 | No payment running | PayStart | Payment start |
 | | PayStart (with AgeRequest) | AgeVerification start |
-| | PayCancel | ApiError |
-| | PayGoodsIssued | ApiError |
-| Age verification ongoing | PayStart | ApiError |
+| | PayCancel | PayApiFailure OR PayApiSuccess if sent without UUID |
+| | PayGoodsIssued | PayApiFailure |
+| Age verification ongoing | PayStart | AgeFailure (if auto_cancel=true, also PaymentStart) |
 | | PayCancel | AgeVerification cancel |
-| | PayGoodsIssued | ApiError |
+| | PayGoodsIssued | PayApiFailure |
 | | AgeApproveRequest | Terminal Proceeds to payment |
-| Payment process ongoing | PayStart | ApiError |
+| Payment process ongoing | PayStart | PayFailure (if auto_cancel=true, also PaymentStart) |
 | | PayCancel | Payment cancel |
-| | PayGoodsIssued | ApiError |
-| | AgeApproveRequest | ApiError |
-| Payment accepted | PayStart | ApiError |
+| | PayGoodsIssued | PayApiFailure |
+| | AgeApproveRequest | PayApiFailure |
+| Payment accepted | PayStart | PayFailure (if auto_cancel=true, also PaymentStart) |
 | | PayCancel | Reimburse and cancel payment |
 | | PayGoodsIssued | Finalize payment |
 </details>
@@ -596,15 +596,18 @@ If LineItems or cash_amount are sent alongside the `goods_issued` message, they 
 
 | State | Event | Error |
 |--------------------------|---------------------------|-----------------------------------|
-| Age verification ongoing | Took too long (timeout) | AGE_FAILURE_REASON_USER_CANCELLED |
+| Age verification ongoing | Took too long (timeout) | AGE_FAILURE_REASON_TIMEOUT |
 | | User actively canceled | AGE_FAILURE_REASON_USER_CANCELLED |
 | | Cancel via API | AGE_FAILURE_REASON_API_CANCELLED |
+| | User walked away | AGE_FAILURE_REASON_TIMEOUT |
 | | Verification fails | AgeFailureUnderage |
-| Payment process ongoing | Took too long (timeout) | PAY_FAILURE_REASON_USER_CANCELLED |
+| Payment process ongoing | Took too long (timeout) | PAY_FAILURE_REASON_TIMEOUT |
 | | User actively canceled | PAY_FAILURE_REASON_USER_CANCELLED |
 | | Canceled via API | PAY_FAILURE_REASON_API_CANCELLED |
 | | Payment failed (no debit) | PAY_FAILURE_REASON_PAYMENT_FAILED |
-| Payment accepted | No response from API | PaySuccess |
+| | User walked away | PAY_FAILURE_REASON_TIMEOUT |
+| Payment accepted | PayGoodsIssued | PaySuccess |
+| | No Response from API | PaySuccess |
 </details>
 
 <details>
@@ -624,7 +627,7 @@ If LineItems or cash_amount are sent alongside the `goods_issued` message, they 
 
 - *Payment on device* (success)
 
-> **\<-** {"id": {"msb": "10249154777407571789", "lsb": "11282912518529581516"}, "approved": {}}
+> **\<-** {"id": {"msb": "10249154777407571789", "lsb": "11282912518529581516"}, "approved": {"amount": 100}}
 
 > **->** {"goods_issued":{}}
 
@@ -646,7 +649,7 @@ If LineItems or cash_amount are sent alongside the `goods_issued` message, they 
 
 - *Payment on device* (success)
 
-> **\<-** {"id": {"msb": "10249154777407571789", "lsb": "11282912518529581516"}, "approved": {}}
+> **\<-** {"id": {"msb": "10249154777407571789", "lsb": "11282912518529581516"}, "approved": {"amount": 100}}
 
 > **->** {"goods_issued":{}}
 
@@ -662,7 +665,7 @@ If LineItems or cash_amount are sent alongside the `goods_issued` message, they 
 
 - *Payment on device* (success)
 
-> **\<-** {"id": {"msb": "5"}, "approved": {}}
+> **\<-** {"id": {"msb": "5"}, "approved": {"amount": 100}}
 
 > **->** {"id": {"msb":5, "lsb":0}, "goods_issued": {}}
 
@@ -698,7 +701,7 @@ If LineItems or cash_amount are sent alongside the `goods_issued` message, they 
 
 - *payment on device* (success)
 
-> **\<-** {"id": {"msb": "18075966312244266714", "lsb": "9624948136777214489"}, "approved": {}}
+> **\<-** {"id": {"msb": "18075966312244266714", "lsb": "9624948136777214489"}, "approved": {"amount": 100}}
 
 > **->** {"goods_issued": {"partial_amount": 0, "line_items": [{"price": 40, "quantity":1, "selection": {"slot":1}}, {"price": 60, "quantity":1, "selection": {"slot":2}}] }}
 
@@ -712,52 +715,52 @@ If LineItems or cash_amount are sent alongside the `goods_issued` message, they 
 
 > **\<-** {"id": {"msb": "12005064334431440106", "lsb": "9545526647834091413"}, "apiSuccess": {"reason": "PAY_API_SUCCESS_REASON_PAYMENT_STARTED"}}
 
-> **\<-** {"id": {"msb": "12005064334431440106", "lsb": "9545526647834091413"}, "approved": {}}
+> **\<-** {"id": {"msb": "12005064334431440106", "lsb": "9545526647834091413"}, "approved": {"amount": 100}}
 
 > **->** {"goods_issued": {"partial_amount": 60, "line_items": [{"price": 60, "quantity":1, "selection": {"slot":2}}] }}
 
 > **\<-** {"id": { "msb": "12005064334431440106", "lsb": "9545526647834091413"}, "apiSuccess": {"reason": "PAY_API_SUCCESS_REASON_GOODS_ISSUED_ACCEPTED"}}
 
-> **->**  {"id": {"msb": "12005064334431440106", "lsb": "9545526647834091413"}, "success": {}}
+> **\<-** {"id": {"msb": "12005064334431440106", "lsb": "9545526647834091413"}, "success": {}}
 
-###### Mixed payment (cash paid before PaymentStart)
+###### Mixed payment (cash paid before PayStart)
 > **->** {"start": {"amount": 100, "cash_amount": 50}}
 
 > **\<-** {"id": {"msb": "12005064334431440106", "lsb": "9545526647834091413"}, "apiSuccess": {"reason": "PAY_API_SUCCESS_REASON_PAYMENT_STARTED"}}
 
-> **\<-** {"id": {"msb": "12005064334431440106", "lsb": "9545526647834091413"}, "approved": {}}
+> **\<-** {"id": {"msb": "12005064334431440106", "lsb": "9545526647834091413"}, "approved": {"amount": 100}}
 
 > **->** {"goods_issued": {}}
 
 > **\<-** {"id": { "msb": "12005064334431440106", "lsb": "9545526647834091413"}, "apiSuccess": {"reason": "PAY_API_SUCCESS_REASON_GOODS_ISSUED_ACCEPTED"}}
 
-> **->**  {"id": {"msb": "12005064334431440106", "lsb": "9545526647834091413"}, "success": {}}
+> **\<-** {"id": {"msb": "12005064334431440106", "lsb": "9545526647834091413"}, "success": {}}
 
-###### Mixed payment (cash amount changed before GoodsIssued)
+###### Mixed payment (cash amount changed before PayGoodsIssued)
 > **->** {"start": {"amount": 100, "cash_amount": 50}}
 
 > **\<-** {"id": {"msb": "12005064334431440106", "lsb": "9545526647834091413"}, "apiSuccess": {"reason": "PAY_API_SUCCESS_REASON_PAYMENT_STARTED"}}
 
-> **\<-** {"id": {"msb": "12005064334431440106", "lsb": "9545526647834091413"}, "approved": {}}
+> **\<-** {"id": {"msb": "12005064334431440106", "lsb": "9545526647834091413"}, "approved": {"amount": 100}}
 
 > **->** {"goods_issued": {"partial_amount": 50, "cash_amount": 100}}
 
 > **\<-** {"id": { "msb": "12005064334431440106", "lsb": "9545526647834091413"}, "apiSuccess": {"reason": "PAY_API_SUCCESS_REASON_GOODS_ISSUED_ACCEPTED"}}
 
-> **->**  {"id": {"msb": "12005064334431440106", "lsb": "9545526647834091413"}, "success": {}}
+> **\<-** {"id": {"msb": "12005064334431440106", "lsb": "9545526647834091413"}, "success": {}}
 
-###### Mixed payment (cash amount only known on GoodsIssued)
+###### Mixed payment (cash amount only known on PayGoodsIssued)
 > **->** {"start": {"amount": 150}}
 
 > **\<-** {"id": {"msb": "12005064334431440106", "lsb": "9545526647834091413"}, "apiSuccess": {"reason": "PAY_API_SUCCESS_REASON_PAYMENT_STARTED"}}
 
-> **\<-** {"id": {"msb": "12005064334431440106", "lsb": "9545526647834091413"}, "approved": {}}
+> **\<-** {"id": {"msb": "12005064334431440106", "lsb": "9545526647834091413"}, "approved": {"amount": 150}}
 
 > **->** {"goods_issued": {"partial_amount": 50, "cash_amount": 100}}
 
 > **\<-** {"id": { "msb": "12005064334431440106", "lsb": "9545526647834091413"}, "apiSuccess": {"reason": "PAY_API_SUCCESS_REASON_GOODS_ISSUED_ACCEPTED"}}
 
-> **->**  {"id": {"msb": "12005064334431440106", "lsb": "9545526647834091413"}, "success": {}}
+> **\<-** {"id": {"msb": "12005064334431440106", "lsb": "9545526647834091413"}, "success": {}}
 
 </details>
 */
@@ -811,7 +814,7 @@ pub mod pay_service_server {
             + std::marker::Send
             + 'static;
         /**
-Initiates a payment process on the SENVEND terminal.\
+Initiates a payment process on the SENVEND Terminal.\
 Accepts a stream of PayRequest for starting and controlling payments.\
 Returns a stream of PayResponse containing status and error return messages.
 
@@ -838,17 +841,17 @@ If given but false, sending a new PayRequest while another process is still runn
 <summary>Process Constraints</summary>
 
 - The amount to charge is given in cents and can even be zero.\
-The last option is useful to combine vending or age verification with a `GoodsIssued` message,\
+The last option is useful to combine vending or age verification with a `PayGoodsIssued` message,\
 mostly for telemetry purposes.
 
-- The minimum age to verify has to be greater than zero and can maximally be 120.\
+- The minimum age to verify has to be greater than zero and at most 120.\
 Depending on the method chosen, only certain ages can be verified.\
 See the `Age` service for more details.
 
 - An additional external age verification step can be implemented by sending an `AgeApproveRequest` message.\
 This will mark the age verification as approved and continue with payment.
 
-- If a payment was approved, a `GoodsIssued` message must be sent in order to finalize it.\
+- If a payment was approved, a `PayGoodsIssued` message must be sent in order to finalize it.\
 *The client has 9m30s to answer to the approval, or the goods will be issued to the customer as an emergency measure.**
 
 - Vending can also be done via this endpoint by sending a VendStart message.\
@@ -859,17 +862,17 @@ See `Vend` service for details.
 <details>
 <summary>Telemetry / Invoice Line Items / Mixed Payments</summary>
 
-It is possible to send a list of products, their prices and the quantity per product sold alongside the `pay_start` and `goods_issued` requests. See the documentation of the api.v1.LineItems message.
+It is possible to send a list of products, their prices and the quantity per product sold alongside the `pay_start` and `goods_issued` requests. See the documentation of the api.v1.LineItem message.
 
 Mixed payments can be supported by sending an additional cash_amount via the `pay_start` or `goods_issued` message.
 The amount in PayStart.amount or PayGoodsIssued.partial_amount only covers cashless transactions,
 therefore cash_amount is independent of that and only for reporting purposes via telemetry.
 
-The device will do a verification of the payment amount (including cash_amount if present) versus the sum of the provided LineItem list, and report an API_ERROR if these amounts mismatch.
+The device will do a verification of the payment amount (including cash_amount if present) versus the sum of the provided LineItem list, and report a PAY_API_FAILURE_REASON_AMOUNT_MISMATCH if these amounts mismatch.
 
 These messages are processed by the SENVEND web portal and taken into consideration when generating sales reports.
 
-If LineItems or cash_amount are sent alongside the `goods_issued` message, they take precedence over any values from the `pay_start` message, effectively overriding them.
+If line_items or cash_amount are sent alongside the `goods_issued` message, they take precedence over any values from the `pay_start` message, effectively overriding them.
 </details>
 
 <details>
@@ -879,17 +882,17 @@ If LineItems or cash_amount are sent alongside the `goods_issued` message, they 
 |--------------------------|----------------------------|------------------------------|
 | No payment running | PayStart | Payment start |
 | | PayStart (with AgeRequest) | AgeVerification start |
-| | PayCancel | ApiError |
-| | PayGoodsIssued | ApiError |
-| Age verification ongoing | PayStart | ApiError |
+| | PayCancel | PayApiFailure OR PayApiSuccess if sent without UUID |
+| | PayGoodsIssued | PayApiFailure |
+| Age verification ongoing | PayStart | AgeFailure (if auto_cancel=true, also PaymentStart) |
 | | PayCancel | AgeVerification cancel |
-| | PayGoodsIssued | ApiError |
+| | PayGoodsIssued | PayApiFailure |
 | | AgeApproveRequest | Terminal Proceeds to payment |
-| Payment process ongoing | PayStart | ApiError |
+| Payment process ongoing | PayStart | PayFailure (if auto_cancel=true, also PaymentStart) |
 | | PayCancel | Payment cancel |
-| | PayGoodsIssued | ApiError |
-| | AgeApproveRequest | ApiError |
-| Payment accepted | PayStart | ApiError |
+| | PayGoodsIssued | PayApiFailure |
+| | AgeApproveRequest | PayApiFailure |
+| Payment accepted | PayStart | PayFailure (if auto_cancel=true, also PaymentStart) |
 | | PayCancel | Reimburse and cancel payment |
 | | PayGoodsIssued | Finalize payment |
 </details>
@@ -899,15 +902,18 @@ If LineItems or cash_amount are sent alongside the `goods_issued` message, they 
 
 | State | Event | Error |
 |--------------------------|---------------------------|-----------------------------------|
-| Age verification ongoing | Took too long (timeout) | AGE_FAILURE_REASON_USER_CANCELLED |
+| Age verification ongoing | Took too long (timeout) | AGE_FAILURE_REASON_TIMEOUT |
 | | User actively canceled | AGE_FAILURE_REASON_USER_CANCELLED |
 | | Cancel via API | AGE_FAILURE_REASON_API_CANCELLED |
+| | User walked away | AGE_FAILURE_REASON_TIMEOUT |
 | | Verification fails | AgeFailureUnderage |
-| Payment process ongoing | Took too long (timeout) | PAY_FAILURE_REASON_USER_CANCELLED |
+| Payment process ongoing | Took too long (timeout) | PAY_FAILURE_REASON_TIMEOUT |
 | | User actively canceled | PAY_FAILURE_REASON_USER_CANCELLED |
 | | Canceled via API | PAY_FAILURE_REASON_API_CANCELLED |
 | | Payment failed (no debit) | PAY_FAILURE_REASON_PAYMENT_FAILED |
-| Payment accepted | No response from API | PaySuccess |
+| | User walked away | PAY_FAILURE_REASON_TIMEOUT |
+| Payment accepted | PayGoodsIssued | PaySuccess |
+| | No Response from API | PaySuccess |
 </details>
 
 <details>
@@ -927,7 +933,7 @@ If LineItems or cash_amount are sent alongside the `goods_issued` message, they 
 
 - *Payment on device* (success)
 
-> **\<-** {"id": {"msb": "10249154777407571789", "lsb": "11282912518529581516"}, "approved": {}}
+> **\<-** {"id": {"msb": "10249154777407571789", "lsb": "11282912518529581516"}, "approved": {"amount": 100}}
 
 > **->** {"goods_issued":{}}
 
@@ -949,7 +955,7 @@ If LineItems or cash_amount are sent alongside the `goods_issued` message, they 
 
 - *Payment on device* (success)
 
-> **\<-** {"id": {"msb": "10249154777407571789", "lsb": "11282912518529581516"}, "approved": {}}
+> **\<-** {"id": {"msb": "10249154777407571789", "lsb": "11282912518529581516"}, "approved": {"amount": 100}}
 
 > **->** {"goods_issued":{}}
 
@@ -965,7 +971,7 @@ If LineItems or cash_amount are sent alongside the `goods_issued` message, they 
 
 - *Payment on device* (success)
 
-> **\<-** {"id": {"msb": "5"}, "approved": {}}
+> **\<-** {"id": {"msb": "5"}, "approved": {"amount": 100}}
 
 > **->** {"id": {"msb":5, "lsb":0}, "goods_issued": {}}
 
@@ -1001,7 +1007,7 @@ If LineItems or cash_amount are sent alongside the `goods_issued` message, they 
 
 - *payment on device* (success)
 
-> **\<-** {"id": {"msb": "18075966312244266714", "lsb": "9624948136777214489"}, "approved": {}}
+> **\<-** {"id": {"msb": "18075966312244266714", "lsb": "9624948136777214489"}, "approved": {"amount": 100}}
 
 > **->** {"goods_issued": {"partial_amount": 0, "line_items": [{"price": 40, "quantity":1, "selection": {"slot":1}}, {"price": 60, "quantity":1, "selection": {"slot":2}}] }}
 
@@ -1015,52 +1021,52 @@ If LineItems or cash_amount are sent alongside the `goods_issued` message, they 
 
 > **\<-** {"id": {"msb": "12005064334431440106", "lsb": "9545526647834091413"}, "apiSuccess": {"reason": "PAY_API_SUCCESS_REASON_PAYMENT_STARTED"}}
 
-> **\<-** {"id": {"msb": "12005064334431440106", "lsb": "9545526647834091413"}, "approved": {}}
+> **\<-** {"id": {"msb": "12005064334431440106", "lsb": "9545526647834091413"}, "approved": {"amount": 100}}
 
 > **->** {"goods_issued": {"partial_amount": 60, "line_items": [{"price": 60, "quantity":1, "selection": {"slot":2}}] }}
 
 > **\<-** {"id": { "msb": "12005064334431440106", "lsb": "9545526647834091413"}, "apiSuccess": {"reason": "PAY_API_SUCCESS_REASON_GOODS_ISSUED_ACCEPTED"}}
 
-> **->**  {"id": {"msb": "12005064334431440106", "lsb": "9545526647834091413"}, "success": {}}
+> **\<-** {"id": {"msb": "12005064334431440106", "lsb": "9545526647834091413"}, "success": {}}
 
-###### Mixed payment (cash paid before PaymentStart)
+###### Mixed payment (cash paid before PayStart)
 > **->** {"start": {"amount": 100, "cash_amount": 50}}
 
 > **\<-** {"id": {"msb": "12005064334431440106", "lsb": "9545526647834091413"}, "apiSuccess": {"reason": "PAY_API_SUCCESS_REASON_PAYMENT_STARTED"}}
 
-> **\<-** {"id": {"msb": "12005064334431440106", "lsb": "9545526647834091413"}, "approved": {}}
+> **\<-** {"id": {"msb": "12005064334431440106", "lsb": "9545526647834091413"}, "approved": {"amount": 100}}
 
 > **->** {"goods_issued": {}}
 
 > **\<-** {"id": { "msb": "12005064334431440106", "lsb": "9545526647834091413"}, "apiSuccess": {"reason": "PAY_API_SUCCESS_REASON_GOODS_ISSUED_ACCEPTED"}}
 
-> **->**  {"id": {"msb": "12005064334431440106", "lsb": "9545526647834091413"}, "success": {}}
+> **\<-** {"id": {"msb": "12005064334431440106", "lsb": "9545526647834091413"}, "success": {}}
 
-###### Mixed payment (cash amount changed before GoodsIssued)
+###### Mixed payment (cash amount changed before PayGoodsIssued)
 > **->** {"start": {"amount": 100, "cash_amount": 50}}
 
 > **\<-** {"id": {"msb": "12005064334431440106", "lsb": "9545526647834091413"}, "apiSuccess": {"reason": "PAY_API_SUCCESS_REASON_PAYMENT_STARTED"}}
 
-> **\<-** {"id": {"msb": "12005064334431440106", "lsb": "9545526647834091413"}, "approved": {}}
+> **\<-** {"id": {"msb": "12005064334431440106", "lsb": "9545526647834091413"}, "approved": {"amount": 100}}
 
 > **->** {"goods_issued": {"partial_amount": 50, "cash_amount": 100}}
 
 > **\<-** {"id": { "msb": "12005064334431440106", "lsb": "9545526647834091413"}, "apiSuccess": {"reason": "PAY_API_SUCCESS_REASON_GOODS_ISSUED_ACCEPTED"}}
 
-> **->**  {"id": {"msb": "12005064334431440106", "lsb": "9545526647834091413"}, "success": {}}
+> **\<-** {"id": {"msb": "12005064334431440106", "lsb": "9545526647834091413"}, "success": {}}
 
-###### Mixed payment (cash amount only known on GoodsIssued)
+###### Mixed payment (cash amount only known on PayGoodsIssued)
 > **->** {"start": {"amount": 150}}
 
 > **\<-** {"id": {"msb": "12005064334431440106", "lsb": "9545526647834091413"}, "apiSuccess": {"reason": "PAY_API_SUCCESS_REASON_PAYMENT_STARTED"}}
 
-> **\<-** {"id": {"msb": "12005064334431440106", "lsb": "9545526647834091413"}, "approved": {}}
+> **\<-** {"id": {"msb": "12005064334431440106", "lsb": "9545526647834091413"}, "approved": {"amount": 150}}
 
 > **->** {"goods_issued": {"partial_amount": 50, "cash_amount": 100}}
 
 > **\<-** {"id": { "msb": "12005064334431440106", "lsb": "9545526647834091413"}, "apiSuccess": {"reason": "PAY_API_SUCCESS_REASON_GOODS_ISSUED_ACCEPTED"}}
 
-> **->**  {"id": {"msb": "12005064334431440106", "lsb": "9545526647834091413"}, "success": {}}
+> **\<-** {"id": {"msb": "12005064334431440106", "lsb": "9545526647834091413"}, "success": {}}
 
 </details>
 */
@@ -1074,7 +1080,7 @@ If LineItems or cash_amount are sent alongside the `goods_issued` message, they 
     /**
 This service provides the necessary functionality to handle payments via the SENVEND Terminal.\
 Optionally, age verification can be enforced before the payment via the `PayStart` message.\
-Optionally, vending is possible after APPROVE is received, either via this or via the `Vend` service.
+Optionally, vending is possible after PayApproved is received, either via this or via the `Vend` service.
 */
     #[derive(Debug)]
     pub struct PayServiceServer<T> {
@@ -1336,7 +1342,7 @@ This service provides the necessary functionality to vend products via a vending
             self
         }
         /**
-Initiates a vending process on a machine connected to the SENVEND terminal.\
+Initiates a vending process on a machine connected to the SENVEND Terminal.\
 Accepts a stream of VendRequest for starting and controlling vending.\
 Returns a stream of VendResponse containing status and error return messages.
 
@@ -1368,10 +1374,10 @@ or by combining them all into one VendStart message.
 
 - For each individual vending attempt, a VendEvent is sent back, indicating success or failure.
 
-- For LineItems with a quantity greater than 1, items will be vended one-by-one until all are successful, or the FIRST vending failure.\
-The resulting VendEvent failure message will also contain the amount of successfully vended items.
+- For LineItem entries with a quantity greater than 1, items will be vended one-by-one until all are successful, or the FIRST vending failure.\
+The resulting VendEvent failure message will also contain the number of successfully vended items.
 
-- If multiple LineItems are given, the list is vended according to the order of the LineItems in the message,
+- If multiple LineItem entries are given, the list is vended according to the order of the entries in the message,
 regardless of success or failure.
 
 - Vending via this endpoint is also available when there is an ongoing payment,
@@ -1382,7 +1388,7 @@ If you don't need the UUIDs of this endpoint, consider using the VendStart messa
 If you require precise control over the vending process, use this API to vend single items,
 and match requests and answers via their UUIDs.
 
-- The cancel request is provided to enable stopping midway during vending of a list of LineItems.\
+- The cancel request is provided to enable stopping midway during vending of a list of LineItem entries.\
 If vending a single item, a cancel usually arrives too late to stop the process.
 </details>
 */
@@ -1438,7 +1444,7 @@ pub mod vend_service_server {
             + std::marker::Send
             + 'static;
         /**
-Initiates a vending process on a machine connected to the SENVEND terminal.\
+Initiates a vending process on a machine connected to the SENVEND Terminal.\
 Accepts a stream of VendRequest for starting and controlling vending.\
 Returns a stream of VendResponse containing status and error return messages.
 
@@ -1470,10 +1476,10 @@ or by combining them all into one VendStart message.
 
 - For each individual vending attempt, a VendEvent is sent back, indicating success or failure.
 
-- For LineItems with a quantity greater than 1, items will be vended one-by-one until all are successful, or the FIRST vending failure.\
-The resulting VendEvent failure message will also contain the amount of successfully vended items.
+- For LineItem entries with a quantity greater than 1, items will be vended one-by-one until all are successful, or the FIRST vending failure.\
+The resulting VendEvent failure message will also contain the number of successfully vended items.
 
-- If multiple LineItems are given, the list is vended according to the order of the LineItems in the message,
+- If multiple LineItem entries are given, the list is vended according to the order of the entries in the message,
 regardless of success or failure.
 
 - Vending via this endpoint is also available when there is an ongoing payment,
@@ -1484,7 +1490,7 @@ If you don't need the UUIDs of this endpoint, consider using the VendStart messa
 If you require precise control over the vending process, use this API to vend single items,
 and match requests and answers via their UUIDs.
 
-- The cancel request is provided to enable stopping midway during vending of a list of LineItems.\
+- The cancel request is provided to enable stopping midway during vending of a list of LineItem entries.\
 If vending a single item, a cancel usually arrives too late to stop the process.
 </details>
 */
@@ -1675,7 +1681,7 @@ pub mod version_service_client {
     use tonic::codegen::*;
     use tonic::codegen::http::Uri;
     /**
-This service provides version information for the software on the SENVEND terminal.
+This service provides version information for the software on the SENVEND Terminal.
 */
     #[derive(Debug, Clone)]
     pub struct VersionServiceClient<T> {
@@ -1758,7 +1764,7 @@ This service provides version information for the software on the SENVEND termin
             self
         }
         /**
-Returns the version information of the software and API on the SENVEND terminal.
+Returns the version information of the software and API on the SENVEND Terminal.
 
 <details open>
 <summary>API Constraints</summary>
@@ -1775,7 +1781,7 @@ These are mostly provided for the cloud API functionality.
 
 > **->** {}
 
-> **\<-** {"id": {"msb": "10249154777407571789", "lsb": "11282912518529581516"}, appVersion": {"major": 1, "minor": 3, "patch": 11}, "apiVersion": {"patch": 1}}
+> **\<-** {"id": {"msb": "10249154777407571789", "lsb": "11282912518529581516"}, "appVersion": {"major": 1, "minor": 3, "patch": 11}, "apiVersion": {"major": 1}}
 </details>
 */
         pub async fn version(
@@ -1820,7 +1826,7 @@ pub mod version_service_server {
     #[async_trait]
     pub trait VersionService: std::marker::Send + std::marker::Sync + 'static {
         /**
-Returns the version information of the software and API on the SENVEND terminal.
+Returns the version information of the software and API on the SENVEND Terminal.
 
 <details open>
 <summary>API Constraints</summary>
@@ -1837,7 +1843,7 @@ These are mostly provided for the cloud API functionality.
 
 > **->** {}
 
-> **\<-** {"id": {"msb": "10249154777407571789", "lsb": "11282912518529581516"}, appVersion": {"major": 1, "minor": 3, "patch": 11}, "apiVersion": {"patch": 1}}
+> **\<-** {"id": {"msb": "10249154777407571789", "lsb": "11282912518529581516"}, "appVersion": {"major": 1, "minor": 3, "patch": 11}, "apiVersion": {"major": 1}}
 </details>
 */
         async fn version(
@@ -1849,7 +1855,7 @@ These are mostly provided for the cloud API functionality.
         >;
     }
     /**
-This service provides version information for the software on the SENVEND terminal.
+This service provides version information for the software on the SENVEND Terminal.
 */
     #[derive(Debug)]
     pub struct VersionServiceServer<T> {

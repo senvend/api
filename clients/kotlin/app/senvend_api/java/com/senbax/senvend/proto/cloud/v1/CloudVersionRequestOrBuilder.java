@@ -39,7 +39,7 @@ public interface CloudVersionRequestOrBuilder extends
 
   /**
    * <pre>
-   * Starts a one-off request for version information of the SENVEND terminal.
+   * Starts a one-off request for version information of the SENVEND Terminal.
    * </pre>
    *
    * <code>.api.v1.VersionRequest version_request = 2 [json_name = "versionRequest"];</code>
@@ -48,7 +48,7 @@ public interface CloudVersionRequestOrBuilder extends
   boolean hasVersionRequest();
   /**
    * <pre>
-   * Starts a one-off request for version information of the SENVEND terminal.
+   * Starts a one-off request for version information of the SENVEND Terminal.
    * </pre>
    *
    * <code>.api.v1.VersionRequest version_request = 2 [json_name = "versionRequest"];</code>
@@ -57,7 +57,7 @@ public interface CloudVersionRequestOrBuilder extends
   com.senbax.senvend.proto.api.v1.VersionRequest getVersionRequest();
   /**
    * <pre>
-   * Starts a one-off request for version information of the SENVEND terminal.
+   * Starts a one-off request for version information of the SENVEND Terminal.
    * </pre>
    *
    * <code>.api.v1.VersionRequest version_request = 2 [json_name = "versionRequest"];</code>

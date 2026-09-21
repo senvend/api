@@ -1,13 +1,16 @@
 [package]
 name = "senvend_api"
 version = "0.0.1"
+description = "Public APIs to interact with the SENVEND ecosystem"
 edition.workspace = true
 authors.workspace = true
 license.workspace = true
-readme.workspace = true
 repository.workspace = true
 categories.workspace = true
 keywords.workspace = true
+
+[lints.cargo]
+manual_readme = "allow"
 
 [lib]
 name = "senvend_api"

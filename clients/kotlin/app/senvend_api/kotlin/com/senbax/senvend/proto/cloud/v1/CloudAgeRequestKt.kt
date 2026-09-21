@@ -12,7 +12,7 @@ public inline fun cloudAgeRequest(block: com.senbax.senvend.proto.cloud.v1.Cloud
   com.senbax.senvend.proto.cloud.v1.CloudAgeRequestKt.Dsl._create(com.senbax.senvend.proto.cloud.v1.CloudAgeRequest.newBuilder()).apply { block() }._build()
 /**
  * ```
- * Starts an age verification process on the SENVEND terminal.
+ * Starts an age verification process on the SENVEND Terminal.
  * ```
  *
  * Protobuf type `cloud.v1.CloudAgeRequest`

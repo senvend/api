@@ -70,6 +70,9 @@ public interface VendResponseOrBuilder extends
   /**
    * <pre>
    * transient/final state
+   * An API failure is usually transient as it doesn't end the current process.
+   * But it is final if it does not result in a new process with that UUID either.
+   * Prime examples are VendStart with an invalid quantity or a VendCancel for an unknown UUID.
    * </pre>
    *
    * <code>.api.v1.VendApiFailure api_failure = 3 [json_name = "apiFailure"];</code>
@@ -79,6 +82,9 @@ public interface VendResponseOrBuilder extends
   /**
    * <pre>
    * transient/final state
+   * An API failure is usually transient as it doesn't end the current process.
+   * But it is final if it does not result in a new process with that UUID either.
+   * Prime examples are VendStart with an invalid quantity or a VendCancel for an unknown UUID.
    * </pre>
    *
    * <code>.api.v1.VendApiFailure api_failure = 3 [json_name = "apiFailure"];</code>
@@ -88,6 +94,9 @@ public interface VendResponseOrBuilder extends
   /**
    * <pre>
    * transient/final state
+   * An API failure is usually transient as it doesn't end the current process.
+   * But it is final if it does not result in a new process with that UUID either.
+   * Prime examples are VendStart with an invalid quantity or a VendCancel for an unknown UUID.
    * </pre>
    *
    * <code>.api.v1.VendApiFailure api_failure = 3 [json_name = "apiFailure"];</code>

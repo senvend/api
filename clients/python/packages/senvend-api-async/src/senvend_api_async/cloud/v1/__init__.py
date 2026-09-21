@@ -36,7 +36,7 @@ betterproto2.check_compiler_version(_COMPILER_VERSION)
 @dataclass(eq=False, repr=False)
 class CloudAgeRequest(betterproto2.Message):
     """
-    Starts an age verification process on the SENVEND terminal.
+    Starts an age verification process on the SENVEND Terminal.
     """
 
     target: "CloudTargetSelector | None" = betterproto2.field(
@@ -78,7 +78,7 @@ default_message_pool.register_message("cloud.v1", "CloudAgeResponse", CloudAgeRe
 @dataclass(eq=False, repr=False)
 class CloudPayRequest(betterproto2.Message):
     """
-    All messages sent from the integrator/VMC to the SENVEND terminal to manage payments.
+    All messages sent from the integrator/VMC to the SENVEND Terminal to manage payments.
     """
 
     target: "CloudTargetSelector | None" = betterproto2.field(
@@ -137,7 +137,7 @@ class CloudTargetSelector(betterproto2.Message):
         2, betterproto2.TYPE_STRING, optional=True, group="selector"
     )
     """
-    Select by SENVEND terminal serial number.
+    Select by SENVEND Terminal serial number.
     """
 
 
@@ -149,7 +149,7 @@ default_message_pool.register_message(
 @dataclass(eq=False, repr=False)
 class CloudVersionRequest(betterproto2.Message):
     """
-    Starts a one-off request for version information of the SENVEND terminal.
+    Starts a one-off request for version information of the SENVEND Terminal.
     """
 
     target: "CloudTargetSelector | None" = betterproto2.field(
@@ -163,7 +163,7 @@ class CloudVersionRequest(betterproto2.Message):
         2, betterproto2.TYPE_MESSAGE, optional=True
     )
     """
-    Starts a one-off request for version information of the SENVEND terminal.
+    Starts a one-off request for version information of the SENVEND Terminal.
     """
 
 
@@ -175,14 +175,14 @@ default_message_pool.register_message(
 @dataclass(eq=False, repr=False)
 class CloudVersionResponse(betterproto2.Message):
     """
-    Provides the current software and API version of the SENVEND terminal.
+    Provides the current software and API version of the SENVEND Terminal.
     """
 
     version_response: "__api__v1__.VersionResponse | None" = betterproto2.field(
         1, betterproto2.TYPE_MESSAGE, optional=True
     )
     """
-    Provides the current software and API version of the SENVEND terminal.
+    Provides the current software and API version of the SENVEND Terminal.
     """
 
 
@@ -203,12 +203,12 @@ class CloudAgeVerificationServiceStub(betterproto2_grpclib.ServiceStub):
         timeout: "float | None" = None,
         deadline: "Deadline | None" = None,
         metadata: "MetadataLike | None" = None,
-    ) -> "CloudAgeResponse":
+    ) -> "AsyncIterator[CloudAgeResponse]":
         """
-        Initiates an age verification process on the SENVEND terminal.
+        Initiates an age verification process on the SENVEND Terminal.
         """
 
-        return await self._stream_unary(
+        async for response in self._stream_stream(
             "/cloud.v1.CloudAgeVerificationService/CloudAge",
             messages,
             CloudAgeRequest,
@@ -216,7 +216,8 @@ class CloudAgeVerificationServiceStub(betterproto2_grpclib.ServiceStub):
             timeout=timeout,
             deadline=deadline,
             metadata=metadata,
-        )
+        ):
+            yield response
 
 
 class CloudPayServiceStub(betterproto2_grpclib.ServiceStub):
@@ -233,7 +234,7 @@ class CloudPayServiceStub(betterproto2_grpclib.ServiceStub):
         metadata: "MetadataLike | None" = None,
     ) -> "AsyncIterator[CloudPayResponse]":
         """
-        Initiates a payment process on the SENVEND terminal.
+        Initiates a payment process on the SENVEND Terminal.
         """
 
         async for response in self._stream_stream(
@@ -250,7 +251,7 @@ class CloudPayServiceStub(betterproto2_grpclib.ServiceStub):
 
 class CloudVersionServiceStub(betterproto2_grpclib.ServiceStub):
     """
-    This service provides version information for the software on the SENVEND terminal.
+    This service provides version information for the software on the SENVEND Terminal.
     """
 
     async def cloud_version(
@@ -262,7 +263,7 @@ class CloudVersionServiceStub(betterproto2_grpclib.ServiceStub):
         metadata: "MetadataLike | None" = None,
     ) -> "CloudVersionResponse":
         """
-        Returns the version information of the software and API on the SENVEND terminal.
+        Returns the version information of the software and API on the SENVEND Terminal.
         """
 
         return await self._unary_unary(

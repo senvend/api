@@ -2,12 +2,36 @@
 name = "senvend-api"
 version = "0.0.1"
 description = "Public APIs to interact with the SENVEND ecosystem"
+license = "MIT OR Apache-2.0"
+authors = [{ name = "SENVEND", email = "api@senvend.com" }]
+keywords = [
+  "senvend",
+  "vending",
+  "payment",
+  "payment-terminal",
+  "age-verification",
+  "ecr",
+  "grpc",
+  "protobuf",
+]
+classifiers = [
+  "Development Status :: 5 - Production/Stable",
+  "Intended Audience :: Developers",
+  "Topic :: Office/Business :: Financial :: Point-Of-Sale",
+  "Typing :: Typed",
+]
 readme = "README.md"
 requires-python = ">=3.13"
-dependencies = ["betterproto2>=0.9.1"]
+dependencies = ["betterproto2>=0.10,<0.11", "grpcio>=1.76.0"]
+
+[project.urls]
+Homepage = "https://github.com/senvend/api"
+Repository = "https://github.com/senvend/api"
+Issues = "https://github.com/senvend/api/issues"
+Changelog = "https://github.com/senvend/api/blob/main/CHANGELOG.md"
 
 [project.optional-dependencies]
-grpcio = ["grpcio>=1.76.0"]
+grpcio = []
 
 [tool.ruff.lint.per-file-ignores]
 # betterproto2 Module level import not at top of file

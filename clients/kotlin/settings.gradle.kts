@@ -9,5 +9,7 @@ plugins {
     id("org.gradle.toolchains.foojay-resolver-convention") version "1.0.0"
 }
 
-rootProject.name = "example"
-include("app")
+rootProject.name = "senvend-api-kotlin"
+// the "app" module contains the senvend-api library (published to Maven Central),
+// the "example" module a CLI application demonstrating its usage
+include("app", "example")

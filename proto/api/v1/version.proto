@@ -5,7 +5,7 @@ package api.v1;
 import "api/v1/common.proto";
 
 /*
- * Starts a one-off request for version information of the SENVEND terminal.
+ * Starts a one-off request for version information of the SENVEND Terminal.
  */
 message VersionRequest {
   // Unique identifier for this version request. Can be used for tracing and correlating requests and responses.
@@ -14,13 +14,13 @@ message VersionRequest {
 }
 
 /*
- * Provides the current software and API version of the SENVEND terminal.
+ * Provides the current software and API version of the SENVEND Terminal.
  */
 message VersionResponse {
   // Unique identifier for the version request. Mirrors the ID from the VersionRequest.
   // This field is always populated, either with the provided ID from the request or a newly generated one.
   api.v1.Uuid4 id = 1;
-  // The version of the software installed on the SENVEND terminal.
+  // The version of the software installed on the SENVEND Terminal.
   api.v1.SemanticVersion app_version = 2;
   // The version of this protocol specification the device is using.
   api.v1.SemanticVersion api_version = 3;

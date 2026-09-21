@@ -71,7 +71,7 @@ public object CloudTargetSelectorKt {
 
     /**
      * ```
-     * Select by SENVEND terminal serial number.
+     * Select by SENVEND Terminal serial number.
      * ```
      *
      * `string serial_number = 2 [json_name = "serialNumber"];`
@@ -85,7 +85,7 @@ public object CloudTargetSelectorKt {
       }
     /**
      * ```
-     * Select by SENVEND terminal serial number.
+     * Select by SENVEND Terminal serial number.
      * ```
      *
      * `string serial_number = 2 [json_name = "serialNumber"];`
@@ -95,7 +95,7 @@ public object CloudTargetSelectorKt {
     }
     /**
      * ```
-     * Select by SENVEND terminal serial number.
+     * Select by SENVEND Terminal serial number.
      * ```
      *
      * `string serial_number = 2 [json_name = "serialNumber"];`

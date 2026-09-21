@@ -5,7 +5,7 @@ package api.v1;
 import "api/v1/common.proto";
 
 /*
- * All messages sent from the integrator/VMC to the SENVEND terminal to manage vending.
+ * All messages sent from the integrator/VMC to the SENVEND Terminal to manage vending.
  * A Vending process must be started with the VendStart message.
  */
 message VendRequest {
@@ -22,7 +22,7 @@ message VendRequest {
 }
 
 /*
- * Starts a vending process on the SENVEND terminal.
+ * Starts a vending process on the SENVEND Terminal.
  * It can only be executed after a previous process finished with either VendFailure or VendSuccess.
  * Will result in a VEND_API_FAILURE_REASON_VENDING_ONGOING otherwise.
  */
@@ -34,16 +34,19 @@ message VendStart {
 }
 
 /*
- * Cancels an ongoing vending process on the SENVEND terminal.
+ * Cancels an ongoing vending process on the SENVEND Terminal.
  * Can be sent at any time, but will result in VEND_API_FAILURE_REASON_UUID_NOT_FOUND
  * if there is nothing to cancel.
- * If sent in a VendRequest without UUID, will cancel any running process without UUID check. (Catch all)
+ * If sent in a VendRequest without UUID, will cancel any running vending process without UUID check.
  */
 message VendCancel {}
 
 /*
  * Response to a VendRequest.
  * success and failure are final states, they indicate the end of the vending process.
+ *
+ * A transient state means the process continues and more responses follow.
+ * A final state means this process ended; no further responses for this ID.
  */
 message VendResponse {
   // Unique identifier for the vending request. Mirrors the ID from the VendRequest.
@@ -53,6 +56,9 @@ message VendResponse {
     //transient state
     VendEvent event = 2;
     // transient/final state
+    // An API failure is usually transient as it doesn't end the current process.
+    // But it is final if it does not result in a new process with that UUID either.
+    // Prime examples are VendStart with an invalid quantity or a VendCancel for an unknown UUID.
     VendApiFailure api_failure = 3;
     // transient state
     VendApiSuccess api_success = 4;

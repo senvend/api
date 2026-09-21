@@ -43,16 +43,16 @@ namespace com.senbax.senvend.proto.Cloud.V1 {
             "Cg92ZXJzaW9uX3JlcXVlc3QYAiABKAsyFi5hcGkudjEuVmVyc2lvblJlcXVl",
             "c3RSDnZlcnNpb25SZXF1ZXN0IloKFENsb3VkVmVyc2lvblJlc3BvbnNlEkIK",
             "EHZlcnNpb25fcmVzcG9uc2UYASABKAsyFy5hcGkudjEuVmVyc2lvblJlc3Bv",
-            "bnNlUg92ZXJzaW9uUmVzcG9uc2UyYgobQ2xvdWRBZ2VWZXJpZmljYXRpb25T",
-            "ZXJ2aWNlEkMKCENsb3VkQWdlEhkuY2xvdWQudjEuQ2xvdWRBZ2VSZXF1ZXN0",
-            "GhouY2xvdWQudjEuQ2xvdWRBZ2VSZXNwb25zZSgBMlgKD0Nsb3VkUGF5U2Vy",
-            "dmljZRJFCghDbG91ZFBheRIZLmNsb3VkLnYxLkNsb3VkUGF5UmVxdWVzdBoa",
-            "LmNsb3VkLnYxLkNsb3VkUGF5UmVzcG9uc2UoATABMmQKE0Nsb3VkVmVyc2lv",
-            "blNlcnZpY2USTQoMQ2xvdWRWZXJzaW9uEh0uY2xvdWQudjEuQ2xvdWRWZXJz",
-            "aW9uUmVxdWVzdBoeLmNsb3VkLnYxLkNsb3VkVmVyc2lvblJlc3BvbnNlQnQK",
-            "DGNvbS5jbG91ZC52MUIKQ2xvdWRQcm90b1ABogIDQ1hYqgIhY29tLnNlbmJh",
-            "eC5zZW52ZW5kLnByb3RvLkNsb3VkLlYxygIIQ2xvdWRcVjHiAhRDbG91ZFxW",
-            "MVxHUEJNZXRhZGF0YeoCCUNsb3VkOjpWMWIGcHJvdG8z"));
+            "bnNlUg92ZXJzaW9uUmVzcG9uc2UyZAobQ2xvdWRBZ2VWZXJpZmljYXRpb25T",
+            "ZXJ2aWNlEkUKCENsb3VkQWdlEhkuY2xvdWQudjEuQ2xvdWRBZ2VSZXF1ZXN0",
+            "GhouY2xvdWQudjEuQ2xvdWRBZ2VSZXNwb25zZSgBMAEyWAoPQ2xvdWRQYXlT",
+            "ZXJ2aWNlEkUKCENsb3VkUGF5EhkuY2xvdWQudjEuQ2xvdWRQYXlSZXF1ZXN0",
+            "GhouY2xvdWQudjEuQ2xvdWRQYXlSZXNwb25zZSgBMAEyZAoTQ2xvdWRWZXJz",
+            "aW9uU2VydmljZRJNCgxDbG91ZFZlcnNpb24SHS5jbG91ZC52MS5DbG91ZFZl",
+            "cnNpb25SZXF1ZXN0Gh4uY2xvdWQudjEuQ2xvdWRWZXJzaW9uUmVzcG9uc2VC",
+            "dAoMY29tLmNsb3VkLnYxQgpDbG91ZFByb3RvUAGiAgNDWFiqAiFjb20uc2Vu",
+            "YmF4LnNlbnZlbmQucHJvdG8uQ2xvdWQuVjHKAghDbG91ZFxWMeICFENsb3Vk",
+            "XFYxXEdQQk1ldGFkYXRh6gIJQ2xvdWQ6OlYxYgZwcm90bzM="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { global::com.senbax.senvend.proto.Api.V1.AgeReflection.Descriptor, global::com.senbax.senvend.proto.Api.V1.CommonReflection.Descriptor, global::com.senbax.senvend.proto.Api.V1.PayReflection.Descriptor, global::com.senbax.senvend.proto.Api.V1.VersionReflection.Descriptor, },
           new pbr::GeneratedClrTypeInfo(null, null, new pbr::GeneratedClrTypeInfo[] {
@@ -143,7 +143,7 @@ namespace com.senbax.senvend.proto.Cloud.V1 {
     /// <summary>Field number for the "serial_number" field.</summary>
     public const int SerialNumberFieldNumber = 2;
     /// <summary>
-    /// Select by SENVEND terminal serial number.
+    /// Select by SENVEND Terminal serial number.
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
@@ -374,7 +374,7 @@ namespace com.senbax.senvend.proto.Cloud.V1 {
   }
 
   /// <summary>
-  /// Starts an age verification process on the SENVEND terminal.
+  /// Starts an age verification process on the SENVEND Terminal.
   /// </summary>
   [global::System.Diagnostics.DebuggerDisplayAttribute("{ToString(),nq}")]
   public sealed partial class CloudAgeRequest : pb::IMessage<CloudAgeRequest>
@@ -850,7 +850,7 @@ namespace com.senbax.senvend.proto.Cloud.V1 {
   }
 
   /// <summary>
-  /// All messages sent from the integrator/VMC to the SENVEND terminal to manage payments.
+  /// All messages sent from the integrator/VMC to the SENVEND Terminal to manage payments.
   /// </summary>
   [global::System.Diagnostics.DebuggerDisplayAttribute("{ToString(),nq}")]
   public sealed partial class CloudPayRequest : pb::IMessage<CloudPayRequest>
@@ -1326,7 +1326,7 @@ namespace com.senbax.senvend.proto.Cloud.V1 {
   }
 
   /// <summary>
-  /// Starts a one-off request for version information of the SENVEND terminal.
+  /// Starts a one-off request for version information of the SENVEND Terminal.
   /// </summary>
   [global::System.Diagnostics.DebuggerDisplayAttribute("{ToString(),nq}")]
   public sealed partial class CloudVersionRequest : pb::IMessage<CloudVersionRequest>
@@ -1393,7 +1393,7 @@ namespace com.senbax.senvend.proto.Cloud.V1 {
     public const int VersionRequestFieldNumber = 2;
     private global::com.senbax.senvend.proto.Api.V1.VersionRequest versionRequest_;
     /// <summary>
-    /// Starts a one-off request for version information of the SENVEND terminal.
+    /// Starts a one-off request for version information of the SENVEND Terminal.
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
@@ -1588,7 +1588,7 @@ namespace com.senbax.senvend.proto.Cloud.V1 {
   }
 
   /// <summary>
-  /// Provides the current software and API version of the SENVEND terminal.
+  /// Provides the current software and API version of the SENVEND Terminal.
   /// </summary>
   [global::System.Diagnostics.DebuggerDisplayAttribute("{ToString(),nq}")]
   public sealed partial class CloudVersionResponse : pb::IMessage<CloudVersionResponse>
@@ -1639,7 +1639,7 @@ namespace com.senbax.senvend.proto.Cloud.V1 {
     public const int VersionResponseFieldNumber = 1;
     private global::com.senbax.senvend.proto.Api.V1.VersionResponse versionResponse_;
     /// <summary>
-    /// Provides the current software and API version of the SENVEND terminal.
+    /// Provides the current software and API version of the SENVEND Terminal.
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]

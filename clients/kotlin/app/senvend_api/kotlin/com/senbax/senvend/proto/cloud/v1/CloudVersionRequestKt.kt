@@ -12,7 +12,7 @@ public inline fun cloudVersionRequest(block: com.senbax.senvend.proto.cloud.v1.C
   com.senbax.senvend.proto.cloud.v1.CloudVersionRequestKt.Dsl._create(com.senbax.senvend.proto.cloud.v1.CloudVersionRequest.newBuilder()).apply { block() }._build()
 /**
  * ```
- * Starts a one-off request for version information of the SENVEND terminal.
+ * Starts a one-off request for version information of the SENVEND Terminal.
  * ```
  *
  * Protobuf type `cloud.v1.CloudVersionRequest`
@@ -74,7 +74,7 @@ public object CloudVersionRequestKt {
 
     /**
      * ```
-     * Starts a one-off request for version information of the SENVEND terminal.
+     * Starts a one-off request for version information of the SENVEND Terminal.
      * ```
      *
      * `.api.v1.VersionRequest version_request = 2 [json_name = "versionRequest"];`
@@ -88,7 +88,7 @@ public object CloudVersionRequestKt {
       }
     /**
      * ```
-     * Starts a one-off request for version information of the SENVEND terminal.
+     * Starts a one-off request for version information of the SENVEND Terminal.
      * ```
      *
      * `.api.v1.VersionRequest version_request = 2 [json_name = "versionRequest"];`
@@ -98,7 +98,7 @@ public object CloudVersionRequestKt {
     }
     /**
      * ```
-     * Starts a one-off request for version information of the SENVEND terminal.
+     * Starts a one-off request for version information of the SENVEND Terminal.
      * ```
      *
      * `.api.v1.VersionRequest version_request = 2 [json_name = "versionRequest"];`
