@@ -574,7 +574,7 @@ class PayFailureReason(betterproto2.Enum):
     The payment process was cancelled by a previous PayCancel message.
     """
 
-    APPROVE_TIMEOUT = 7
+    COMPLETION_FAILED = 7
     """
     The payment could not be finished after PayApproved. Payment was reimbursed.
     """
@@ -589,7 +589,7 @@ class PayFailureReason(betterproto2.Enum):
             4: "PAY_FAILURE_REASON_INVALID_STATE",
             5: "PAY_FAILURE_REASON_PAYMENT_FAILED",
             6: "PAY_FAILURE_REASON_API_CANCELLED",
-            7: "PAY_FAILURE_REASON_APPROVE_TIMEOUT",
+            7: "PAY_FAILURE_REASON_COMPLETION_FAILED",
         }
 
     @classmethod
@@ -602,7 +602,7 @@ class PayFailureReason(betterproto2.Enum):
             "PAY_FAILURE_REASON_INVALID_STATE": 4,
             "PAY_FAILURE_REASON_PAYMENT_FAILED": 5,
             "PAY_FAILURE_REASON_API_CANCELLED": 6,
-            "PAY_FAILURE_REASON_APPROVE_TIMEOUT": 7,
+            "PAY_FAILURE_REASON_COMPLETION_FAILED": 7,
         }
 
 

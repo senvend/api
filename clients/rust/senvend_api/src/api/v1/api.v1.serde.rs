@@ -2263,7 +2263,7 @@ impl serde::Serialize for PayFailureReason {
             Self::InvalidState => "PAY_FAILURE_REASON_INVALID_STATE",
             Self::PaymentFailed => "PAY_FAILURE_REASON_PAYMENT_FAILED",
             Self::ApiCancelled => "PAY_FAILURE_REASON_API_CANCELLED",
-            Self::ApproveTimeout => "PAY_FAILURE_REASON_APPROVE_TIMEOUT",
+            Self::CompletionFailed => "PAY_FAILURE_REASON_COMPLETION_FAILED",
         };
         serializer.serialize_str(variant)
     }
@@ -2282,7 +2282,7 @@ impl<'de> serde::Deserialize<'de> for PayFailureReason {
             "PAY_FAILURE_REASON_INVALID_STATE",
             "PAY_FAILURE_REASON_PAYMENT_FAILED",
             "PAY_FAILURE_REASON_API_CANCELLED",
-            "PAY_FAILURE_REASON_APPROVE_TIMEOUT",
+            "PAY_FAILURE_REASON_COMPLETION_FAILED",
         ];
 
         struct GeneratedVisitor;
@@ -2330,7 +2330,7 @@ impl<'de> serde::Deserialize<'de> for PayFailureReason {
                     "PAY_FAILURE_REASON_INVALID_STATE" => Ok(PayFailureReason::InvalidState),
                     "PAY_FAILURE_REASON_PAYMENT_FAILED" => Ok(PayFailureReason::PaymentFailed),
                     "PAY_FAILURE_REASON_API_CANCELLED" => Ok(PayFailureReason::ApiCancelled),
-                    "PAY_FAILURE_REASON_APPROVE_TIMEOUT" => Ok(PayFailureReason::ApproveTimeout),
+                    "PAY_FAILURE_REASON_COMPLETION_FAILED" => Ok(PayFailureReason::CompletionFailed),
                     _ => Err(serde::de::Error::unknown_variant(value, FIELDS)),
                 }
             }

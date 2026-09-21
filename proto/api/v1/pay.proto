@@ -186,7 +186,7 @@ enum PayFailureReason {
   // The payment process was cancelled by a previous PayCancel message.
   PAY_FAILURE_REASON_API_CANCELLED = 6;
   // The payment could not be finished after PayApproved. Payment was reimbursed.
-  PAY_FAILURE_REASON_APPROVE_TIMEOUT = 7;
+  PAY_FAILURE_REASON_COMPLETION_FAILED = 7;
 }
 
 /*
