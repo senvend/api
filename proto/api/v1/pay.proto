@@ -179,7 +179,7 @@ enum PayFailureReason {
   // A payment with another UUID is already ongoing.
   PAY_FAILURE_REASON_PAYMENT_ONGOING = 3;
   // The system is in an invalid state to perform payment.
-  // (i.e. app is still in startup or another process is ongoing)
+  // (i.e. App is still in startup or another process is ongoing)
   PAY_FAILURE_REASON_INVALID_STATE = 4;
   // The payment failed (e.g. invalid or broken card, not enough credit etc.)
   PAY_FAILURE_REASON_PAYMENT_FAILED = 5;

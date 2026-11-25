@@ -1,6 +1,6 @@
 # CHANGELOG
 
-## v1.0.0 (2026-09-15)
+## v1.0.0 (2026-11-25)
 
 - First mainline release of the SENVEND public API.
   - APPROVED PayResponse now contains the actual approved amount.

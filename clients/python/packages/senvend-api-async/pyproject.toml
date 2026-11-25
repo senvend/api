@@ -1,6 +1,6 @@
 [project]
 name = "senvend-api-async"
-version = "0.0.1"
+version = "1.0.0"
 description = "Public APIs to interact with the SENVEND ecosystem"
 license = "MIT OR Apache-2.0"
 authors = [{ name = "SENVEND", email = "api@senvend.com" }]
@@ -31,9 +31,10 @@ Issues = "https://github.com/senvend/api/issues"
 Changelog = "https://github.com/senvend/api/blob/main/CHANGELOG.md"
 
 [tool.ruff.lint.per-file-ignores]
-# betterproto2 Module level import not at top of file
-"src/senvend_api_async/**" = ["E402"]
+# betterproto2's generated code: module level imports not at the top (E402),
+# betterproto2.field() dataclass defaults (RUF009) and `pass` bodies (PIE790)
+"src/senvend_api_async/**" = ["E402", "RUF009", "PIE790"]
 
 [build-system]
-requires = ["uv_build>=0.12.0,<0.13.0"]
+requires = ["uv_build>=0.13.1,<0.14.0"]
 build-backend = "uv_build"

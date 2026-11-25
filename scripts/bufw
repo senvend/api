@@ -1,21 +1,46 @@
 #!/bin/sh
-# buf wrapper: downloads and runs the pinned buf version (like gradlew)
+# buf wrapper: downloads, verifies and runs the pinned buf version (like gradlew)
 set -eu
 
-# renovate: datasource=github-releases depName=bufbuild/buf extractVersion=v(?<version>.*)
-BUF_VERSION="1.73.0"
+# the release's tag and the sha256 of its sha256.txt, which pins every platform's binary
+# renovate: datasource=github-release-attachments depName=bufbuild/buf
+BUF_RELEASE="v1.74.0@ca4df0bbe2327eaaca4eda4035b49164b2a7fd47f42345bfa4a126b4c28f1efb"
+BUF_TAG="${BUF_RELEASE%@*}"
+BUF_VERSION="${BUF_TAG#v}"
 
+ASSET="buf-$(uname -s)-$(uname -m)"
 CACHE_DIR="${XDG_CACHE_HOME:-$HOME/.cache}/senvend-bufw"
+SUMS="$CACHE_DIR/buf-$BUF_VERSION.sha256.txt"
 BIN="$CACHE_DIR/buf-$BUF_VERSION"
 
-if [ ! -x "$BIN" ]; then
+# CI calls this script through a symlink named buf
+. "$(dirname "$(readlink -f "$0")")/sha256.sh"
+
+# fetch ASSET SHA256 FILE: the release's ASSET at FILE, verified; a cached FILE is checked
+# too, so only verified files are used
+fetch() {
+  if [ -f "$3" ] && [ "$(file_sha256 "$3")" = "$2" ]; then
+    return
+  fi
+  rm -f "$3"
   mkdir -p "$CACHE_DIR"
-  echo "bufw: downloading buf $BUF_VERSION" >&2
-  curl -fsSL \
-    "https://github.com/bufbuild/buf/releases/download/v${BUF_VERSION}/buf-$(uname -s)-$(uname -m)" \
-    -o "$BIN.tmp"
-  chmod +x "$BIN.tmp"
-  mv "$BIN.tmp" "$BIN"
+  echo "bufw: downloading $1 of buf $BUF_VERSION" >&2
+  curl -fsSL "https://github.com/bufbuild/buf/releases/download/$BUF_TAG/$1" -o "$3.tmp"
+  if [ "$(file_sha256 "$3.tmp")" != "$2" ]; then
+    rm -f "$3.tmp"
+    echo "bufw: checksum mismatch for $1 of buf $BUF_VERSION" >&2
+    exit 1
+  fi
+  mv "$3.tmp" "$3"
+}
+
+fetch sha256.txt "${BUF_RELEASE#*@}" "$SUMS"
+SHA256="$(awk -v asset="$ASSET" '$2 == asset { print $1 }' "$SUMS")"
+if [ -z "$SHA256" ]; then
+  echo "bufw: buf $BUF_VERSION has no binary for $(uname -s)-$(uname -m)" >&2
+  exit 1
 fi
+fetch "$ASSET" "$SHA256" "$BIN"
+[ -x "$BIN" ] || chmod +x "$BIN"
 
 exec "$BIN" "$@"

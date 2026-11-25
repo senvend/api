@@ -139,11 +139,11 @@ public final class AgeVerificationServiceGrpc {
      *- The minimum age to verify has to be greater than zero and at most 120.&#92;
      *Depending on the method chosen, only certain ages can be verified.
      *- Girocard: 16 or 18. Will be set to the next one above if below (e.g. to 18 if 17 is requested).&#92;
-     *Will not be available for selection if above 18 is requested. Will fail in older app versions (&lt;1.7.0) instead.
+     *Will not be available for selection if above 18 is requested. Will fail in older App versions (&lt;1.7.0) instead.
      *- FaceScan: All ages supported. Might fail if actual age is very close to the requested one.
      *- Document scan: All ages supported.
      *- PayPal: 18 only. Will be set to 18 if below.&#92;
-     *Will not be available for selection if above 18 is requested. Will fail in older app versions (&lt;1.7.0) instead.
+     *Will not be available for selection if above 18 is requested. Will fail in older App versions (&lt;1.7.0) instead.
      *- ID Austria: All ages supported.
      *&lt;/details&gt;
      * </pre>
@@ -214,11 +214,11 @@ public final class AgeVerificationServiceGrpc {
      *- The minimum age to verify has to be greater than zero and at most 120.&#92;
      *Depending on the method chosen, only certain ages can be verified.
      *- Girocard: 16 or 18. Will be set to the next one above if below (e.g. to 18 if 17 is requested).&#92;
-     *Will not be available for selection if above 18 is requested. Will fail in older app versions (&lt;1.7.0) instead.
+     *Will not be available for selection if above 18 is requested. Will fail in older App versions (&lt;1.7.0) instead.
      *- FaceScan: All ages supported. Might fail if actual age is very close to the requested one.
      *- Document scan: All ages supported.
      *- PayPal: 18 only. Will be set to 18 if below.&#92;
-     *Will not be available for selection if above 18 is requested. Will fail in older app versions (&lt;1.7.0) instead.
+     *Will not be available for selection if above 18 is requested. Will fail in older App versions (&lt;1.7.0) instead.
      *- ID Austria: All ages supported.
      *&lt;/details&gt;
      * </pre>
@@ -274,11 +274,11 @@ public final class AgeVerificationServiceGrpc {
      *- The minimum age to verify has to be greater than zero and at most 120.&#92;
      *Depending on the method chosen, only certain ages can be verified.
      *- Girocard: 16 or 18. Will be set to the next one above if below (e.g. to 18 if 17 is requested).&#92;
-     *Will not be available for selection if above 18 is requested. Will fail in older app versions (&lt;1.7.0) instead.
+     *Will not be available for selection if above 18 is requested. Will fail in older App versions (&lt;1.7.0) instead.
      *- FaceScan: All ages supported. Might fail if actual age is very close to the requested one.
      *- Document scan: All ages supported.
      *- PayPal: 18 only. Will be set to 18 if below.&#92;
-     *Will not be available for selection if above 18 is requested. Will fail in older app versions (&lt;1.7.0) instead.
+     *Will not be available for selection if above 18 is requested. Will fail in older App versions (&lt;1.7.0) instead.
      *- ID Austria: All ages supported.
      *&lt;/details&gt;
      * </pre>

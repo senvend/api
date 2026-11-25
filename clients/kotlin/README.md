@@ -12,7 +12,7 @@ Gradle:
 
 ```kotlin
 dependencies {
-    implementation("com.senbax.senvend:senvend-api:0.0.1")
+    implementation("com.senbax.senvend:senvend-api:1.0.0")
 }
 ```
 
@@ -22,7 +22,7 @@ Maven:
 <dependency>
   <groupId>com.senbax.senvend</groupId>
   <artifactId>senvend-api</artifactId>
-  <version>0.0.1</version>
+  <version>1.0.0</version>
 </dependency>
 ```
 

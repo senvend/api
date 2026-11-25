@@ -1,5 +1,7 @@
 # https://buf.build/docs/configuration/v2/buf-gen-yaml/
 version: v2
+# every file below both outs comes from the plugin or gen.sh's copies of shared/
+clean: true
 managed:
   enabled: true
 plugins:

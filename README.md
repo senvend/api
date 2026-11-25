@@ -5,7 +5,7 @@ We rely on Protocol Buffers (protobuf) and gRPC to define and implement our APIs
 To make handling protobuf definitions easier, we use [buf.build](https://buf.build/).  
 All protobuf definitions are stored in the [`proto/`](./proto/) directory.
 
-The current version of the API is 0.0.1.
+The current version of the API is 1.0.0.
 Changes between versions are listed in the [CHANGELOG](./CHANGELOG.md).
 
 ## Help us improve
@@ -81,6 +81,39 @@ You can use [./gen.sh](./gen.sh) to regenerate the example clients after making 
 
 All definitions in this repository are published to the [SENVEND schema registry on buf.build](https://buf.build/senvend/api).  
 This means you can use them as dependencies in your [buf.build](https://buf.build/) projects if you want to generate your own client.
+
+## Previews
+
+Before a release, we can publish a preview of the upcoming version, so you can try unreleased features early.
+A preview covers every client library and the protobuf definitions on buf.build.
+Previews are prereleases: you only get one by naming its version, while plain installs and version ranges keep resolving to the latest release.
+
+A preview of the upcoming version `X.Y.Z` has a number `N` and goes by the same version everywhere, spelled the way each registry expects:
+
+| Registry  | Preview version        | Example                                                   |
+| --------- | ---------------------- | --------------------------------------------------------- |
+| crates.io | `X.Y.Z-dev.N`          | `senvend_api = "=1.0.0-dev.42"`                           |
+| PyPI      | `X.Y.Z.devN`           | `pip install senvend-api==1.0.0.dev42`                    |
+| NuGet     | `X.Y.Z-dev.N`          | `dotnet add package Senvend.Api --version 1.0.0-dev.42`   |
+| Maven     | `X.Y.Z-dev.N-SNAPSHOT` | `com.senbax.senvend:senvend-api:1.0.0-dev.42-SNAPSHOT`    |
+| buf.build | `vX.Y.Z-dev.N`         | `buf.build/senvend/api:v1.0.0-dev.42`                     |
+
+Maven previews are snapshots in the Maven Central snapshot repository, which your build has to know about, limited to our artifact:
+
+```kotlin
+repositories {
+    maven("https://central.sonatype.com/repository/maven-snapshots/") {
+        content { includeModule("com.senbax.senvend", "senvend-api") }
+    }
+    mavenCentral()
+}
+```
+
+PyPI only receives previews of a package once the package has a release there.
+
+Previews are meant for testing: what a preview contains can still change before the release, and Maven snapshots are removed after 90 days.
+Switch to the release once it is out.
+If you would like to test an unreleased feature, reach out to us via [api@senvend.com](mailto:api@senvend.com).
 
 ## License
 

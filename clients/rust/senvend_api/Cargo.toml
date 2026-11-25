@@ -1,6 +1,6 @@
 [package]
 name = "senvend_api"
-version = "0.0.1"
+version = "1.0.0"
 description = "Public APIs to interact with the SENVEND ecosystem"
 edition.workspace = true
 authors.workspace = true

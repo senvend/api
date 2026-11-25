@@ -1,4 +1,4 @@
-# https://test-betterproto.readthedocs.io/en/docs/quick-start.html#async-grpc-support
+# The generated client is betterproto2; see its client tutorial:
 # https://betterproto.github.io/python-betterproto2/tutorial/clients/
 
 import os

@@ -143,7 +143,7 @@ namespace com.senbax.senvend.proto.Api.V1 {
     [pbr::OriginalName("PAY_FAILURE_REASON_PAYMENT_ONGOING")] PaymentOngoing = 3,
     /// <summary>
     /// The system is in an invalid state to perform payment.
-    /// (i.e. app is still in startup or another process is ongoing)
+    /// (i.e. App is still in startup or another process is ongoing)
     /// </summary>
     [pbr::OriginalName("PAY_FAILURE_REASON_INVALID_STATE")] InvalidState = 4,
     /// <summary>

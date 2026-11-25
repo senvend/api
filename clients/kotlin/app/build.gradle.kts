@@ -28,8 +28,8 @@ val protocArch =
     }
 
 dependencies {
-    grpcPlugins("io.grpc:protoc-gen-grpc-java:1.84.0:linux-x86_64@exe")
-    grpcPlugins("io.grpc:protoc-gen-grpc-java:1.84.0:linux-aarch_64@exe")
+    grpcPlugins("io.grpc:protoc-gen-grpc-java:1.86.0:linux-x86_64@exe")
+    grpcPlugins("io.grpc:protoc-gen-grpc-java:1.86.0:linux-aarch_64@exe")
     grpcPlugins("io.grpc:protoc-gen-grpc-kotlin:1.5.0:jdk8@jar")
 
     api(kotlin("stdlib-jdk8"))
@@ -38,14 +38,14 @@ dependencies {
 
     api("com.google.protobuf:protobuf-kotlin:4.36.2")
 
-    api("io.netty:netty-handler:4.2.18.Final")
+    api("io.netty:netty-handler:4.2.21.Final")
 
-    api("io.grpc:grpc-netty:1.84.0")
+    api("io.grpc:grpc-netty:1.86.0")
 
     api("io.grpc:grpc-kotlin-stub:1.5.0")
-    api("io.grpc:grpc-core:1.84.0")
-    api("io.grpc:grpc-protobuf:1.84.0")
-    api("io.grpc:grpc-stub:1.84.0")
+    api("io.grpc:grpc-core:1.86.0")
+    api("io.grpc:grpc-protobuf:1.86.0")
+    api("io.grpc:grpc-stub:1.86.0")
 }
 
 // downloads the grpc protoc plugins into ../.plugins, where buf.gen.yaml expects them

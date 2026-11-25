@@ -51,7 +51,7 @@ public enum PayFailureReason
   /**
    * <pre>
    * The system is in an invalid state to perform payment.
-   * (i.e. app is still in startup or another process is ongoing)
+   * (i.e. App is still in startup or another process is ongoing)
    * </pre>
    *
    * <code>PAY_FAILURE_REASON_INVALID_STATE = 4;</code>
@@ -128,7 +128,7 @@ public enum PayFailureReason
   /**
    * <pre>
    * The system is in an invalid state to perform payment.
-   * (i.e. app is still in startup or another process is ongoing)
+   * (i.e. App is still in startup or another process is ongoing)
    * </pre>
    *
    * <code>PAY_FAILURE_REASON_INVALID_STATE = 4;</code>

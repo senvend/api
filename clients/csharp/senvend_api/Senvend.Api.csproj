@@ -9,7 +9,7 @@
   <!-- nuget package metadata -->
   <PropertyGroup>
     <PackageId>Senvend.Api</PackageId>
-    <Version>0.0.1</Version>
+    <Version>1.0.0</Version>
     <Authors>SENVEND</Authors>
     <Company>SENVEND</Company>
     <Copyright>Copyright (c) SENVEND</Copyright>
@@ -21,6 +21,13 @@
     <PackageTags>senvend;vending;payment;age-verification;grpc;protobuf</PackageTags>
   </PropertyGroup>
 
+  <!-- keep the build machine's paths and the commit it built from out of the
+       published assemblies and the package -->
+  <PropertyGroup Condition="'$(CI)' == 'true'">
+    <PathMap>$(MSBuildProjectDirectory)=/_/</PathMap>
+    <EnableSourceControlManagerQueries>false</EnableSourceControlManagerQueries>
+  </PropertyGroup>
+
   <ItemGroup>
     <None Include="README.md" Pack="true" PackagePath="/" />
   </ItemGroup>
@@ -29,7 +36,7 @@
     <!-- runtime for the code generated into ./csharp by protoc -->
     <PackageReference Include="Google.Protobuf" Version="3.36.2" />
     <!-- GrpcChannel plus the Grpc.Core.Api types used by ./grpc-csharp -->
-    <PackageReference Include="Grpc.Net.Client" Version="2.84.0" />
+    <PackageReference Include="Grpc.Net.Client" Version="2.85.0" />
   </ItemGroup>
 
 </Project>

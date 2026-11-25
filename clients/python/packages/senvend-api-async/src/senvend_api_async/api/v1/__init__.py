@@ -561,7 +561,7 @@ class PayFailureReason(betterproto2.Enum):
     INVALID_STATE = 4
     """
     The system is in an invalid state to perform payment.
-    (i.e. app is still in startup or another process is ongoing)
+    (i.e. App is still in startup or another process is ongoing)
     """
 
     PAYMENT_FAILED = 5

@@ -9,7 +9,7 @@ This crate contains the generated Rust client for the SENVEND API, built with
 
 ```toml
 [dependencies]
-senvend_api = "0.0.1"
+senvend_api = "1.0.0"
 tonic = "0.14"
 tokio = { version = "1", features = ["full"] }
 ```
