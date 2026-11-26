@@ -14,8 +14,8 @@ be a dependency wherever the macro is used:
 
 ```toml
 [dependencies]
-senvend_api_macros = "1.0.0"
-senvend_api_utils = "1.0.0"
+senvend_api_macros = "1.0.1"
+senvend_api_utils = "1.0.1"
 uuid = "1"
 ```
 

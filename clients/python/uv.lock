@@ -134,7 +134,7 @@ wheels = [
 
 [[package]]
 name = "example"
-version = "1.0.0"
+version = "1.0.1"
 source = { virtual = "packages/example" }
 dependencies = [
     { name = "senvend-api" },
@@ -532,7 +532,7 @@ wheels = [
 
 [[package]]
 name = "senvend-api"
-version = "1.0.0"
+version = "1.0.1"
 source = { editable = "packages/senvend-api" }
 dependencies = [
     { name = "betterproto2" },
@@ -548,7 +548,7 @@ provides-extras = ["grpcio"]
 
 [[package]]
 name = "senvend-api-async"
-version = "1.0.0"
+version = "1.0.1"
 source = { editable = "packages/senvend-api-async" }
 dependencies = [
     { name = "betterproto2" },

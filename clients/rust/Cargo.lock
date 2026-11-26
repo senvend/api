@@ -536,7 +536,7 @@ checksum = "94143f37725109f92c262ed2cf5e59bce7498c01bcc1502d7b9afe439a4e9f49"
 
 [[package]]
 name = "senvend_api"
-version = "1.0.0"
+version = "1.0.1"
 dependencies = [
  "bytes",
  "pbjson",
@@ -544,6 +544,7 @@ dependencies = [
  "senvend_api_macros",
  "senvend_api_utils",
  "serde",
+ "tokio",
  "tonic",
  "tonic-prost",
  "uuid",
@@ -551,7 +552,7 @@ dependencies = [
 
 [[package]]
 name = "senvend_api_example"
-version = "1.0.0"
+version = "1.0.1"
 dependencies = [
  "senvend_api",
  "senvend_api_macros",
@@ -564,7 +565,7 @@ dependencies = [
 
 [[package]]
 name = "senvend_api_macros"
-version = "1.0.0"
+version = "1.0.1"
 dependencies = [
  "quote",
  "syn 3.0.10",
@@ -572,7 +573,7 @@ dependencies = [
 
 [[package]]
 name = "senvend_api_utils"
-version = "1.0.0"
+version = "1.0.1"
 dependencies = [
  "uuid",
 ]

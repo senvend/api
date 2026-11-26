@@ -10,7 +10,7 @@ it must be a dependency wherever that derive is used.
 
 ```toml
 [dependencies]
-senvend_api_utils = "1.0.0"
+senvend_api_utils = "1.0.1"
 ```
 
 ## no_std

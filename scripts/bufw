@@ -4,7 +4,7 @@ set -eu
 
 # the release's tag and the sha256 of its sha256.txt, which pins every platform's binary
 # renovate: datasource=github-release-attachments depName=bufbuild/buf
-BUF_RELEASE="v1.74.0@ca4df0bbe2327eaaca4eda4035b49164b2a7fd47f42345bfa4a126b4c28f1efb"
+BUF_RELEASE="v1.75.0@b05b543026f48418579c3e37b9c4f9b776b895085e453775ded018a06e631823"
 BUF_TAG="${BUF_RELEASE%@*}"
 BUF_VERSION="${BUF_TAG#v}"
 

@@ -9,7 +9,7 @@ This crate contains the generated Rust client for the SENVEND API, built with
 
 ```toml
 [dependencies]
-senvend_api = "1.0.0"
+senvend_api = "1.0.1"
 tonic = "0.14"
 tokio = { version = "1", features = ["full"] }
 ```
@@ -26,12 +26,13 @@ Messages live under `senvend_api::protos::api::v1`, the service clients under
 use senvend_api::protos::api::v1::VersionRequest;
 use senvend_api::protos::local::v1::version_service_client::VersionServiceClient;
 
-# async fn example() -> Result<(), Box<dyn std::error::Error>> {
-let mut client = VersionServiceClient::connect("http://192.168.0.10:11111").await?;
-let response = client.version(VersionRequest::default()).await?;
-println!("{:?}", response.into_inner());
-# Ok(())
-# }
+#[tokio::main]
+async fn main() -> Result<(), Box<dyn std::error::Error>> {
+    let mut client = VersionServiceClient::connect("http://192.168.0.10:11111").await?;
+    let response = client.version(VersionRequest::default()).await?;
+    println!("{:?}", response.into_inner());
+    Ok(())
+}
 ```
 
 `PayService`, `AgeVerificationService` and `VendService` are available the same

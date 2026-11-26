@@ -1,6 +1,6 @@
 [package]
 name = "senvend_api_macros"
-version = "1.0.0"
+version = "1.0.1"
 description = "Procedural macros for the senvend_api crate"
 edition.workspace = true
 authors.workspace = true

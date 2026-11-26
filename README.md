@@ -5,7 +5,7 @@ We rely on Protocol Buffers (protobuf) and gRPC to define and implement our APIs
 To make handling protobuf definitions easier, we use [buf.build](https://buf.build/).  
 All protobuf definitions are stored in the [`proto/`](./proto/) directory.
 
-The current version of the API is 1.0.0.
+The current version of the API is 1.0.1.
 Changes between versions are listed in the [CHANGELOG](./CHANGELOG.md).
 
 ## Help us improve

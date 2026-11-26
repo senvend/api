@@ -1,6 +1,6 @@
 [project]
 name = "senvend-api-async"
-version = "1.0.0"
+version = "1.0.1"
 description = "Public APIs to interact with the SENVEND ecosystem"
 license = "MIT OR Apache-2.0"
 authors = [{ name = "SENVEND", email = "api@senvend.com" }]

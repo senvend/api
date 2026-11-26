@@ -1,5 +1,12 @@
 # CHANGELOG
 
+## v1.0.1 (2026-11-26)
+
+- Maintenance release.
+  - The README of the Rust crate `senvend_api` shows its example as a complete program, which is compiled as a doctest. crates.io rendered the example of 1.0.0 with lines meant to be hidden.
+  - The buf wrapper script `scripts/bufw` uses buf v1.75.0.
+  - Every release is also published on GitHub, with its changelog entry and install instructions.
+
 ## v1.0.0 (2026-11-25)
 
 - First mainline release of the SENVEND public API.
